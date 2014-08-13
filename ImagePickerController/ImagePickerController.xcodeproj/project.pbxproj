@@ -1,0 +1,775 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9D12469B1999FF9C00F2D309 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D12469A1999FF9C00F2D309 /* Default-568h@2x.png */; };
+		9D1246AD199A4B9300F2D309 /* IQAlbumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1246A1199A4B9300F2D309 /* IQAlbumsViewController.m */; };
+		9D1246AE199A4B9300F2D309 /* IQAssetsPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1246A3199A4B9300F2D309 /* IQAssetsPickerController.m */; };
+		9D1246AF199A4B9300F2D309 /* IQCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1246A5199A4B9300F2D309 /* IQCustomCell.m */; };
+		9D1246B0199A4B9300F2D309 /* IQShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1246A7199A4B9300F2D309 /* IQShadowView.m */; };
+		9D2162C31999E8F6001FAD1A /* IQFeatureOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2162C11999E8F6001FAD1A /* IQFeatureOverlay.m */; };
+		9D4B922A19922B6800E9BAB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D4B922919922B6800E9BAB8 /* Foundation.framework */; };
+		9D4B922C19922B6800E9BAB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D4B922B19922B6800E9BAB8 /* CoreGraphics.framework */; };
+		9D4B922E19922B6800E9BAB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D4B922D19922B6800E9BAB8 /* UIKit.framework */; };
+		9D4B923419922B6800E9BAB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D4B923219922B6800E9BAB8 /* InfoPlist.strings */; };
+		9D4B923619922B6800E9BAB8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4B923519922B6800E9BAB8 /* main.m */; };
+		9D4B923A19922B6800E9BAB8 /* IQAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4B923919922B6800E9BAB8 /* IQAppDelegate.m */; };
+		9D4B923D19922B6800E9BAB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4B923B19922B6800E9BAB8 /* Main.storyboard */; };
+		9D4B924019922B6800E9BAB8 /* IQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4B923F19922B6800E9BAB8 /* IQViewController.m */; };
+		9D4B924919922B6800E9BAB8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D4B924819922B6800E9BAB8 /* XCTest.framework */; };
+		9D4B924A19922B6800E9BAB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D4B922919922B6800E9BAB8 /* Foundation.framework */; };
+		9D4B924B19922B6800E9BAB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D4B922D19922B6800E9BAB8 /* UIKit.framework */; };
+		9D4B925319922B6800E9BAB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D4B925119922B6800E9BAB8 /* InfoPlist.strings */; };
+		9D4B925519922B6800E9BAB8 /* ImagePickerControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4B925419922B6800E9BAB8 /* ImagePickerControllerTests.m */; };
+		9D4E24B0199BA6F800E4E8FC /* IQAudioPickerUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24AF199BA6F800E4E8FC /* IQAudioPickerUtility.m */; };
+		9D4E24B3199BA70100E4E8FC /* IQSongsComposersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24B2199BA70100E4E8FC /* IQSongsComposersViewController.m */; };
+		9D4E24B6199BA70A00E4E8FC /* IQSongsCompilationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24B5199BA70A00E4E8FC /* IQSongsCompilationsViewController.m */; };
+		9D4E24B9199BA71100E4E8FC /* IQSongsGenreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24B8199BA71100E4E8FC /* IQSongsGenreViewController.m */; };
+		9D4E24BC199BA71600E4E8FC /* IQSongsPlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24BB199BA71600E4E8FC /* IQSongsPlaylistViewController.m */; };
+		9D4E24BF199BA71D00E4E8FC /* IQSongsArtistListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24BE199BA71D00E4E8FC /* IQSongsArtistListViewController.m */; };
+		9D4E24C4199BA72600E4E8FC /* IQSongListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24C1199BA72600E4E8FC /* IQSongListViewController.m */; };
+		9D4E24C5199BA72600E4E8FC /* IQSongListTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24C3199BA72600E4E8FC /* IQSongListTableHeaderView.m */; };
+		9D4E24C8199BA72D00E4E8FC /* IQSongsAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24C7199BA72D00E4E8FC /* IQSongsAlbumListViewController.m */; };
+		9D4E24CB199BA73C00E4E8FC /* IQAudioPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E24CA199BA73C00E4E8FC /* IQAudioPickerController.m */; };
+		9D4E24CD199BA74C00E4E8FC /* IQAudioPicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4E24CC199BA74C00E4E8FC /* IQAudioPicker.storyboard */; };
+		9D583366199B9B7A0080CE07 /* IQ_SGSStaggeredFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D583365199B9B7A0080CE07 /* IQ_SGSStaggeredFlowLayout.m */; };
+		9D9CCBD919990F0D0046D175 /* IQBottomContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBC419990F0D0046D175 /* IQBottomContainerView.m */; };
+		9D9CCBDA19990F0D0046D175 /* IQCaptureSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBC719990F0D0046D175 /* IQCaptureSession.m */; };
+		9D9CCBDB19990F0D0046D175 /* IQFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBCA19990F0D0046D175 /* IQFileManager.m */; };
+		9D9CCBDC19990F0D0046D175 /* IQMediaCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBCC19990F0D0046D175 /* IQMediaCaptureController.m */; };
+		9D9CCBDD19990F0D0046D175 /* IQMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBCF19990F0D0046D175 /* IQMediaView.m */; };
+		9D9CCBDE19990F0D0046D175 /* IQPartitionBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBD219990F0D0046D175 /* IQPartitionBar.m */; };
+		9D9CCBDF19990F0D0046D175 /* IQPartitionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBD419990F0D0046D175 /* IQPartitionView.m */; };
+		9D9CCBE019990F0D0046D175 /* IQMediaPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBD619990F0D0046D175 /* IQMediaPickerController.m */; };
+		9D9CCBE119990F0D0046D175 /* IQMediaPickerController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D9CCBD719990F0D0046D175 /* IQMediaPickerController.xcassets */; };
+		9DF4C75D199BA52C0061179B /* IQCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF4C75C199BA52C0061179B /* IQCheckmarkView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D4B924C19922B6800E9BAB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D4B921E19922B6800E9BAB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D4B922519922B6800E9BAB8;
+			remoteInfo = ImagePickerController;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9D12469A1999FF9C00F2D309 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		9D1246A0199A4B9300F2D309 /* IQAlbumsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAlbumsViewController.h; sourceTree = "<group>"; };
+		9D1246A1199A4B9300F2D309 /* IQAlbumsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAlbumsViewController.m; sourceTree = "<group>"; };
+		9D1246A2199A4B9300F2D309 /* IQAssetsPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAssetsPickerController.h; sourceTree = "<group>"; };
+		9D1246A3199A4B9300F2D309 /* IQAssetsPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAssetsPickerController.m; sourceTree = "<group>"; };
+		9D1246A4199A4B9300F2D309 /* IQCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQCustomCell.h; path = ../IQCustomCell.h; sourceTree = "<group>"; };
+		9D1246A5199A4B9300F2D309 /* IQCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQCustomCell.m; path = ../IQCustomCell.m; sourceTree = "<group>"; };
+		9D1246A6199A4B9300F2D309 /* IQShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQShadowView.h; path = ../IQShadowView.h; sourceTree = "<group>"; };
+		9D1246A7199A4B9300F2D309 /* IQShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQShadowView.m; path = ../IQShadowView.m; sourceTree = "<group>"; };
+		9D2162C01999E8F6001FAD1A /* IQFeatureOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQFeatureOverlay.h; sourceTree = "<group>"; };
+		9D2162C11999E8F6001FAD1A /* IQFeatureOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQFeatureOverlay.m; sourceTree = "<group>"; };
+		9D4B922619922B6800E9BAB8 /* ImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D4B922919922B6800E9BAB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9D4B922B19922B6800E9BAB8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9D4B922D19922B6800E9BAB8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9D4B923119922B6800E9BAB8 /* ImagePickerController-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ImagePickerController-Info.plist"; sourceTree = "<group>"; };
+		9D4B923319922B6800E9BAB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9D4B923519922B6800E9BAB8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9D4B923719922B6800E9BAB8 /* ImagePickerController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImagePickerController-Prefix.pch"; sourceTree = "<group>"; };
+		9D4B923819922B6800E9BAB8 /* IQAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IQAppDelegate.h; sourceTree = "<group>"; };
+		9D4B923919922B6800E9BAB8 /* IQAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IQAppDelegate.m; sourceTree = "<group>"; };
+		9D4B923C19922B6800E9BAB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9D4B923E19922B6800E9BAB8 /* IQViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IQViewController.h; sourceTree = "<group>"; };
+		9D4B923F19922B6800E9BAB8 /* IQViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IQViewController.m; sourceTree = "<group>"; };
+		9D4B924719922B6800E9BAB8 /* ImagePickerControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImagePickerControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D4B924819922B6800E9BAB8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		9D4B925019922B6800E9BAB8 /* ImagePickerControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ImagePickerControllerTests-Info.plist"; sourceTree = "<group>"; };
+		9D4B925219922B6800E9BAB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9D4B925419922B6800E9BAB8 /* ImagePickerControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImagePickerControllerTests.m; sourceTree = "<group>"; };
+		9D4E24AE199BA6F800E4E8FC /* IQAudioPickerUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioPickerUtility.h; sourceTree = "<group>"; };
+		9D4E24AF199BA6F800E4E8FC /* IQAudioPickerUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioPickerUtility.m; sourceTree = "<group>"; };
+		9D4E24B1199BA70100E4E8FC /* IQSongsComposersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsComposersViewController.h; sourceTree = "<group>"; };
+		9D4E24B2199BA70100E4E8FC /* IQSongsComposersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsComposersViewController.m; sourceTree = "<group>"; };
+		9D4E24B4199BA70A00E4E8FC /* IQSongsCompilationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsCompilationsViewController.h; sourceTree = "<group>"; };
+		9D4E24B5199BA70A00E4E8FC /* IQSongsCompilationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsCompilationsViewController.m; sourceTree = "<group>"; };
+		9D4E24B7199BA71100E4E8FC /* IQSongsGenreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsGenreViewController.h; sourceTree = "<group>"; };
+		9D4E24B8199BA71100E4E8FC /* IQSongsGenreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsGenreViewController.m; sourceTree = "<group>"; };
+		9D4E24BA199BA71600E4E8FC /* IQSongsPlaylistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsPlaylistViewController.h; sourceTree = "<group>"; };
+		9D4E24BB199BA71600E4E8FC /* IQSongsPlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsPlaylistViewController.m; sourceTree = "<group>"; };
+		9D4E24BD199BA71D00E4E8FC /* IQSongsArtistListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsArtistListViewController.h; sourceTree = "<group>"; };
+		9D4E24BE199BA71D00E4E8FC /* IQSongsArtistListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsArtistListViewController.m; sourceTree = "<group>"; };
+		9D4E24C0199BA72600E4E8FC /* IQSongListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongListViewController.h; sourceTree = "<group>"; };
+		9D4E24C1199BA72600E4E8FC /* IQSongListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongListViewController.m; sourceTree = "<group>"; };
+		9D4E24C2199BA72600E4E8FC /* IQSongListTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongListTableHeaderView.h; sourceTree = "<group>"; };
+		9D4E24C3199BA72600E4E8FC /* IQSongListTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongListTableHeaderView.m; sourceTree = "<group>"; };
+		9D4E24C6199BA72D00E4E8FC /* IQSongsAlbumListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsAlbumListViewController.h; sourceTree = "<group>"; };
+		9D4E24C7199BA72D00E4E8FC /* IQSongsAlbumListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsAlbumListViewController.m; sourceTree = "<group>"; };
+		9D4E24C9199BA73C00E4E8FC /* IQAudioPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioPickerController.h; sourceTree = "<group>"; };
+		9D4E24CA199BA73C00E4E8FC /* IQAudioPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioPickerController.m; sourceTree = "<group>"; };
+		9D4E24CC199BA74C00E4E8FC /* IQAudioPicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IQAudioPicker.storyboard; sourceTree = "<group>"; };
+		9D583364199B9B7A0080CE07 /* IQ_SGSStaggeredFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQ_SGSStaggeredFlowLayout.h; sourceTree = "<group>"; };
+		9D583365199B9B7A0080CE07 /* IQ_SGSStaggeredFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQ_SGSStaggeredFlowLayout.m; sourceTree = "<group>"; };
+		9D9CCBC319990F0D0046D175 /* IQBottomContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQBottomContainerView.h; sourceTree = "<group>"; };
+		9D9CCBC419990F0D0046D175 /* IQBottomContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQBottomContainerView.m; sourceTree = "<group>"; };
+		9D9CCBC619990F0D0046D175 /* IQCaptureSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCaptureSession.h; sourceTree = "<group>"; };
+		9D9CCBC719990F0D0046D175 /* IQCaptureSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCaptureSession.m; sourceTree = "<group>"; };
+		9D9CCBC919990F0D0046D175 /* IQFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQFileManager.h; sourceTree = "<group>"; };
+		9D9CCBCA19990F0D0046D175 /* IQFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQFileManager.m; sourceTree = "<group>"; };
+		9D9CCBCB19990F0D0046D175 /* IQMediaCaptureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaCaptureController.h; sourceTree = "<group>"; };
+		9D9CCBCC19990F0D0046D175 /* IQMediaCaptureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaCaptureController.m; sourceTree = "<group>"; };
+		9D9CCBCE19990F0D0046D175 /* IQMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaView.h; sourceTree = "<group>"; };
+		9D9CCBCF19990F0D0046D175 /* IQMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaView.m; sourceTree = "<group>"; };
+		9D9CCBD119990F0D0046D175 /* IQPartitionBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPartitionBar.h; sourceTree = "<group>"; };
+		9D9CCBD219990F0D0046D175 /* IQPartitionBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPartitionBar.m; sourceTree = "<group>"; };
+		9D9CCBD319990F0D0046D175 /* IQPartitionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPartitionView.h; sourceTree = "<group>"; };
+		9D9CCBD419990F0D0046D175 /* IQPartitionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPartitionView.m; sourceTree = "<group>"; };
+		9D9CCBD519990F0D0046D175 /* IQMediaPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerController.h; sourceTree = "<group>"; };
+		9D9CCBD619990F0D0046D175 /* IQMediaPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerController.m; sourceTree = "<group>"; };
+		9D9CCBD719990F0D0046D175 /* IQMediaPickerController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IQMediaPickerController.xcassets; sourceTree = "<group>"; };
+		9DF4C75B199BA52C0061179B /* IQCheckmarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCheckmarkView.h; sourceTree = "<group>"; };
+		9DF4C75C199BA52C0061179B /* IQCheckmarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCheckmarkView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9D4B922319922B6800E9BAB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D4B922C19922B6800E9BAB8 /* CoreGraphics.framework in Frameworks */,
+				9D4B922E19922B6800E9BAB8 /* UIKit.framework in Frameworks */,
+				9D4B922A19922B6800E9BAB8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D4B924419922B6800E9BAB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D4B924919922B6800E9BAB8 /* XCTest.framework in Frameworks */,
+				9D4B924B19922B6800E9BAB8 /* UIKit.framework in Frameworks */,
+				9D4B924A19922B6800E9BAB8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9D12469F199A4B9300F2D309 /* IQAssetsPickerController */ = {
+			isa = PBXGroup;
+			children = (
+				9D1246A8199A4B9300F2D309 /* SGSStaggeredFlowLayout */,
+				9D1246A0199A4B9300F2D309 /* IQAlbumsViewController.h */,
+				9D1246A1199A4B9300F2D309 /* IQAlbumsViewController.m */,
+				9D1246A2199A4B9300F2D309 /* IQAssetsPickerController.h */,
+				9D1246A3199A4B9300F2D309 /* IQAssetsPickerController.m */,
+			);
+			path = IQAssetsPickerController;
+			sourceTree = "<group>";
+		};
+		9D1246A8199A4B9300F2D309 /* SGSStaggeredFlowLayout */ = {
+			isa = PBXGroup;
+			children = (
+				9DF4C75B199BA52C0061179B /* IQCheckmarkView.h */,
+				9DF4C75C199BA52C0061179B /* IQCheckmarkView.m */,
+				9D583364199B9B7A0080CE07 /* IQ_SGSStaggeredFlowLayout.h */,
+				9D583365199B9B7A0080CE07 /* IQ_SGSStaggeredFlowLayout.m */,
+				9D1246A6199A4B9300F2D309 /* IQShadowView.h */,
+				9D1246A7199A4B9300F2D309 /* IQShadowView.m */,
+				9D1246A4199A4B9300F2D309 /* IQCustomCell.h */,
+				9D1246A5199A4B9300F2D309 /* IQCustomCell.m */,
+			);
+			name = SGSStaggeredFlowLayout;
+			path = NHBalancedFlowLayout;
+			sourceTree = "<group>";
+		};
+		9D4B921D19922B6800E9BAB8 = {
+			isa = PBXGroup;
+			children = (
+				9D12469A1999FF9C00F2D309 /* Default-568h@2x.png */,
+				9D9CCBBD19990F0D0046D175 /* IQMediaPickerController */,
+				9D4B922F19922B6800E9BAB8 /* ImagePickerController */,
+				9D4B924E19922B6800E9BAB8 /* ImagePickerControllerTests */,
+				9D4B922819922B6800E9BAB8 /* Frameworks */,
+				9D4B922719922B6800E9BAB8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9D4B922719922B6800E9BAB8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D4B922619922B6800E9BAB8 /* ImagePickerController.app */,
+				9D4B924719922B6800E9BAB8 /* ImagePickerControllerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D4B922819922B6800E9BAB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D4B922919922B6800E9BAB8 /* Foundation.framework */,
+				9D4B922B19922B6800E9BAB8 /* CoreGraphics.framework */,
+				9D4B922D19922B6800E9BAB8 /* UIKit.framework */,
+				9D4B924819922B6800E9BAB8 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D4B922F19922B6800E9BAB8 /* ImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				9D4B923819922B6800E9BAB8 /* IQAppDelegate.h */,
+				9D4B923919922B6800E9BAB8 /* IQAppDelegate.m */,
+				9D4B923B19922B6800E9BAB8 /* Main.storyboard */,
+				9D4B923E19922B6800E9BAB8 /* IQViewController.h */,
+				9D4B923F19922B6800E9BAB8 /* IQViewController.m */,
+				9D4B923019922B6800E9BAB8 /* Supporting Files */,
+			);
+			path = ImagePickerController;
+			sourceTree = "<group>";
+		};
+		9D4B923019922B6800E9BAB8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9D4B923119922B6800E9BAB8 /* ImagePickerController-Info.plist */,
+				9D4B923219922B6800E9BAB8 /* InfoPlist.strings */,
+				9D4B923519922B6800E9BAB8 /* main.m */,
+				9D4B923719922B6800E9BAB8 /* ImagePickerController-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9D4B924E19922B6800E9BAB8 /* ImagePickerControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				9D4B925419922B6800E9BAB8 /* ImagePickerControllerTests.m */,
+				9D4B924F19922B6800E9BAB8 /* Supporting Files */,
+			);
+			path = ImagePickerControllerTests;
+			sourceTree = "<group>";
+		};
+		9D4B924F19922B6800E9BAB8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9D4B925019922B6800E9BAB8 /* ImagePickerControllerTests-Info.plist */,
+				9D4B925119922B6800E9BAB8 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9D4E24A5199BA66200E4E8FC /* IQAudioPickerController */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24A6199BA66C00E4E8FC /* AudioPickerUtility */,
+				9D4E24A7199BA68700E4E8FC /* Playlist */,
+				9D4E24A8199BA69400E4E8FC /* Artist */,
+				9D4E24A9199BA6A100E4E8FC /* Songs */,
+				9D4E24AA199BA6A600E4E8FC /* Album */,
+				9D4E24AB199BA6B000E4E8FC /* Genre */,
+				9D4E24AC199BA6BA00E4E8FC /* Composers */,
+				9D4E24AD199BA6C000E4E8FC /* Compilations */,
+				9D4E24CC199BA74C00E4E8FC /* IQAudioPicker.storyboard */,
+				9D4E24C9199BA73C00E4E8FC /* IQAudioPickerController.h */,
+				9D4E24CA199BA73C00E4E8FC /* IQAudioPickerController.m */,
+			);
+			name = IQAudioPickerController;
+			sourceTree = "<group>";
+		};
+		9D4E24A6199BA66C00E4E8FC /* AudioPickerUtility */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24AE199BA6F800E4E8FC /* IQAudioPickerUtility.h */,
+				9D4E24AF199BA6F800E4E8FC /* IQAudioPickerUtility.m */,
+			);
+			name = AudioPickerUtility;
+			sourceTree = "<group>";
+		};
+		9D4E24A7199BA68700E4E8FC /* Playlist */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24BA199BA71600E4E8FC /* IQSongsPlaylistViewController.h */,
+				9D4E24BB199BA71600E4E8FC /* IQSongsPlaylistViewController.m */,
+			);
+			name = Playlist;
+			sourceTree = "<group>";
+		};
+		9D4E24A8199BA69400E4E8FC /* Artist */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24BD199BA71D00E4E8FC /* IQSongsArtistListViewController.h */,
+				9D4E24BE199BA71D00E4E8FC /* IQSongsArtistListViewController.m */,
+			);
+			name = Artist;
+			sourceTree = "<group>";
+		};
+		9D4E24A9199BA6A100E4E8FC /* Songs */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24C0199BA72600E4E8FC /* IQSongListViewController.h */,
+				9D4E24C1199BA72600E4E8FC /* IQSongListViewController.m */,
+				9D4E24C2199BA72600E4E8FC /* IQSongListTableHeaderView.h */,
+				9D4E24C3199BA72600E4E8FC /* IQSongListTableHeaderView.m */,
+			);
+			name = Songs;
+			sourceTree = "<group>";
+		};
+		9D4E24AA199BA6A600E4E8FC /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24C6199BA72D00E4E8FC /* IQSongsAlbumListViewController.h */,
+				9D4E24C7199BA72D00E4E8FC /* IQSongsAlbumListViewController.m */,
+			);
+			name = Album;
+			sourceTree = "<group>";
+		};
+		9D4E24AB199BA6B000E4E8FC /* Genre */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24B7199BA71100E4E8FC /* IQSongsGenreViewController.h */,
+				9D4E24B8199BA71100E4E8FC /* IQSongsGenreViewController.m */,
+			);
+			name = Genre;
+			sourceTree = "<group>";
+		};
+		9D4E24AC199BA6BA00E4E8FC /* Composers */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24B1199BA70100E4E8FC /* IQSongsComposersViewController.h */,
+				9D4E24B2199BA70100E4E8FC /* IQSongsComposersViewController.m */,
+			);
+			name = Composers;
+			sourceTree = "<group>";
+		};
+		9D4E24AD199BA6C000E4E8FC /* Compilations */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24B4199BA70A00E4E8FC /* IQSongsCompilationsViewController.h */,
+				9D4E24B5199BA70A00E4E8FC /* IQSongsCompilationsViewController.m */,
+			);
+			name = Compilations;
+			sourceTree = "<group>";
+		};
+		9D9CCBBD19990F0D0046D175 /* IQMediaPickerController */ = {
+			isa = PBXGroup;
+			children = (
+				9D4E24A5199BA66200E4E8FC /* IQAudioPickerController */,
+				9D12469F199A4B9300F2D309 /* IQAssetsPickerController */,
+				9D9CCBC119990F0D0046D175 /* IQMediaCaptureController */,
+				9D9CCBD519990F0D0046D175 /* IQMediaPickerController.h */,
+				9D9CCBD619990F0D0046D175 /* IQMediaPickerController.m */,
+				9D9CCBD719990F0D0046D175 /* IQMediaPickerController.xcassets */,
+			);
+			path = IQMediaPickerController;
+			sourceTree = "<group>";
+		};
+		9D9CCBC119990F0D0046D175 /* IQMediaCaptureController */ = {
+			isa = PBXGroup;
+			children = (
+				9D9CCBC219990F0D0046D175 /* IQBottomContainerView */,
+				9D9CCBC519990F0D0046D175 /* IQCaptureSession */,
+				9D9CCBC819990F0D0046D175 /* IQFileManager */,
+				9D9CCBCD19990F0D0046D175 /* IQMediaView */,
+				9D9CCBD019990F0D0046D175 /* IQPartitionBar */,
+				9D9CCBCB19990F0D0046D175 /* IQMediaCaptureController.h */,
+				9D9CCBCC19990F0D0046D175 /* IQMediaCaptureController.m */,
+			);
+			path = IQMediaCaptureController;
+			sourceTree = "<group>";
+		};
+		9D9CCBC219990F0D0046D175 /* IQBottomContainerView */ = {
+			isa = PBXGroup;
+			children = (
+				9D9CCBC319990F0D0046D175 /* IQBottomContainerView.h */,
+				9D9CCBC419990F0D0046D175 /* IQBottomContainerView.m */,
+			);
+			path = IQBottomContainerView;
+			sourceTree = "<group>";
+		};
+		9D9CCBC519990F0D0046D175 /* IQCaptureSession */ = {
+			isa = PBXGroup;
+			children = (
+				9D9CCBC619990F0D0046D175 /* IQCaptureSession.h */,
+				9D9CCBC719990F0D0046D175 /* IQCaptureSession.m */,
+			);
+			path = IQCaptureSession;
+			sourceTree = "<group>";
+		};
+		9D9CCBC819990F0D0046D175 /* IQFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				9D9CCBC919990F0D0046D175 /* IQFileManager.h */,
+				9D9CCBCA19990F0D0046D175 /* IQFileManager.m */,
+			);
+			path = IQFileManager;
+			sourceTree = "<group>";
+		};
+		9D9CCBCD19990F0D0046D175 /* IQMediaView */ = {
+			isa = PBXGroup;
+			children = (
+				9D9CCBCE19990F0D0046D175 /* IQMediaView.h */,
+				9D9CCBCF19990F0D0046D175 /* IQMediaView.m */,
+				9D2162C01999E8F6001FAD1A /* IQFeatureOverlay.h */,
+				9D2162C11999E8F6001FAD1A /* IQFeatureOverlay.m */,
+			);
+			path = IQMediaView;
+			sourceTree = "<group>";
+		};
+		9D9CCBD019990F0D0046D175 /* IQPartitionBar */ = {
+			isa = PBXGroup;
+			children = (
+				9D9CCBD119990F0D0046D175 /* IQPartitionBar.h */,
+				9D9CCBD219990F0D0046D175 /* IQPartitionBar.m */,
+				9D9CCBD319990F0D0046D175 /* IQPartitionView.h */,
+				9D9CCBD419990F0D0046D175 /* IQPartitionView.m */,
+			);
+			path = IQPartitionBar;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9D4B922519922B6800E9BAB8 /* ImagePickerController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D4B925819922B6800E9BAB8 /* Build configuration list for PBXNativeTarget "ImagePickerController" */;
+			buildPhases = (
+				9D4B922219922B6800E9BAB8 /* Sources */,
+				9D4B922319922B6800E9BAB8 /* Frameworks */,
+				9D4B922419922B6800E9BAB8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImagePickerController;
+			productName = ImagePickerController;
+			productReference = 9D4B922619922B6800E9BAB8 /* ImagePickerController.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9D4B924619922B6800E9BAB8 /* ImagePickerControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D4B925B19922B6800E9BAB8 /* Build configuration list for PBXNativeTarget "ImagePickerControllerTests" */;
+			buildPhases = (
+				9D4B924319922B6800E9BAB8 /* Sources */,
+				9D4B924419922B6800E9BAB8 /* Frameworks */,
+				9D4B924519922B6800E9BAB8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D4B924D19922B6800E9BAB8 /* PBXTargetDependency */,
+			);
+			name = ImagePickerControllerTests;
+			productName = ImagePickerControllerTests;
+			productReference = 9D4B924719922B6800E9BAB8 /* ImagePickerControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D4B921E19922B6800E9BAB8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = IQ;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Iftekhar;
+				TargetAttributes = {
+					9D4B924619922B6800E9BAB8 = {
+						TestTargetID = 9D4B922519922B6800E9BAB8;
+					};
+				};
+			};
+			buildConfigurationList = 9D4B922119922B6800E9BAB8 /* Build configuration list for PBXProject "ImagePickerController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9D4B921D19922B6800E9BAB8;
+			productRefGroup = 9D4B922719922B6800E9BAB8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9D4B922519922B6800E9BAB8 /* ImagePickerController */,
+				9D4B924619922B6800E9BAB8 /* ImagePickerControllerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9D4B922419922B6800E9BAB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D9CCBE119990F0D0046D175 /* IQMediaPickerController.xcassets in Resources */,
+				9D12469B1999FF9C00F2D309 /* Default-568h@2x.png in Resources */,
+				9D4E24CD199BA74C00E4E8FC /* IQAudioPicker.storyboard in Resources */,
+				9D4B923419922B6800E9BAB8 /* InfoPlist.strings in Resources */,
+				9D4B923D19922B6800E9BAB8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D4B924519922B6800E9BAB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D4B925319922B6800E9BAB8 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9D4B922219922B6800E9BAB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D9CCBE019990F0D0046D175 /* IQMediaPickerController.m in Sources */,
+				9D4E24B9199BA71100E4E8FC /* IQSongsGenreViewController.m in Sources */,
+				9D4E24CB199BA73C00E4E8FC /* IQAudioPickerController.m in Sources */,
+				9D4B923A19922B6800E9BAB8 /* IQAppDelegate.m in Sources */,
+				9D4E24BC199BA71600E4E8FC /* IQSongsPlaylistViewController.m in Sources */,
+				9D9CCBD919990F0D0046D175 /* IQBottomContainerView.m in Sources */,
+				9D2162C31999E8F6001FAD1A /* IQFeatureOverlay.m in Sources */,
+				9D4E24BF199BA71D00E4E8FC /* IQSongsArtistListViewController.m in Sources */,
+				9D1246B0199A4B9300F2D309 /* IQShadowView.m in Sources */,
+				9D4E24C8199BA72D00E4E8FC /* IQSongsAlbumListViewController.m in Sources */,
+				9D9CCBDE19990F0D0046D175 /* IQPartitionBar.m in Sources */,
+				9D9CCBDB19990F0D0046D175 /* IQFileManager.m in Sources */,
+				9D4E24B6199BA70A00E4E8FC /* IQSongsCompilationsViewController.m in Sources */,
+				9D4E24C5199BA72600E4E8FC /* IQSongListTableHeaderView.m in Sources */,
+				9D4E24B0199BA6F800E4E8FC /* IQAudioPickerUtility.m in Sources */,
+				9D583366199B9B7A0080CE07 /* IQ_SGSStaggeredFlowLayout.m in Sources */,
+				9D9CCBDD19990F0D0046D175 /* IQMediaView.m in Sources */,
+				9D1246AD199A4B9300F2D309 /* IQAlbumsViewController.m in Sources */,
+				9D9CCBDA19990F0D0046D175 /* IQCaptureSession.m in Sources */,
+				9D4B923619922B6800E9BAB8 /* main.m in Sources */,
+				9D4E24C4199BA72600E4E8FC /* IQSongListViewController.m in Sources */,
+				9DF4C75D199BA52C0061179B /* IQCheckmarkView.m in Sources */,
+				9D4B924019922B6800E9BAB8 /* IQViewController.m in Sources */,
+				9D9CCBDC19990F0D0046D175 /* IQMediaCaptureController.m in Sources */,
+				9D1246AF199A4B9300F2D309 /* IQCustomCell.m in Sources */,
+				9D9CCBDF19990F0D0046D175 /* IQPartitionView.m in Sources */,
+				9D4E24B3199BA70100E4E8FC /* IQSongsComposersViewController.m in Sources */,
+				9D1246AE199A4B9300F2D309 /* IQAssetsPickerController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D4B924319922B6800E9BAB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D4B925519922B6800E9BAB8 /* ImagePickerControllerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D4B924D19922B6800E9BAB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D4B922519922B6800E9BAB8 /* ImagePickerController */;
+			targetProxy = 9D4B924C19922B6800E9BAB8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9D4B923219922B6800E9BAB8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D4B923319922B6800E9BAB8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9D4B923B19922B6800E9BAB8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D4B923C19922B6800E9BAB8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9D4B925119922B6800E9BAB8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D4B925219922B6800E9BAB8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9D4B925619922B6800E9BAB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9D4B925719922B6800E9BAB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9D4B925919922B6800E9BAB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImagePickerController/ImagePickerController-Prefix.pch";
+				INFOPLIST_FILE = "ImagePickerController/ImagePickerController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9D4B925A19922B6800E9BAB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImagePickerController/ImagePickerController-Prefix.pch";
+				INFOPLIST_FILE = "ImagePickerController/ImagePickerController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9D4B925C19922B6800E9BAB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ImagePickerController.app/ImagePickerController";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImagePickerController/ImagePickerController-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ImagePickerControllerTests/ImagePickerControllerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9D4B925D19922B6800E9BAB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ImagePickerController.app/ImagePickerController";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImagePickerController/ImagePickerController-Prefix.pch";
+				INFOPLIST_FILE = "ImagePickerControllerTests/ImagePickerControllerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9D4B922119922B6800E9BAB8 /* Build configuration list for PBXProject "ImagePickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D4B925619922B6800E9BAB8 /* Debug */,
+				9D4B925719922B6800E9BAB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D4B925819922B6800E9BAB8 /* Build configuration list for PBXNativeTarget "ImagePickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D4B925919922B6800E9BAB8 /* Debug */,
+				9D4B925A19922B6800E9BAB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D4B925B19922B6800E9BAB8 /* Build configuration list for PBXNativeTarget "ImagePickerControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D4B925C19922B6800E9BAB8 /* Debug */,
+				9D4B925D19922B6800E9BAB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D4B921E19922B6800E9BAB8 /* Project object */;
+}
