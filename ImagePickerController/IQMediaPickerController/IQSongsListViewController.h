@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IQBaseAudioTableViewController.h"
 
 @class MPMediaItemCollection;
 
-@interface IQSongListViewController : UITableViewController
+@interface IQSongsListViewController : IQBaseAudioTableViewController
 
 @property(nonatomic, strong) NSString *property;
 

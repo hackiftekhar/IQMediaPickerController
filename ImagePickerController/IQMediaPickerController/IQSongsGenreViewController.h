@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IQBaseAudioTableViewController.h"
 
-@interface IQSongsGenreViewController : UITableViewController
+@interface IQSongsGenreViewController : IQBaseAudioTableViewController
 
 @end

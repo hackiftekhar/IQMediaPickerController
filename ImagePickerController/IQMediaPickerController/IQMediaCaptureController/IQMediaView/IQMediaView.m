@@ -18,6 +18,7 @@
     IQFeatureOverlay *focusView;
     IQFeatureOverlay *exposureView;
     
+    UIImageView *imageView;
     UIPanGestureRecognizer *_panRecognizer;
     UITapGestureRecognizer *_tapRecognizer;
 }
@@ -51,6 +52,10 @@
     
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizer:)];
     [self addGestureRecognizer:_tapRecognizer];
+    
+    imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    imageView.image = [UIImage imageNamed:@"dummy.jpg"];
+    [self addSubview:imageView];
 }
 
 - (id)initWithFrame:(CGRect)frame

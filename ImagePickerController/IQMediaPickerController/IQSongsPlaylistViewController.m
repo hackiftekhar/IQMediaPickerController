@@ -8,17 +8,26 @@
 
 #import "IQSongsPlaylistViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "IQSongListViewController.h"
+#import "IQSongsListViewController.h"
 #import "IQAudioPickerUtility.h"
 @implementation IQSongsPlaylistViewController
 {
     NSArray *playlists;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"Playlists";
+    }
+    return self;
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     MPMediaQuery *query = [MPMediaQuery playlistsQuery];
 //    [query setGroupingType:MPMediaGroupingPlaylist];
 
@@ -32,7 +41,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
     
     MPMediaPlaylist *item = [playlists objectAtIndex:indexPath.row];
     cell.textLabel.text = [item valueForProperty:MPMediaPlaylistPropertyName];
@@ -51,18 +60,16 @@
     return cell;
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([segue.identifier isEqualToString:NSStringFromClass([IQSongListViewController class])])
-    {
-        IQSongListViewController *controller = segue.destinationViewController;
-
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        MPMediaPlaylist *item = [playlists objectAtIndex:indexPath.row];
-
-        controller.title = [item valueForProperty:MPMediaPlaylistPropertyName];
-        controller.collections = @[item];
-    }
+    IQSongsListViewController *controller = [[IQSongsListViewController alloc] init];
+    
+    MPMediaPlaylist *item = [playlists objectAtIndex:indexPath.row];
+    
+    controller.title = [item valueForProperty:MPMediaPlaylistPropertyName];
+    controller.collections = @[item];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

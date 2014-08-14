@@ -6,18 +6,27 @@
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 
-#import "IQSongListViewController.h"
+#import "IQSongsListViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "IQSongListTableHeaderView.h"
+#import "IQSongsListTableHeaderView.h"
 #import "IQAudioPickerUtility.h"
+#import "IQSongsCell.h"
 
-@implementation IQSongListViewController
+@implementation IQSongsListViewController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"Songs";
+    }
+    return self;
+}
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self.tableView registerClass:[IQSongListTableHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
+    self.tableView.rowHeight = 50;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -47,7 +56,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    IQSongsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQSongsCell class]) forIndexPath:indexPath];
 
     MPMediaItem *item = [[[MPMediaQuery songsQuery] items] objectAtIndex:indexPath.row];
 
@@ -62,17 +71,11 @@
     
     MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
     UIImage *image = [artwork imageWithSize:artwork.bounds.size];
-    cell.imageView.image = image;
+    cell.imageViewSong.image = image;
     
-    cell.textLabel.text = [item valueForProperty:MPMediaItemPropertyTitle];
-    cell.detailTextLabel.text = [item valueForProperty:MPMediaItemPropertyArtist];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.font = [UIFont systemFontOfSize:13];
-    label.text = [IQAudioPickerUtility secondsToTimeString:[[item valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue]];
-    [label sizeToFit];
-    
-    cell.accessoryView = label;
+    cell.labelTitle.text = [item valueForProperty:MPMediaItemPropertyTitle];
+    cell.labelSubTitle.text = [item valueForProperty:MPMediaItemPropertyArtist];
+    cell.labelDuration.text = [IQAudioPickerUtility secondsToTimeString:[[item valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue]];
     
     return cell;
 }
@@ -100,39 +103,28 @@
 {
     if (self.collections)
     {
+        IQSongsListTableHeaderView *headerView =[tableView dequeueReusableHeaderFooterViewWithIdentifier:NSStringFromClass([IQSongsListTableHeaderView class])];
+        
         MPMediaItemCollection *collection = [self.collections objectAtIndex:section];
         
         MPMediaItemArtwork *artwork = [collection.representativeItem valueForProperty:MPMediaItemPropertyArtwork];
         UIImage *image = [artwork imageWithSize:artwork.bounds.size];
+        headerView.imageViewAlbum.image = image;
         
-        UINavigationBar *header = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-        [header setTintColor:nil];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 80, 80)];
-        imageView.image = image;
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [header addSubview:imageView];
+        headerView.labelTitle.text = [collection.representativeItem valueForProperty:MPMediaItemPropertyAlbumTitle];
 
-        UILabel *labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(100, 25, 200, 20)];
-        [labelTitle setFont:[UIFont boldSystemFontOfSize:17]];
-        labelTitle.text = [collection.representativeItem valueForProperty:MPMediaItemPropertyAlbumTitle];
-        [header addSubview:labelTitle];
-        
-        UILabel *labelArtist = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, 200, 20)];
-        labelArtist.font = [UIFont systemFontOfSize:12];
-        [header addSubview:labelArtist];
-        
         if (collection.items.count == 0)
         {
-            labelArtist.text = [NSString stringWithFormat:@"no songs"];
+            headerView.labelSubTitle.text = [NSString stringWithFormat:@"no songs"];
         }
         else
         {
             NSUInteger totalMinutes = [IQAudioPickerUtility mediaCollectionDuration:collection];
 
-            labelArtist.text = [NSString stringWithFormat:@"%lu %@, %lu %@",(unsigned long)collection.count,(collection.count>1?@"songs":@"song"),(unsigned long)totalMinutes,(totalMinutes>1?@"mins":@"min")];
+            headerView.labelSubTitle.text = [NSString stringWithFormat:@"%lu %@, %lu %@",(unsigned long)collection.count,(collection.count>1?@"songs":@"song"),(unsigned long)totalMinutes,(totalMinutes>1?@"mins":@"min")];
         }
         
-        return header;
+        return headerView;
     }
     else
     {

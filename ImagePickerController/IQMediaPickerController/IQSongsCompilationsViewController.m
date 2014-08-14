@@ -8,11 +8,21 @@
 
 #import "IQSongsCompilationsViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "IQSongListViewController.h"
+#import "IQSongsListViewController.h"
+#import "IQAlbumViewCell.h"
 
 @implementation IQSongsCompilationsViewController
 {
     NSArray *collections;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"Compilations";
+    }
+    return self;
 }
 
 -(void)viewDidLoad
@@ -32,29 +42,27 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    IQAlbumViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQAlbumViewCell class]) forIndexPath:indexPath];
     
     MPMediaItemCollection *item = [collections objectAtIndex:indexPath.row];
     
     MPMediaItemArtwork *artwork = [item.representativeItem valueForProperty:MPMediaItemPropertyArtwork];
     UIImage *image = [artwork imageWithSize:artwork.bounds.size];
-    cell.imageView.image = image;
-    cell.textLabel.text = [item.representativeItem valueForProperty:MPMediaItemPropertyGenre];
+    cell.imageViewAlbum.image = image;
+    cell.labelTitle.text = [item.representativeItem valueForProperty:MPMediaItemPropertyAlbumArtist];
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu %@",(unsigned long)item.count,(item.count>1?@"songs":@"song")];
+    cell.labelSubTitle.text = [NSString stringWithFormat:@"%lu %@",(unsigned long)item.count,(item.count>1?@"songs":@"song")];
     
     return cell;
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([segue.identifier isEqualToString:NSStringFromClass([IQSongListViewController class])])
-    {
-        IQSongListViewController *controller = segue.destinationViewController;
-        
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        controller.collections = @[[collections objectAtIndex:indexPath.row]];
-    }
+    IQSongsListViewController *controller = [[IQSongsListViewController alloc] init];
+    
+    controller.collections = @[[collections objectAtIndex:indexPath.row]];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 

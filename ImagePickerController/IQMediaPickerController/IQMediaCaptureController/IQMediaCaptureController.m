@@ -80,7 +80,7 @@ extern NSString *const IQCaptureMediaTypeImage;
 {
     [super viewDidLoad];
     
-    buttonToggleMedia.hidden = YES;
+//    buttonToggleMedia.hidden = YES;
     
     mediaURLs = [[NSMutableArray alloc] init];
     counter = 0;
@@ -93,11 +93,13 @@ extern NSString *const IQCaptureMediaTypeImage;
     [self showSettings:NO animated:NO];
 
     buttonSelect = [UIButton buttonWithType:UIButtonTypeCustom];
+    [buttonSelect.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
     [buttonSelect setTitle:@"Select" forState:UIControlStateNormal];
     [buttonSelect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [buttonSelect addTarget:self action:@selector(selectAction:) forControlEvents:UIControlEventTouchUpInside];
     
     buttonDelete = [UIButton buttonWithType:UIButtonTypeCustom];
+    [buttonDelete.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
     [buttonDelete setImage:[UIImage imageNamed:@"appbar_delete"] forState:UIControlStateNormal];
     [buttonDelete setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [buttonDelete addTarget:self action:@selector(deleteAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -572,9 +574,13 @@ extern NSString *const IQCaptureMediaTypeImage;
     {
         if ([self session].captureMode == IQCameraCaptureModePhoto)
         {
-            [buttonCapture setImage:[UIImage imageNamed:@"appbar_marvel_ironman"] forState:UIControlStateNormal];
             [[self session] takePicture];
             
+            [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
+                [buttonCapture setImage:[UIImage imageNamed:@"appbar_marvel_ironman"] forState:UIControlStateNormal];
+                settingsContainerView.alpha = 0.0;
+            } completion:NULL];
+
             [bottomContainerView setLeftContentView:nil];
             [bottomContainerView setRightContentView:nil];
             [bottomContainerView setMiddleContentView:imageProcessing];
@@ -600,7 +606,6 @@ extern NSString *const IQCaptureMediaTypeImage;
             else
             {
                 [[self session] stopVideoRecording];
-                
                 [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
                     [buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
                     [timerDuratioUpdate invalidate];

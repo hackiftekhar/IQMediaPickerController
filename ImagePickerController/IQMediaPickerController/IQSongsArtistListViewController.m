@@ -8,11 +8,20 @@
 
 #import "IQSongsArtistListViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "IQSongListViewController.h"
-
+#import "IQSongsListViewController.h"
+#import "IQAlbumViewCell.h"
 @implementation IQSongsArtistListViewController
 {
     NSArray *collections;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"Artists";
+    }
+    return self;
 }
 
 -(void)viewDidLoad
@@ -32,14 +41,14 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    IQAlbumViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQAlbumViewCell class]) forIndexPath:indexPath];
     
     MPMediaItemCollection *item = [collections objectAtIndex:indexPath.row];
     
     MPMediaItemArtwork *artwork = [item.representativeItem valueForProperty:MPMediaItemPropertyArtwork];
     UIImage *image = [artwork imageWithSize:artwork.bounds.size];
-    cell.imageView.image = image;
-    cell.textLabel.text = [item.representativeItem valueForProperty:MPMediaItemPropertyAlbumArtist];
+    cell.imageViewAlbum.image = image;
+    cell.labelTitle.text = [item.representativeItem valueForProperty:MPMediaItemPropertyAlbumArtist];
     
     MPMediaQuery *query = [MPMediaQuery albumsQuery];
     [query setGroupingType:MPMediaGroupingAlbum];
@@ -48,28 +57,26 @@
     NSUInteger albums = [[query collections] count];
     NSUInteger songs = [[query items] count];
 
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu %@, %lu %@",(unsigned long)albums,(albums>1?@"albums":@"album"),(unsigned long)songs,(songs>1?@"songs":@"song")];
+    cell.labelSubTitle.text = [NSString stringWithFormat:@"%lu %@, %lu %@",(unsigned long)albums,(albums>1?@"albums":@"album"),(unsigned long)songs,(songs>1?@"songs":@"song")];
 
     return cell;
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([segue.identifier isEqualToString:NSStringFromClass([IQSongListViewController class])])
-    {
-        IQSongListViewController *controller = segue.destinationViewController;
-
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        MPMediaItemCollection *item = [collections objectAtIndex:indexPath.row];
-
-        controller.title = [item.representativeItem valueForProperty:MPMediaItemPropertyAlbumArtist];
-        
-        MPMediaQuery *query = [MPMediaQuery albumsQuery];
-        [query setGroupingType:MPMediaGroupingAlbum];
-        [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:controller.title forProperty:MPMediaItemPropertyAlbumArtist]];
-
-        controller.collections = [query collections];
-    }
+    IQSongsListViewController *controller = [[IQSongsListViewController alloc] init];
+    
+    MPMediaItemCollection *item = [collections objectAtIndex:indexPath.row];
+    
+    controller.title = [item.representativeItem valueForProperty:MPMediaItemPropertyAlbumArtist];
+    
+    MPMediaQuery *query = [MPMediaQuery albumsQuery];
+    [query setGroupingType:MPMediaGroupingAlbum];
+    [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:controller.title forProperty:MPMediaItemPropertyAlbumArtist]];
+    
+    controller.collections = [query collections];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

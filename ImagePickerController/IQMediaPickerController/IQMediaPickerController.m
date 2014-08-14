@@ -20,8 +20,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+
     }
     return self;
 }
@@ -79,8 +80,7 @@
             break;
         case IQMediaPickerControllerMediaTypeAudioLibrary:
         {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"IQAudioPicker" bundle:nil];
-            IQAudioPickerController *controller = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQAudioPickerController class])];
+            IQAudioPickerController *controller = [[IQAudioPickerController alloc] init];
             self.viewControllers = @[controller];
         }
             break;

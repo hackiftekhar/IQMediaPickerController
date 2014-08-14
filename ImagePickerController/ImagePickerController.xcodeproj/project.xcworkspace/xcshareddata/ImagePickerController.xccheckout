@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>3F3B9DF1-32B2-418A-881D-807E7EE1BA06</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ImagePickerController</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>355357E4-0F9E-4B49-8910-E5190A886226</key>
+		<string>https://github.com/hackiftekhar/IQMediaPickerController.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ImagePickerController/ImagePickerController.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>355357E4-0F9E-4B49-8910-E5190A886226</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/hackiftekhar/IQMediaPickerController.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>355357E4-0F9E-4B49-8910-E5190A886226</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>355357E4-0F9E-4B49-8910-E5190A886226</string>
+			<key>IDESourceControlWCCName</key>
+			<string>IQMediaPickerController</string>
+		</dict>
+	</array>
+</dict>
+</plist>

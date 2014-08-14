@@ -9,48 +9,63 @@
 #import "IQAudioPickerController.h"
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "IQSongsPlaylistViewController.h"
+#import "IQSongsArtistListViewController.h"
+#import "IQSongsListViewController.h"
+#import "IQSongsAlbumListViewController.h"
+#import "IQSongsGenreViewController.h"
+#import "IQSongsComposersViewController.h"
+#import "IQSongsCompilationsViewController.h"
+
 @implementation IQAudioPickerController
 {
-    NSArray *items;
-    NSArray *collections;
+    BOOL _previousNavigationBarHidden;
 }
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     
-    MPMediaQuery *query = [MPMediaQuery albumsQuery];
-    items = [query collections];
-    collections = [query collections];
+    self.navigationController.navigationBarHidden = YES;
+    
+    IQSongsPlaylistViewController *playlistController = [[IQSongsPlaylistViewController alloc] init];
+    IQSongsArtistListViewController *artistController = [[IQSongsArtistListViewController alloc] init];
+    IQSongsListViewController *songsController = [[IQSongsListViewController alloc] init];
+    IQSongsAlbumListViewController *albumsController = [[IQSongsAlbumListViewController alloc] init];
+    IQSongsGenreViewController *genreController = [[IQSongsGenreViewController alloc] init];
+    IQSongsComposersViewController *composersController = [[IQSongsComposersViewController alloc] init];
+    IQSongsCompilationsViewController *compilationsController = [[IQSongsCompilationsViewController alloc] init];
+
+    self.viewControllers = @[[[UINavigationController alloc] initWithRootViewController:playlistController],
+                             [[UINavigationController alloc] initWithRootViewController:artistController],
+                             [[UINavigationController alloc] initWithRootViewController:songsController],
+                             [[UINavigationController alloc] initWithRootViewController:albumsController],
+                             [[UINavigationController alloc] initWithRootViewController:genreController],
+                             [[UINavigationController alloc] initWithRootViewController:composersController],
+                             [[UINavigationController alloc] initWithRootViewController:compilationsController],
+                             ];
+    
+    self.customizableViewControllers = nil;
+
+//    UIViewController *controller = [self.moreNavigationController.viewControllers firstObject];
+//    self.navigationItem
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+-(void)viewWillAppear:(BOOL)animated
 {
-    return items.count;
+    [super viewWillAppear:animated];
+
+
+    _previousNavigationBarHidden = self.navigationController.navigationBarHidden;
+    self.navigationController.navigationBarHidden = YES;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)viewWillDisappear:(BOOL)animated
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    [super viewWillDisappear:animated];
     
-    if (cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
-    }
-    
-    MPMediaItem *item = [items objectAtIndex:indexPath.row];
-
-    
-    cell.textLabel.text = [item valueForProperty:MPMediaItemPropertyTitle];
-    cell.detailTextLabel.text = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
-    NSLog(@"%@",[item valueForProperty:MPMediaItemPropertyAssetURL]);
-
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.navigationController.navigationBarHidden = _previousNavigationBarHidden;
 }
 
 @end
