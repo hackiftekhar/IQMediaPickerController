@@ -65,6 +65,7 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
     composersController.audioPickerController = self;
     
     UITabBarController *controller = [[UITabBarController alloc] init];
+    controller.delegate = self;
     controller.viewControllers = @[[[UINavigationController alloc] initWithRootViewController:playlistController],
                                    [[UINavigationController alloc] initWithRootViewController:artistController],
                                    [[UINavigationController alloc] initWithRootViewController:songsController],
@@ -73,8 +74,27 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
                                    [[UINavigationController alloc] initWithRootViewController:compilationsController],
                                    [[UINavigationController alloc] initWithRootViewController:composersController],
                                    ];
-    controller.customizableViewControllers = nil;
+//    controller.customizableViewControllers = nil;
     [self presentViewController:controller animated:YES completion:NO];
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+//    if (viewController == tabBarController.moreNavigationController)
+    {
+        UINavigationBar *morenavbar = tabBarController.moreNavigationController.navigationBar;
+        UINavigationItem *morenavitem = morenavbar.topItem;
+        UIBarButtonItem *rightItem = morenavitem.rightBarButtonItem;
+        rightItem.style = UIBarButtonItemStyleDone;
+        rightItem.title = @"Cancel";
+        rightItem.target = self;
+        rightItem.action = @selector(cancelAction:);
+    }
+}
+
+-(void)cancelAction:(UIBarButtonItem*)item
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
