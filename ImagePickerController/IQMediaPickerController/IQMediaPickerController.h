@@ -36,13 +36,6 @@ typedef NS_ENUM(NSInteger, IQMediaPickerControllerMediaType) {
 
 
 // info dictionary keys
-extern NSString *const IQCaptureMediaType;      // an NSString (UTI, i.e. kUTTypeImage)
-extern NSString *const IQCaptureImage;          // a UIImage
-extern NSString *const IQCaptureMediaURL;       // an NSURL
-extern NSString *const IQCaptureMediaURLs;       // an NSArray of NSURL
-extern NSString *const IQCaptureMediaMetadata;  // an NSDictionary containing metadata from a captured photo
-
-extern NSString *const IQCaptureMediaTypeVideo;
-extern NSString *const IQCaptureMediaTypeAudio;
-extern NSString *const IQCaptureMediaTypeImage;
-
+extern NSString *const IQMediaTypeAudio;
+extern NSString *const IQMediaTypeVideo;
+extern NSString *const IQMediaTypeImage;

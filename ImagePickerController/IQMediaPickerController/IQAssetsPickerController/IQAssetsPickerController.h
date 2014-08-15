@@ -1,16 +1,26 @@
 
 #import <UIKit/UIKit.h>
+#import "IQAlbumAssetsViewController.h"
 
-typedef NS_ENUM(NSInteger, IQAssetsPickerControllerAssetType) {
-    IQAssetsPickerControllerAssetTypePhoto,
-    IQAssetsPickerControllerAssetTypeVideo,
-};
+@protocol IQAssetsPickerControllerDelegate;
 
-@class ALAssetsGroup;
+@interface IQAssetsPickerController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
-@interface IQAssetsPickerController : UICollectionViewController
+@property (nonatomic, assign) IQAssetsPickerControllerAssetType pickerType;
 
-@property (assign, nonatomic) ALAssetsGroup *assetsGroup;
-@property (assign, nonatomic) IQAssetsPickerControllerAssetType pickerType;
+@property(nonatomic, assign) id<IQAssetsPickerControllerDelegate> delegate;
 
 @end
+
+
+@protocol IQAssetsPickerControllerDelegate <NSObject>
+
+- (void)assetsPickerController:(IQAssetsPickerController*)controller didFinishMediaWithInfo:(NSDictionary *)info;
+- (void)assetsPickerControllerDidCancel:(IQAssetsPickerController *)controller;
+
+@end
+
+extern NSString *const IQMediaImage;          // a UIImage
+extern NSString *const IQMediaURL;       // an NSURL
+extern NSString *const IQMediaTypeVideo;
+extern NSString *const IQMediaTypeImage;

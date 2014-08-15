@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IQBaseAudioTableViewController.h"
 
-@interface IQSongsAlbumListViewController : IQBaseAudioTableViewController
+@class IQAudioPickerController;
+
+@interface IQSongsAlbumListViewController : UITableViewController
+
+@property(nonatomic, assign) IQAudioPickerController *audioPickerController;
 
 @end

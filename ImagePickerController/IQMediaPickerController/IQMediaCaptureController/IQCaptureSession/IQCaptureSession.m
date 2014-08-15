@@ -10,16 +10,13 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "IQFileManager.h"
 
-// info dictionary keys
-extern NSString *const IQCaptureMediaType;      // an NSString (UTI, i.e. kUTTypeImage)
-extern NSString *const IQCaptureImage;          // a UIImage
-extern NSString *const IQCaptureMediaURL;       // an NSURL
-extern NSString *const IQCaptureMediaURLs;       // an NSArray of NSURL
-extern NSString *const IQCaptureMediaMetadata;  // an NSDictionary containing metadata from a captured photo
 
-extern NSString *const IQCaptureMediaTypeVideo;
-extern NSString *const IQCaptureMediaTypeAudio;
-extern NSString *const IQCaptureMediaTypeImage;
+NSString *const IQMediaImage    =   @"IQMediaImage";          // a UIImage
+NSString *const IQMediaURL      =   @"IQMediaURL";       // an NSURL
+
+NSString *const IQMediaType    =   @"IQMediaType";
+
+// info dictionary keys
 
 
 @interface IQCaptureSession ()<AVCaptureFileOutputRecordingDelegate>
@@ -643,7 +640,7 @@ extern NSString *const IQCaptureMediaTypeImage;
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                 UIImage *image = [[UIImage alloc] initWithData:imageData];
                 
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQCaptureImage,IQCaptureMediaTypeImage,IQCaptureMediaType, nil];
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage,IQMediaTypeImage,IQMediaType, nil];
 
                 if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
                 {
@@ -736,7 +733,7 @@ extern NSString *const IQCaptureMediaTypeImage;
     }
     else
     {
-        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:outputFileURL,IQCaptureMediaURL,IQCaptureMediaTypeVideo,IQCaptureMediaType, nil];
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:outputFileURL,IQMediaURL,IQMediaTypeVideo,IQMediaType, nil];
         
         if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
         {

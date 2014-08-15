@@ -8,7 +8,7 @@
 
 #import "IQMediaPickerController.h"
 #import "IQMediaCaptureController.h"
-#import "IQAlbumsViewController.h"
+#import "IQAssetsPickerController.h"
 #import "IQAudioPickerController.h"
 
 @interface IQMediaPickerController ()
@@ -66,14 +66,14 @@
             break;
         case IQMediaPickerControllerMediaTypePhotoLibrary:
         {
-            IQAlbumsViewController *controller = [[IQAlbumsViewController alloc] init];
+            IQAssetsPickerController *controller = [[IQAssetsPickerController alloc] init];
             controller.pickerType = IQAssetsPickerControllerAssetTypePhoto;
             self.viewControllers = @[controller];
         }
             break;
         case IQMediaPickerControllerMediaTypeVideoLibrary:
         {
-            IQAlbumsViewController *controller = [[IQAlbumsViewController alloc] init];
+            IQAssetsPickerController *controller = [[IQAssetsPickerController alloc] init];
             controller.pickerType = IQAssetsPickerControllerAssetTypeVideo;
             self.viewControllers = @[controller];
         }
@@ -90,18 +90,4 @@
 }
 
 @end
-
-
-
-
-NSString *const IQCaptureMediaType      =   @"IQCaptureMediaType";      // an NSString (UTI, i.e. kUTTypeImage)
-NSString *const IQCaptureImage          =   @"IQCaptureImage";          // a UIImage
-NSString *const IQCaptureMediaURL       =   @"IQCaptureMediaURL";       // an NSURL
-NSString *const IQCaptureMediaURLs      =   @"IQCaptureMediaURLs";       // an NSArray of NSURL
-NSString *const IQCaptureMediaMetadata  =   @"IQCaptureMediaMetadata";  // an NSDictionary containing metadata from a captured photo
-
-
-NSString *const IQCaptureMediaTypeVideo =   @"IQCaptureMediaTypeVideo";      // an NSString (UTI, i.e. kUTTypeImage)
-//NSString *const IQCaptureMediaTypeAudio =   @"IQCaptureMediaTypeAudio";      // an NSString (UTI, i.e. kUTTypeImage)
-NSString *const IQCaptureMediaTypeImage =   @"IQCaptureMediaTypeImage";      // an NSString (UTI, i.e. kUTTypeImage)
 

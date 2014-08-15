@@ -7,6 +7,7 @@
 //
 
 #import "IQSongsCell.h"
+#import "IQShadowView.h"
 
 @implementation IQSongsCell
 
@@ -16,29 +17,36 @@
     if (self)
     {
         self.contentView.frame = CGRectMake(0, 0, 320, 50);
+
+        IQShadowView *shadowView = [[IQShadowView alloc] initWithFrame:CGRectMake(5, 5, 40, 40)];
+        shadowView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        [self.contentView addSubview:shadowView];
+
+        self.imageViewSong = [[UIImageView alloc] initWithFrame:shadowView.bounds];
+        self.imageViewSong.clipsToBounds = YES;
+        self.imageViewSong.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageViewSong.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [shadowView addSubview:self.imageViewSong];
         
-        self.imageViewSong = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 40, 40)];
-        self.imageViewSong.contentMode = UIViewContentModeScaleAspectFit;
-        self.imageViewSong.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-        [self.contentView addSubview:self.imageViewSong];
-        
-        self.labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, 320, 20)];
+        self.labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, 315-50, 20)];
         self.labelTitle.backgroundColor = [UIColor clearColor];
         self.labelTitle.font = [UIFont boldSystemFontOfSize:15];
-        self.labelTitle.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+        self.labelTitle.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
         [self.contentView addSubview:self.labelTitle];
         
-        self.labelSubTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 25, 320, 20)];
+        self.labelSubTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 25, 315-50, 20)];
         self.labelSubTitle.backgroundColor = [UIColor clearColor];
         self.labelSubTitle.font = [UIFont systemFontOfSize:13];
-        self.labelSubTitle.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+        self.labelSubTitle.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
         [self.contentView addSubview:self.labelSubTitle];
         
         self.labelDuration = [[UILabel alloc] init];
         self.labelDuration.backgroundColor = [UIColor clearColor];
         self.labelDuration.font = [UIFont boldSystemFontOfSize:12];
-        self.labelDuration.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+        self.labelDuration.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
         self.accessoryView = self.labelDuration;
+        
+        [self setIsSelected:NO];
     }
     return self;
 }
@@ -48,6 +56,24 @@
     [self.labelDuration sizeToFit];
 
     [super layoutSubviews];
+}
+
+- (void)setIsSelected:(BOOL)isSelected
+{
+    _isSelected = isSelected;
+    
+    if (_isSelected)
+    {
+        self.labelTitle.textColor = [UIColor purpleColor];
+        self.labelSubTitle.textColor = [UIColor purpleColor];
+        self.labelDuration.textColor = [UIColor purpleColor];
+    }
+    else
+    {
+        self.labelTitle.textColor = [UIColor blackColor];
+        self.labelSubTitle.textColor = [UIColor grayColor];
+        self.labelDuration.textColor = [UIColor darkGrayColor];
+    }
 }
 
 - (void)awakeFromNib

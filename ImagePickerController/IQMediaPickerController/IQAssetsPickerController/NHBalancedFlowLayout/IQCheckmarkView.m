@@ -36,9 +36,9 @@
     CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0);
     CGContextSetLineWidth(context, 1.2);
     
-    CGContextMoveToPoint(context, 6.0, 12.0);
-    CGContextAddLineToPoint(context, 10.0, 16.0);
-    CGContextAddLineToPoint(context, 18.0, 8.0);
+    CGContextMoveToPoint(context, 4.0, 9.0);
+    CGContextAddLineToPoint(context, 7.0, 13.0);
+    CGContextAddLineToPoint(context, 16.0, 8.0);
     
     CGContextStrokePath(context);
 }

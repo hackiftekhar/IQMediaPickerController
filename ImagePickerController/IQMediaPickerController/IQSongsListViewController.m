@@ -11,6 +11,7 @@
 #import "IQSongsListTableHeaderView.h"
 #import "IQAudioPickerUtility.h"
 #import "IQSongsCell.h"
+#import "IQAudioPickerController.h"
 
 @implementation IQSongsListViewController
 
@@ -19,6 +20,7 @@
     self = [super init];
     if (self) {
         self.title = @"Songs";
+        self.tabBarItem.image = [UIImage imageNamed:@"songs"];
     }
     return self;
 }
@@ -26,7 +28,37 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+
     self.tableView.rowHeight = 50;
+    [self.tableView registerClass:[IQSongsCell class] forCellReuseIdentifier:NSStringFromClass([IQSongsCell class])];
+    [self.tableView registerClass:[IQSongsListTableHeaderView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([IQSongsListTableHeaderView class])];
+
+    if (self.audioPickerController.allowsPickingMultipleItems == NO)
+    {
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
+        self.navigationItem.rightBarButtonItem = cancelItem;
+    }
+    else
+    {
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
+        self.navigationItem.rightBarButtonItem = cancelItem;
+    }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
+-(void)doneAction:(UIBarButtonItem*)item
+{
+    
+}
+
+-(void)cancelAction:(UIBarButtonItem*)item
+{
+    [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -57,8 +89,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IQSongsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQSongsCell class]) forIndexPath:indexPath];
-
-    MPMediaItem *item = [[[MPMediaQuery songsQuery] items] objectAtIndex:indexPath.row];
+    
+    MPMediaItem *item;
 
     if (self.collections)
     {
@@ -68,6 +100,8 @@
     {
         item = [[[MPMediaQuery songsQuery] items] objectAtIndex:indexPath.row];
     }
+    
+    cell.isSelected = [self.audioPickerController.selectedItems containsObject:item];
     
     MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
     UIImage *image = [artwork imageWithSize:artwork.bounds.size];
@@ -83,6 +117,41 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    MPMediaItem *item = [[[MPMediaQuery songsQuery] items] objectAtIndex:indexPath.row];
+
+    if (self.collections)
+    {
+        item = [[[self.collections objectAtIndex:indexPath.section] items] objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        item = [[[MPMediaQuery songsQuery] items] objectAtIndex:indexPath.row];
+    }
+    
+    
+    if (self.audioPickerController.allowsPickingMultipleItems == NO)
+    {
+        if ([self.audioPickerController.delegate respondsToSelector:@selector(audioPickerController:didPickMediaItems:)])
+        {
+            MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:[self.audioPickerController.selectedItems allObjects]];
+            
+            [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:collection];
+        }
+    }
+    else
+    {
+        if ([self.audioPickerController.selectedItems containsObject:item])
+        {
+            [self.audioPickerController.selectedItems removeObject:item];
+        }
+        else
+        {
+            [self.audioPickerController.selectedItems addObject:item];
+        }
+        
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

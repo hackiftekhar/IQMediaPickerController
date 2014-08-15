@@ -16,4 +16,6 @@
 
 @property(nonatomic, strong) UILabel *labelDuration;
 
+@property(nonatomic, assign) BOOL isSelected;
+
 @end

@@ -9,7 +9,8 @@
 #import "IQSongsComposersViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "IQSongsListViewController.h"
-#import "IQAlbumViewCell.h"
+#import "IQSongsAlbumViewCell.h"
+#import "IQAudioPickerController.h"
 
 @implementation IQSongsComposersViewController
 {
@@ -21,6 +22,7 @@
     self = [super init];
     if (self) {
         self.title = @"Composers";
+        self.tabBarItem.image = [UIImage imageNamed:@"composers"];
     }
     return self;
 }
@@ -29,9 +31,32 @@
 {
     [super viewDidLoad];
 
+    self.tableView.rowHeight = 80;
+    [self.tableView registerClass:[IQSongsAlbumViewCell class] forCellReuseIdentifier:NSStringFromClass([IQSongsAlbumViewCell class])];
+
     MPMediaQuery *query = [MPMediaQuery composersQuery];
-    
     collections = [query collections];
+
+    if (self.audioPickerController.allowsPickingMultipleItems == NO)
+    {
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
+        self.navigationItem.rightBarButtonItem = cancelItem;
+    }
+    else
+    {
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
+        self.navigationItem.rightBarButtonItem = cancelItem;
+    }
+}
+
+-(void)doneAction:(UIBarButtonItem*)item
+{
+
+}
+
+-(void)cancelAction:(UIBarButtonItem*)item
+{
+    [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -41,7 +66,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    IQAlbumViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQAlbumViewCell class]) forIndexPath:indexPath];
+    IQSongsAlbumViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQSongsAlbumViewCell class]) forIndexPath:indexPath];
     
     MPMediaItemCollection *item = [collections objectAtIndex:indexPath.row];
     
@@ -65,7 +90,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IQSongsListViewController *controller = [[IQSongsListViewController alloc] init];
-    
+    controller.audioPickerController = self.audioPickerController;
+
     MPMediaItemCollection *item = [collections objectAtIndex:indexPath.row];
     
     controller.title = [item.representativeItem valueForProperty:MPMediaItemPropertyComposer];

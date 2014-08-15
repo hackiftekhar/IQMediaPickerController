@@ -1,261 +1,189 @@
 
 #import "IQAssetsPickerController.h"
-#import "IQCustomCell.h"
-
-#import <MediaPlayer/MediaPlayer.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "IQ_SGSStaggeredFlowLayout.h"
+#import "IQAssetsAlbumViewCell.h"
 
-@interface IQAssetsPickerController () <UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
+@interface IQAssetsPickerController ()
 {
-    BOOL _isPlayerPlaying;
-    UIImage *_selectedImageToShare;
+    UIBarButtonItem *cancelBarButton;
 }
 
-@property(nonatomic, strong) NSMutableArray *info;
-@property(nonatomic, strong) NSMutableArray *checkedAssetsNumbers;
+@property(nonatomic, strong) ALAssetsLibrary *assetLibrary;
 
 @end
 
 @implementation IQAssetsPickerController
+{
+    NSMutableArray *_assetGroups;
+}
+
+#pragma - mark View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+	[self.navigationItem setTitle:@"Loading..."];
     
-    IQ_SGSStaggeredFlowLayout *_flowLayout = (IQ_SGSStaggeredFlowLayout*)self.collectionViewLayout;
-    _flowLayout.layoutMode = IQ_SGSStaggeredFlowLayoutMode_Even;
-    _flowLayout.minimumLineSpacing = 7.0f;
-    _flowLayout.minimumInteritemSpacing = 7.0f;
-    _flowLayout.sectionInset = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-    _flowLayout.itemSize = CGSizeMake(75.0f, 75.0f);
+    self.tableView.rowHeight = 80;
+    [self.tableView registerClass:[IQAssetsAlbumViewCell class] forCellReuseIdentifier:NSStringFromClass([IQAssetsAlbumViewCell class])];
+    
+    cancelBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
+	[self.navigationItem setRightBarButtonItem:cancelBarButton];
+    
+    _assetGroups = [[NSMutableArray alloc] init];
+    self.assetLibrary = [[ALAssetsLibrary alloc] init];
+    
+    // Load Albums into assetGroups
+    dispatch_async(dispatch_get_main_queue(), ^{
+                       // Group enumerator Block
+                       void (^assetGroupEnumerator)(ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop)
+                       {
+                           if (group == nil)
+                           {
+                               return;
+                           }
+                           
+                           NSString *sGroupPropertyName = (NSString *)[group valueForProperty:ALAssetsGroupPropertyName];
+                           NSUInteger nType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
+                           if (self.pickerType == IQAssetsPickerControllerAssetTypePhoto)
+                           {
+                               [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+                           }
+                           else if (self.pickerType == IQAssetsPickerControllerAssetTypeVideo)
+                           {
+                               [group setAssetsFilter:[ALAssetsFilter allVideos]];
+                           }
+                           
+                           if ([[sGroupPropertyName lowercaseString] isEqualToString:@"camera roll"] && nType == ALAssetsGroupSavedPhotos) {
+                               [_assetGroups insertObject:group atIndex:0];
+                           }
+                           else {
+                               if (group.numberOfAssets != 0) {
+                                   [_assetGroups addObject:group];
+                               }
+                           }
 
-    [self.collectionView registerClass:[IQCustomCell class] forCellWithReuseIdentifier:@"cell"];
+                           [self.tableView reloadData];
+                           [self.navigationItem setTitle:@"Albums"];
 
-//    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPressGesture:)];
-//    [self.collectionView addGestureRecognizer:longPressGesture];
-//    longPressGesture.delegate = self;
-    
-    self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-    
-    _checkedAssetsNumbers = [NSMutableArray arrayWithCapacity:[[self assetsGroup] numberOfAssets]];
-    for (int i = 0; i < [[self assetsGroup] numberOfAssets]; i++)
-    {
-        [_checkedAssetsNumbers addObject:[NSNull null]];
-    }
-    
-    if (_pickerType == IQAssetsPickerControllerAssetTypeVideo)
-    {
-//        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPressGesture:)];
-//        [self.collectionView addGestureRecognizer:longPressGesture];
-//        longPressGesture.delegate = self;
-    }
+                       };
+        
+                       // Group Enumerator Failure Block
+                       void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error) {
+                           UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                           [alert show];
+                       };
+        
+                       [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:assetGroupEnumerator failureBlock:assetGroupEnumberatorFailure];
+                   });
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
 }
 
--(void)handleLongPressGesture:(UILongPressGestureRecognizer *)gestureRecognizer
+-(void)cancelAction:(UIBarButtonItem*)item
 {
-//    self.collectionView.userInteractionEnabled = NO;
-//    CGPoint p = [gestureRecognizer locationInView:self.collectionView];
-//    
-//    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:p];
-//    if (indexPath == nil)
-//        NSLog(@"Long press on collection view but not on a row");
-//    else{
-//        NSLog(@"long press on collection view at row %ld", (long)indexPath.row);
-//        
-//        [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.row] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
-//         {
-//             if (result)
-//             {
-//                 [self playAlAsset:result];
-//             }
-//         }];
-//    }
+    if ([self.delegate respondsToSelector:@selector(assetsPickerControllerDidCancel:)])
+    {
+        [self.delegate assetsPickerControllerDidCancel:self];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)doneBtnClicked:(UIButton *)sender
+#pragma mark - TableView data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    __weak __typeof(&*self)weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        __strong __typeof(&*weakSelf)strongSelf = weakSelf;
-        BOOL isUserCheckAssets = NO;
-        for (int i = 0; i < [[self assetsGroup] numberOfAssets]; i++)
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_assetGroups count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    IQAssetsAlbumViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([IQAssetsAlbumViewCell class]) forIndexPath:indexPath];
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
+    ALAssetsGroup *group = (ALAssetsGroup*)[_assetGroups objectAtIndex:indexPath.row];
+
+    [cell.imageViewAlbum setImage:[UIImage imageWithCGImage:[group posterImage]]];
+    cell.labelTitle.text = [group valueForProperty:ALAssetsGroupPropertyName];
+
+    NSUInteger photos = 0;
+    NSUInteger videos = 0;
+    
+    if (self.pickerType == IQAssetsPickerControllerAssetTypePhoto)
+    {
+        [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+        photos = [group numberOfAssets];
+    }
+    else if (self.pickerType == IQAssetsPickerControllerAssetTypeVideo)
+    {
+        [group setAssetsFilter:[ALAssetsFilter allVideos]];
+        videos = [group numberOfAssets];
+    }
+    else
+    {
         {
-            if (![strongSelf.checkedAssetsNumbers[i] isEqual:[NSNull null]]) {
-                isUserCheckAssets = YES;
-            }
+            [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+            photos = [group numberOfAssets];
         }
-        if (isUserCheckAssets) {
-            strongSelf.info = [NSMutableArray array];
-            for (int i = 0; i < [[self assetsGroup] numberOfAssets]; i++)
-            {
-                if (strongSelf.checkedAssetsNumbers[i] != [NSNull null])
-                {
-                    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:i] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                        [strongSelf.info addObject:[[result valueForProperty:ALAssetPropertyURLs] valueForKey:[[[result valueForProperty:ALAssetPropertyURLs] allKeys] objectAtIndex:0]]];
-                    }];
-                }
-            }
-//            if ([(strongSelf.navigationController)).imagePickerDelegate respondsToSelector:@selector(imagePicker:didFinishPickingWithMediaInfo:)]) {
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self dismissViewControllerAnimated:YES completion:^{
-//                        [((SNImagePickerNavigationController *)(strongSelf.navigationController)).imagePickerDelegate imagePicker:((SNImagePickerNavigationController *)(strongSelf.navigationController)) didFinishPickingWithMediaInfo:strongSelf.info];
-//                    }];
-//                });
-//            }
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self dismissViewControllerAnimated:YES completion:^{  }];
-            });
+
+        {
+            [group setAssetsFilter:[ALAssetsFilter allVideos]];
+            videos = [group numberOfAssets];
         }
-    });
-}
-
-#pragma mark - UICollectionViewFlowLayoutDelegate
-
-- (CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    __block CGSize thumbnailSize = CGSizeMake(150, 150);
+    }
     
-    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.row] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
-     {
-         if (result)
-         {
-             thumbnailSize = [[result defaultRepresentation] dimensions];
-             CGFloat deviceCellSizeConstant = ((UICollectionViewFlowLayout*)collectionViewLayout).itemSize.height;
-             thumbnailSize = CGSizeMake((thumbnailSize.width*deviceCellSizeConstant)/thumbnailSize.height, deviceCellSizeConstant);
-         }
-         else
-         {
-             *stop = YES;
-         }
-     }];
-
-    return thumbnailSize;
-}
-
-#pragma mark - UICollectionViewDataSource methods
-
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section;
-{
-    return self.assetsGroup.numberOfAssets;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath;
-{
-    IQCustomCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.row] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
-     {
-         if (result)
-         {
-             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                 CGImageRef thumbnail = [result aspectRatioThumbnail];
-                 UIImage *imageThumbnail = [UIImage imageWithCGImage:thumbnail];
-                 
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                     cell.imageView.image = imageThumbnail;
-                 });
-             });
-             
-             if ([result valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo && ([result valueForProperty:ALAssetPropertyDuration] != ALErrorInvalidProperty))
-             {
-                 NSNumber *duration = [result valueForProperty:ALAssetPropertyDuration];
-                 
-                 cell.duration.text = [self timeFormatted:[duration doubleValue]];
-                 cell.duration.hidden = NO;
-             }
-             else if ([result valueForProperty:ALAssetPropertyType] == ALAssetTypePhoto)
-             {
-                 cell.duration.hidden = YES;
-             }
-         }
-     }];
+    NSMutableString *stringSubtitle = [[NSMutableString alloc] init];
+    
+    if (photos > 0)
+    {
+        [stringSubtitle appendFormat:@"%lu %@",(unsigned long)photos, photos>1?@"Photos":@"Photo"];
+        
+        if (videos > 0)
+        {
+            [stringSubtitle appendFormat:@", %lu %@",(unsigned long)videos, videos>1?@"Videos":@"Video"];
+        }
+    }
+    else if (videos > 0)
+    {
+        [stringSubtitle appendFormat:@"%lu %@",(unsigned long)videos, videos>1?@"Videos":@"Video"];
+    }
+    else
+    {
+        if (self.pickerType == IQAssetsPickerControllerAssetTypePhoto)
+        {
+            [stringSubtitle appendString:@"No photos"];
+        }
+        else if (self.pickerType == IQAssetsPickerControllerAssetTypeVideo)
+        {
+            [stringSubtitle appendString:@"No videos"];
+        }
+    }
+    
+    cell.labelSubTitle.text = stringSubtitle;
     
     return cell;
 }
 
-- (NSString *)timeFormatted:(NSTimeInterval)totalSeconds
+#pragma mark - Table view delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int minutes = ((NSUInteger)totalSeconds / 60);
-    int seconds = minutes % 60;
-    
-    return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+    IQAlbumAssetsViewController *assetsVC = [[IQAlbumAssetsViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+    assetsVC.pickerType = self.pickerType;
+    assetsVC.assetsGroup = [_assetGroups objectAtIndex:indexPath.row];
+    assetsVC.assetController = self;
+    [self.navigationController pushViewController:assetsVC animated:YES];
 }
-
-#pragma mark - UICollectionViewDelegate methods
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    IQCustomCell *cell = (IQCustomCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    if (cell.check.hidden)
-    {
-        [self.checkedAssetsNumbers replaceObjectAtIndex:indexPath.row withObject:@1];
-        cell.check.hidden = NO;
-    }
-    else
-    {
-        [self.checkedAssetsNumbers replaceObjectAtIndex:indexPath.row withObject:[NSNull null]];
-        cell.check.hidden = YES;
-    }
-}
-
-#pragma mark - Play Movie
-
--(void)playAlAsset:(ALAsset *)asset
-{
-    if (!_isPlayerPlaying)
-    {
-        _isPlayerPlaying = YES;
-        NSURL *url = [asset valueForProperty:ALAssetPropertyAssetURL];
-        MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:controller
-                                                        name:MPMoviePlayerPlaybackDidFinishNotification
-                                                      object:controller.moviePlayer];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(movieFinishedCallback:)
-                                                     name:MPMoviePlayerPlaybackDidFinishNotification
-                                                   object:controller.moviePlayer];
-        
-       controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:controller animated:YES completion:^{
-            NSLog(@"done present player");
-        }];
-        
-        [controller.moviePlayer setFullscreen:NO];
-        [controller.moviePlayer prepareToPlay];
-        [controller.moviePlayer play];
-    }
-}
-
-- (void)movieFinishedCallback:(NSNotification*)aNotification
-{
-    if ([aNotification.name isEqualToString: MPMoviePlayerPlaybackDidFinishNotification]) {
-        NSNumber *finishReason = [[aNotification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-        
-        if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded)
-        {
-            MPMoviePlayerController *moviePlayer = [aNotification object];
-            
-            
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:MPMoviePlayerPlaybackDidFinishNotification
-                                                          object:moviePlayer];
-            [self dismissViewControllerAnimated:YES completion:^{  }];
-        }
-//        self.collectionView.userInteractionEnabled = YES;
-        _isPlayerPlaying = NO;
-    }
-}
-
 
 @end

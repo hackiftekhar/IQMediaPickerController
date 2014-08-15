@@ -7,6 +7,7 @@
 //
 
 #import "IQSongsListTableHeaderView.h"
+#import "IQShadowView.h"
 
 @implementation IQSongsListTableHeaderView
 
@@ -18,10 +19,15 @@
     {
         self.contentView.frame = CGRectMake(0, 0, 320, 80);
         
-        self.imageViewAlbum = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-        self.imageViewAlbum.contentMode = UIViewContentModeScaleAspectFit;
-        self.imageViewAlbum.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-        [self.contentView addSubview:self.imageViewAlbum];
+        IQShadowView *shadowView = [[IQShadowView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+        shadowView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        [self.contentView addSubview:shadowView];
+        
+        self.imageViewAlbum = [[UIImageView alloc] initWithFrame:shadowView.bounds];
+        self.imageViewAlbum.clipsToBounds = YES;
+        self.imageViewAlbum.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageViewAlbum.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [shadowView addSubview:self.imageViewAlbum];
         
         self.labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(75, 10, 320, 20)];
         self.labelTitle.backgroundColor = [UIColor clearColor];

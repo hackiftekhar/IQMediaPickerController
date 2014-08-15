@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface IQAlbumViewCell : UITableViewCell
+@interface IQSongsAlbumViewCell : UITableViewCell
 
 @property(nonatomic, strong) UIImageView *imageViewAlbum;
 @property(nonatomic, strong) UILabel *labelTitle;

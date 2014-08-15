@@ -90,27 +90,27 @@
 
 - (void)mediaCaptureController:(IQMediaCaptureController*)controller didFinishMediaWithInfo:(NSDictionary *)info
 {
-    if ([[info objectForKey:IQCaptureMediaType] isEqualToString:IQCaptureMediaTypeVideo])
-    {
-        mediaURLs = [info objectForKey:IQCaptureMediaURLs];
-        
-        moviePlayer.view.hidden = NO;
-        partitionBar.hidden = NO;
-
-        [partitionBar setPartitions:[IQFileManager durationsOfMediaURLs:mediaURLs] animated:YES];
-        [partitionBar setSelectedIndex:-1];
-        
-        imageView.hidden = YES;
-    }
-    else if (([[info objectForKey:IQCaptureMediaType] isEqualToString:IQCaptureMediaTypeImage]))
-    {
-        imageView.image = [info objectForKey:IQCaptureImage];
-        
-        moviePlayer.view.hidden = YES;
-        partitionBar.hidden = YES;
-
-        imageView.hidden = NO;
-    }
+//    if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeVideo])
+//    {
+//        mediaURLs = [info objectForKey:IQMediaURLs];
+//        
+//        moviePlayer.view.hidden = NO;
+//        partitionBar.hidden = NO;
+//
+//        [partitionBar setPartitions:[IQFileManager durationsOfMediaURLs:mediaURLs] animated:YES];
+//        [partitionBar setSelectedIndex:-1];
+//        
+//        imageView.hidden = YES;
+//    }
+//    else if (([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeImage]))
+//    {
+//        imageView.image = [info objectForKey:IQMediaImage];
+//        
+//        moviePlayer.view.hidden = YES;
+//        partitionBar.hidden = YES;
+//
+//        imageView.hidden = NO;
+//    }
 }
 
 - (void)mediaCaptureControllerDidCancel:(IQMediaCaptureController *)controller

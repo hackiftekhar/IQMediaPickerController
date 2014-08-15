@@ -7,7 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface IQAudioPickerController : UITabBarController
+@protocol IQAudioPickerControllerDelegate;
+
+@interface IQAudioPickerController : UIViewController
+
+@property(nonatomic, assign) id<IQAudioPickerControllerDelegate> delegate;
+@property (nonatomic) BOOL allowsPickingMultipleItems; // default is NO
+@property(nonatomic, strong) NSMutableSet *selectedItems;
 
 @end
+
+@protocol IQAudioPickerControllerDelegate <NSObject>
+
+- (void)audioPickerController:(IQAudioPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection;
+- (void)audioPickerControllerDidCancel:(IQAudioPickerController *)mediaPicker;
+
+@end
+
+
+
+extern NSString *const IQMediaTypeAudio;

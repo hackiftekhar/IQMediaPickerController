@@ -13,17 +13,8 @@
 #import "IQPartitionBar.h"
 #import "IQBottomContainerView.h"
 
-// info dictionary keys
-extern NSString *const IQCaptureMediaType;      // an NSString (UTI, i.e. kUTTypeImage)
-extern NSString *const IQCaptureImage;          // a UIImage
-extern NSString *const IQCaptureMediaURL;       // an NSURL
-extern NSString *const IQCaptureMediaURLs;       // an NSArray of NSURL
-extern NSString *const IQCaptureMediaMetadata;  // an NSDictionary containing metadata from a captured photo
-
-extern NSString *const IQCaptureMediaTypeVideo;
-extern NSString *const IQCaptureMediaTypeAudio;
-extern NSString *const IQCaptureMediaTypeImage;
-
+NSString *const IQMediaTypeVideo    =   @"IQMediaTypeVideo";      // an NSString (UTI, i.e. kUTTypeImage)
+NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString (UTI, i.e. kUTTypeImage)
 
 @interface IQMediaCaptureController ()<IQCaptureSessionDelegate,IQPartitionBarDelegate,IQMediaViewDelegate>
 {
@@ -638,18 +629,28 @@ extern NSString *const IQCaptureMediaTypeImage;
 {
     if ([self.delegate respondsToSelector:@selector(mediaCaptureController:didFinishMediaWithInfo:)])
     {
-        NSDictionary *dict;
+        NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
         
-        if ([self session].captureMode == IQCameraCaptureModePhoto)
+        if (capturedImage)
         {
-            dict = [[NSDictionary alloc] initWithObjectsAndKeys:capturedImage,IQCaptureImage,IQCaptureMediaTypeImage,IQCaptureMediaType, nil];
-        }
-        else if ([self session].captureMode == IQCameraCaptureModeVideo)
-        {
-            dict = [[NSDictionary alloc] initWithObjectsAndKeys:mediaURLs,IQCaptureMediaURLs,IQCaptureMediaTypeVideo,IQCaptureMediaType, nil];
+            NSDictionary *imageInfo = [NSDictionary dictionaryWithObject:capturedImage forKey:IQMediaImage];
+            [info setObject:[NSArray arrayWithObject:imageInfo] forKey:IQMediaTypeImage];
         }
         
-        [self.delegate mediaCaptureController:self didFinishMediaWithInfo:dict];
+        if ([mediaURLs count])
+        {
+            NSMutableArray *videoMedias = [[NSMutableArray alloc] init];
+            
+            for (NSURL *videoURL in mediaURLs)
+            {
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:videoURL forKey:IQMediaURL];
+                [videoMedias addObject:dict];
+            }
+            
+            [info setObject:videoMedias forKey:IQMediaTypeVideo];
+        }
+        
+        [self.delegate mediaCaptureController:self didFinishMediaWithInfo:info];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -702,9 +703,9 @@ extern NSString *const IQCaptureMediaTypeImage;
     
     if (error == nil)
     {
-        if ([[info objectForKey:IQCaptureMediaType] isEqualToString:IQCaptureMediaTypeVideo])
+        if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeVideo])
         {
-            NSURL *mediaURL = [info objectForKey:IQCaptureMediaURL];
+            NSURL *mediaURL = [info objectForKey:IQMediaURL];
 
             NSString *nextMediaPath = [[[self class] storagePath] stringByAppendingFormat:@"/%lu.mov",(unsigned long)counter++];
 
@@ -716,9 +717,9 @@ extern NSString *const IQCaptureMediaTypeImage;
             
             [partitionBar setPartitions:durations animated:NO];
         }
-        else if ([[info objectForKey:IQCaptureMediaType] isEqualToString:IQCaptureMediaTypeImage])
+        else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeImage])
         {
-            capturedImage = [info objectForKey:IQCaptureImage];
+            capturedImage = [info objectForKey:IQMediaImage];
         }
 //        else if ([[info objectForKey:IQCaptureMediaType] isEqualToString:IQCaptureMediaTypeAudio])
 //        {
