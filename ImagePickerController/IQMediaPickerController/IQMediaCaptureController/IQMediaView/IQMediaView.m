@@ -28,6 +28,12 @@
     return [AVCaptureVideoPreviewLayer class];
 }
 
+-(void)setOverlayColor:(UIColor *)overlayColor
+{
+    _overlayColor = overlayColor;
+    imageView.backgroundColor = overlayColor;
+}
+
 -(void)initialize
 {
     self.backgroundColor = [UIColor blackColor];

@@ -9,7 +9,7 @@
 #import "IQCaptureSession.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "IQFileManager.h"
-
+#import "IQAudioSession.h"
 
 NSString *const IQMediaImage    =   @"IQMediaImage";          // a UIImage
 NSString *const IQMediaURL      =   @"IQMediaURL";       // an NSURL
@@ -19,7 +19,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
 // info dictionary keys
 
 
-@interface IQCaptureSession ()<AVCaptureFileOutputRecordingDelegate>
+@interface IQCaptureSession ()<AVCaptureFileOutputRecordingDelegate,IQAudioSessionDelegate>
 
 //Input
 @property(nonatomic, strong, readonly) AVCaptureDeviceInput *videoCaptureDeviceInput;
@@ -28,7 +28,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
 //Output
 @property(nonatomic, strong, readonly) AVCaptureStillImageOutput *stillImageOutput;
 @property(nonatomic, strong, readonly) AVCaptureMovieFileOutput *movieFileOutput;
-@property(nonatomic, strong, readonly) AVCaptureAudioDataOutput *audioFileOutput;
+@property(nonatomic, strong, readonly) IQAudioSession *audioSession;
 
 @end
 
@@ -36,6 +36,12 @@ NSString *const IQMediaType    =   @"IQMediaType";
 
 @synthesize captureSession = _captureSession;
 //@synthesize captureSessionPreset = _captureSessionPreset;
+
+
++(NSString*)storagePath
+{
+    return [IQFileManager IQTemporaryDirectory];
+}
 
 -(id)init
 {
@@ -203,84 +209,6 @@ NSString *const IQMediaType    =   @"IQMediaType";
     return success;
 }
 
--(BOOL)setCaptureMode:(IQCameraCaptureMode)captureMode
-{
-    if (captureMode == IQCameraCaptureModePhoto)
-    {
-        _stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-//        NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                       AVVideoCodecH264, AVVideoCodecKey,
-//                                       [NSNumber numberWithInt:320], AVVideoWidthKey,
-//                                       [NSNumber numberWithInt:480], AVVideoHeightKey,
-//                                       AVVideoScalingModeResizeAspectFill,AVVideoScalingModeKey,
-//                                       nil];
-
-//        [_stillImageOutput setOutputSettings:videoSettings];
-        
-        BOOL success = [self addNewOutputs:[NSArray arrayWithObject:_stillImageOutput]];
-        
-        if (success)
-        {
-            _movieFileOutput = nil;
-        }
-        else
-        {
-            _stillImageOutput = nil;
-        }
-        
-        return success;
-    }
-    else if (captureMode == IQCameraCaptureModeVideo)
-    {
-        _movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
-        
-        BOOL success = [self addNewOutputs:[NSArray arrayWithObjects:_movieFileOutput,nil]];
-        
-        if (success)
-        {
-            _stillImageOutput = nil;
-        }
-        else
-        {
-            _movieFileOutput = nil;
-        }
-        
-        return success;
-    }
-    else if (captureMode == IQCameraCaptureModeAudio)
-    {
-        //Not implemented yet.
-        return NO;
-    }
-    else
-    {
-        return NO;
-    }
-}
-
--(BOOL)setCameraPosition:(AVCaptureDevicePosition)cameraPosition
-{
-    //Add new input
-    {
-        AVCaptureDevice *captureDevice = [[self class] captureDeviceForPosition:cameraPosition];
-
-        NSError *error;
-        AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc] initWithDevice:captureDevice error:&error];
-        
-        AVCaptureDeviceInput *audioInput = [[AVCaptureDeviceInput alloc] initWithDevice:[[self class] defaultAudioDevice] error:&error];
-
-        BOOL success = [self addNewInputs:[NSArray arrayWithObjects:videoInput,audioInput, nil]];
-        
-        if (success)
-        {
-            _videoCaptureDeviceInput = videoInput;
-            _audioCaptureDeviceInput = audioInput;
-        }
-        
-        return success;
-    }
-}
-
 - (BOOL) hasMultipleCameras
 {
     return [[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count] > 1 ? YES : NO;
@@ -365,7 +293,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
     {
         return IQCameraCaptureModeVideo;
     }
-    else if (_audioFileOutput != nil)
+    else if (_audioSession != nil)
     {
         return IQCameraCaptureModeAudio;
     }
@@ -413,6 +341,95 @@ NSString *const IQMediaType    =   @"IQMediaType";
 -(CGPoint)exposurePoint
 {
     return _videoCaptureDeviceInput.device.exposurePointOfInterest;
+}
+
+-(BOOL)setCaptureMode:(IQCameraCaptureMode)captureMode
+{
+    if (captureMode == IQCameraCaptureModePhoto)
+    {
+        _stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+        //        NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+        //                                       AVVideoCodecH264, AVVideoCodecKey,
+        //                                       [NSNumber numberWithInt:320], AVVideoWidthKey,
+        //                                       [NSNumber numberWithInt:480], AVVideoHeightKey,
+        //                                       AVVideoScalingModeResizeAspectFill,AVVideoScalingModeKey,
+        //                                       nil];
+        
+        //        [_stillImageOutput setOutputSettings:videoSettings];
+        
+        BOOL success = [self addNewOutputs:[NSArray arrayWithObject:_stillImageOutput]];
+        
+        if (success)
+        {
+            _audioSession = nil;
+            _movieFileOutput = nil;
+        }
+        else
+        {
+            _stillImageOutput = nil;
+        }
+        
+        return success;
+    }
+    else if (captureMode == IQCameraCaptureModeVideo)
+    {
+        _movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+        
+        BOOL success = [self addNewOutputs:[NSArray arrayWithObjects:_movieFileOutput,nil]];
+        
+        if (success)
+        {
+            _audioSession = nil;
+            _stillImageOutput = nil;
+        }
+        else
+        {
+            _movieFileOutput = nil;
+        }
+        
+        return success;
+    }
+    else if (captureMode == IQCameraCaptureModeAudio)
+    {
+        [self stopRunning];
+        
+        _audioSession = [[IQAudioSession alloc] init];
+        _audioSession.delegate = self;
+
+        {
+            _stillImageOutput = nil;
+            _movieFileOutput = nil;
+        }
+        
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+-(BOOL)setCameraPosition:(AVCaptureDevicePosition)cameraPosition
+{
+    //Add new input
+    {
+        AVCaptureDevice *captureDevice = [[self class] captureDeviceForPosition:cameraPosition];
+        
+        NSError *error;
+        AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc] initWithDevice:captureDevice error:&error];
+        
+        AVCaptureDeviceInput *audioInput = [[AVCaptureDeviceInput alloc] initWithDevice:[[self class] defaultAudioDevice] error:&error];
+        
+        BOOL success = [self addNewInputs:[NSArray arrayWithObjects:videoInput,audioInput, nil]];
+        
+        if (success)
+        {
+            _videoCaptureDeviceInput = videoInput;
+            _audioCaptureDeviceInput = audioInput;
+        }
+        
+        return success;
+    }
 }
 
 -(BOOL)setFlashMode:(AVCaptureFlashMode)flashMode
@@ -604,7 +621,14 @@ NSString *const IQMediaType    =   @"IQMediaType";
 
 -(BOOL)isSessionRunning
 {
-    return [_captureSession isRunning];
+    if (self.captureMode == IQCameraCaptureModeAudio)
+    {
+        return YES;
+    }
+    else
+    {
+        return [_captureSession isRunning];
+    }
 }
 
 -(void)startRunning
@@ -661,21 +685,53 @@ NSString *const IQMediaType    =   @"IQMediaType";
     }
 }
 
-#pragma mark - Video recording
-
-//-(BOOL)recording
-//{
-//    return _movieFileOutput.isRecording;
-//}
+#pragma mark - Recording
 
 -(BOOL)isRecording
 {
-    return _movieFileOutput.isRecording;
+    if (self.captureMode == IQCameraCaptureModeVideo)
+    {
+        return _movieFileOutput.isRecording;
+    }
+    else if (self.captureMode == IQCameraCaptureModeAudio)
+    {
+        return _audioSession.isRecording;
+    }
+    else
+    {
+        return NO;
+    }
 }
+
+- (CGFloat)recordingDuration
+{
+    if (self.captureMode == IQCameraCaptureModeVideo)
+    {
+        CMTime time = [_movieFileOutput recordedDuration];
+        
+        if (CMTIME_IS_INVALID(time))
+        {
+            return 0;
+        }
+        else
+        {
+            return CMTimeGetSeconds([_movieFileOutput recordedDuration]);
+        }
+    }
+    else if (self.captureMode == IQCameraCaptureModeAudio)
+    {
+        return [_audioSession recordingDuration];
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+#pragma mark - Video recording
 
 -(void)startVideoRecording
 {
-    
     AVCaptureConnection *connection = [_movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
 
     if (connection == nil)
@@ -703,20 +759,6 @@ NSString *const IQMediaType    =   @"IQMediaType";
     [_movieFileOutput stopRecording];
 }
 
-- (CGFloat)recordingDuration
-{
-    CMTime time = [_movieFileOutput recordedDuration];
-    
-    if (CMTIME_IS_INVALID(time))
-    {
-        return 0;
-    }
-    else
-    {
-        return CMTimeGetSeconds([_movieFileOutput recordedDuration]);
-    }
-}
-
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections
 {
 //    NSLog(@"%@",fileURL);
@@ -742,10 +784,26 @@ NSString *const IQMediaType    =   @"IQMediaType";
     }
 }
 
-+(NSString*)storagePath
+#pragma mark - Audio recording
+
+- (void)startAudioRecording
 {
-    return [IQFileManager IQTemporaryDirectory];
+    [_audioSession startAudioRecording];
 }
+
+- (void)stopAudioRecording
+{
+    [_audioSession stopAudioRecording];
+}
+
+- (void)audioSession:(IQAudioSession*)audioSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError *)error
+{
+    if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
+    {
+        [self.delegate captureSession:self didFinishMediaWithInfo:info error:error];
+    }
+}
+
 
 -(void)dealloc
 {
@@ -777,6 +835,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
     _audioCaptureDeviceInput = nil;
     _stillImageOutput = nil;
     _movieFileOutput = nil;
+    _audioSession = nil;
 }
 
 @end

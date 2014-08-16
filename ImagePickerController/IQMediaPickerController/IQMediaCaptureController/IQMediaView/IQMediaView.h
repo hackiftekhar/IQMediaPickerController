@@ -21,6 +21,7 @@
 @interface IQMediaView : UIView
 
 @property(nonatomic, assign) IBOutlet id<IQMediaViewDelegate> delegate;
+@property(nonatomic, retain) UIColor *overlayColor;
 
 @property(nonatomic, weak) AVCaptureSession *previewSession;
 

@@ -41,4 +41,5 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCameraDevice) {
 @end
 
 extern NSString *const IQMediaTypeVideo;
+extern NSString *const IQMediaTypeAudio;
 extern NSString *const IQMediaTypeImage;

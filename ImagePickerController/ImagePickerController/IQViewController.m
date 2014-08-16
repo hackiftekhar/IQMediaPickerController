@@ -145,6 +145,12 @@
     [controller setMediaType:IQMediaPickerControllerMediaTypeVideo];
     [self presentViewController:controller animated:YES completion:nil];
 }
+- (IBAction)audioCaptureAction:(UIButton *)sender
+{
+    IQMediaPickerController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaPickerController class])];
+    [controller setMediaType:IQMediaPickerControllerMediaTypeAudio];
+    [self presentViewController:controller animated:YES completion:nil];
+}
 
 - (IBAction)photoLibraryAction:(UIButton *)sender
 {

@@ -76,12 +76,15 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 - (void)takePicture;
 
 //IQCameraCaptureModeVideo
-@property(nonatomic, readonly, getter=isRecording) BOOL recording;
 - (void)startVideoRecording;
 - (void)stopVideoRecording;
-- (CGFloat)recordingDuration;
 
-+(NSString*)storagePath;
+//IQCameraCaptureModeAudio
+- (void)startAudioRecording;
+- (void)stopAudioRecording;
+
+@property(nonatomic, readonly, getter=isRecording) BOOL recording;
+- (CGFloat)recordingDuration;
 
 @end
 
