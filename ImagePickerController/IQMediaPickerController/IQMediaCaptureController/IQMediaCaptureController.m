@@ -1001,6 +1001,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     if (_partitionBar == nil)
     {
         _partitionBar = [[IQPartitionBar alloc] init];
+        _partitionBar.delegate = self;
         _partitionBar.backgroundColor = [UIColor clearColor];
     }
     
