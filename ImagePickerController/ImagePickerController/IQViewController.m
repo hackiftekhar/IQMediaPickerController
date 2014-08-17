@@ -135,40 +135,40 @@
 
 - (IBAction)photoCaptureAction:(UIButton *)sender
 {
-    IQMediaPickerController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaPickerController class])];
+    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
     [controller setMediaType:IQMediaPickerControllerMediaTypePhoto];
     [self presentViewController:controller animated:YES completion:nil];
 }
 - (IBAction)videoCaptureAction:(UIButton *)sender
 {
-    IQMediaPickerController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaPickerController class])];
+    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
     [controller setMediaType:IQMediaPickerControllerMediaTypeVideo];
     [self presentViewController:controller animated:YES completion:nil];
 }
 - (IBAction)audioCaptureAction:(UIButton *)sender
 {
-    IQMediaPickerController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaPickerController class])];
+    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
     [controller setMediaType:IQMediaPickerControllerMediaTypeAudio];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction)photoLibraryAction:(UIButton *)sender
 {
-    IQMediaPickerController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaPickerController class])];
+    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
     [controller setMediaType:IQMediaPickerControllerMediaTypePhotoLibrary];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction)videoLibraryAction:(UIButton *)sender
 {
-    IQMediaPickerController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaPickerController class])];
+    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
     [controller setMediaType:IQMediaPickerControllerMediaTypeVideoLibrary];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction)audioLibraryAction:(UIButton *)sender
 {
-    IQMediaPickerController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaPickerController class])];
+    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
     [controller setMediaType:IQMediaPickerControllerMediaTypeAudioLibrary];
     [self presentViewController:controller animated:YES completion:nil];
 }

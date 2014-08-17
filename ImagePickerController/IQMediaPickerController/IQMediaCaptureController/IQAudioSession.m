@@ -21,6 +21,7 @@
     AVAudioRecorder *audioRecorder;
 }
 @synthesize recording = _recording;
+@synthesize isRunning = _isRunning;
 
 +(NSString*)storagePath
 {
@@ -32,13 +33,20 @@
     return [NSURL fileURLWithPath:[[[self class] storagePath] stringByAppendingString:@"audio.m4a"]];
 }
 
+-(void)dealloc
+{
+    audioRecorder.delegate = nil;
+    [audioRecorder stop];
+    audioRecorder = nil;
+}
+
 - (instancetype)init
 {
     self = [super init];
     if (self)
     {
         NSURL *fileURL = [[self class] defaultRecordingURL];
-        
+        _isRunning = NO;
         
         // Define the recorder setting
         NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
@@ -51,9 +59,24 @@
         audioRecorder = [[AVAudioRecorder alloc] initWithURL:fileURL settings:recordSetting error:nil];
         audioRecorder.delegate = self;
         audioRecorder.meteringEnabled = YES;
-        [audioRecorder prepareToRecord];
     }
     return self;
+}
+
+-(BOOL)isRunning
+{
+    return _isRunning;
+}
+
+-(void)startRunning
+{
+    _isRunning = YES;
+}
+
+-(void)stopRunning
+{
+    [audioRecorder stop];
+    _isRunning = NO;
 }
 
 -(BOOL)isRecording
@@ -70,6 +93,7 @@
         [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
         [session setActive:YES error:nil];
         
+        [audioRecorder prepareToRecord];
         // Start recording
         [audioRecorder record];
     }

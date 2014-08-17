@@ -448,7 +448,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
         }
         else
         {
-            NSLog(@"Can't set flash mode:%@",error);
+//            NSLog(@"Can't set flash mode:%@",error);
 
             return NO;
         }
@@ -475,7 +475,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
         }
         else
         {
-            NSLog(@"Can't set torch mode:%@",error);
+//            NSLog(@"Can't set torch mode:%@",error);
             
             return NO;
         }
@@ -502,7 +502,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
         }
         else
         {
-            NSLog(@"Can't set focus mode:%@",error);
+//            NSLog(@"Can't set focus mode:%@",error);
             
             return NO;
         }
@@ -534,7 +534,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
     }
     else
     {
-        NSLog(@"Exposure Mode not supported: %ld",(long)exposureMode);
+//        NSLog(@"Exposure Mode not supported: %ld",(long)exposureMode);
         return NO;
     }
 }
@@ -560,7 +560,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
     }
     else
     {
-        NSLog(@"White Balance not supported: %ld",(long)whiteBalanceMode);
+//        NSLog(@"White Balance not supported: %ld",(long)whiteBalanceMode);
         return NO;
     }
 }
@@ -587,7 +587,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
     }
     else
     {
-        NSLog(@"Focus adjustment not supported");
+//        NSLog(@"Focus adjustment not supported");
         return NO;
     }
 }
@@ -623,7 +623,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
 {
     if (self.captureMode == IQCameraCaptureModeAudio)
     {
-        return YES;
+        return [_audioSession isRunning];
     }
     else
     {
@@ -633,12 +633,26 @@ NSString *const IQMediaType    =   @"IQMediaType";
 
 -(void)startRunning
 {
-    [_captureSession startRunning];
+    if (self.captureMode == IQCameraCaptureModeAudio)
+    {
+        return [_audioSession startRunning];
+    }
+    else
+    {
+        return [_captureSession startRunning];
+    }
 }
 
 -(void)stopRunning
 {
-    [_captureSession stopRunning];
+//    if (self.captureMode == IQCameraCaptureModeAudio)
+//    {
+        return [_audioSession stopRunning];
+//    }
+//    else
+//    {
+        return [_captureSession stopRunning];
+//    }
 }
 
 #pragma mark - Photo Capture

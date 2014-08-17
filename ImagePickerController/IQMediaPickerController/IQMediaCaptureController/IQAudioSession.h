@@ -13,6 +13,12 @@
 @interface IQAudioSession : NSObject
 
 @property(nonatomic, assign) id<IQAudioSessionDelegate> delegate;
+
+@property(nonatomic, assign, readonly) BOOL isRunning;
+
+- (void)startRunning;
+- (void)stopRunning;
+
 @property(nonatomic, readonly, getter=isRecording) BOOL recording;
 
 - (void)startAudioRecording;

@@ -11,9 +11,9 @@
 
 @protocol IQAudioPickerControllerDelegate;
 
-@interface IQAudioPickerController : UIViewController
+@interface IQAudioPickerController : UITabBarController
 
-@property(nonatomic, assign) id<IQAudioPickerControllerDelegate> delegate;
+@property(nonatomic, assign) id<IQAudioPickerControllerDelegate,UITabBarControllerDelegate> delegate;
 @property (nonatomic) BOOL allowsPickingMultipleItems; // default is NO
 @property(nonatomic, strong) NSMutableSet *selectedItems;
 

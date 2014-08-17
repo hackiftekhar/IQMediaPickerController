@@ -10,10 +10,46 @@
 
 @implementation IQBottomContainerView
 {
-    IBOutlet UIView *topContainerView;
-    IBOutlet UIView *leftContainerView;
-    IBOutlet UIView *middleContainerView;
-    IBOutlet UIView *rightContainerView;
+    UIView *topContainerView;
+    UIView *leftContainerView;
+    UIView *middleContainerView;
+    UIView *rightContainerView;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        topContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 20)];
+        topContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+        topContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:topContainerView];
+        
+        leftContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 70, 70)];
+        leftContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+        CGPoint center = leftContainerView.center;
+        center.x = CGRectGetMidX(frame)/3;
+        leftContainerView.center = center;
+        leftContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:leftContainerView];
+        
+        middleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 70, 70)];
+        middleContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+        center = middleContainerView.center;
+        center.x = CGRectGetMidX(frame);
+        middleContainerView.center = center;
+        middleContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:middleContainerView];
+        
+        rightContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 70, 70)];
+        rightContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+        center = rightContainerView.center;
+        center.x = CGRectGetMidX(frame)+CGRectGetMidX(frame)*2/3;
+        rightContainerView.center = center;
+        rightContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:rightContainerView];
+    }
+    return self;
 }
 
 -(void)setLeftContentView:(UIView *)leftContentView

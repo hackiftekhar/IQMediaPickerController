@@ -17,16 +17,14 @@
 
 @implementation IQMediaPickerController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-
+    self = [super init];
+    if (self) {
+        [self setMediaType:IQMediaPickerControllerMediaTypePhoto];
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,21 +43,21 @@
     {
         case IQMediaPickerControllerMediaTypeVideo:
         {
-            IQMediaCaptureController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaCaptureController class])];
+            IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
             controller.captureMode = IQMediaCaptureControllerCaptureModeVideo;
             self.viewControllers = @[controller];
         }
             break;
         case IQMediaPickerControllerMediaTypePhoto:
         {
-            IQMediaCaptureController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaCaptureController class])];
+            IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
             controller.captureMode = IQMediaCaptureControllerCaptureModePhoto;
             self.viewControllers = @[controller];
         }
             break;
         case IQMediaPickerControllerMediaTypeAudio:
         {
-            IQMediaCaptureController *controller = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([IQMediaCaptureController class])];
+            IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
             controller.captureMode = IQMediaCaptureControllerCaptureModeAudio;
             self.viewControllers = @[controller];
         }
@@ -81,6 +79,7 @@
         case IQMediaPickerControllerMediaTypeAudioLibrary:
         {
             IQAudioPickerController *controller = [[IQAudioPickerController alloc] init];
+            controller.allowsPickingMultipleItems = YES;
             self.viewControllers = @[controller];
         }
             break;

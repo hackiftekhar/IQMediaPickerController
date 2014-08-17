@@ -18,7 +18,7 @@
     IQFeatureOverlay *focusView;
     IQFeatureOverlay *exposureView;
     
-    UIImageView *imageView;
+    UIView *overlayView;
     UIPanGestureRecognizer *_panRecognizer;
     UITapGestureRecognizer *_tapRecognizer;
 }
@@ -26,12 +26,6 @@
 +(Class)layerClass
 {
     return [AVCaptureVideoPreviewLayer class];
-}
-
--(void)setOverlayColor:(UIColor *)overlayColor
-{
-    _overlayColor = overlayColor;
-    imageView.backgroundColor = overlayColor;
 }
 
 -(void)initialize
@@ -59,9 +53,11 @@
     _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizer:)];
     [self addGestureRecognizer:_tapRecognizer];
     
-    imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    imageView.image = [UIImage imageNamed:@"dummy.jpg"];
-    [self addSubview:imageView];
+    overlayView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, -CGRectGetMidX(self.bounds), -CGRectGetMidY(self.bounds))];
+    overlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    overlayView.userInteractionEnabled = NO;
+    overlayView.backgroundColor = [UIColor clearColor];
+    [self addSubview:overlayView];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -113,11 +109,15 @@
 
 -(void)setBlur:(BOOL)blur
 {
-    _blur = blur;
-    
-    [self.layer setShouldRasterize:_blur];
-    
-    self.layer.rasterizationScale = (_blur)?0.01:[[UIScreen mainScreen] scale];
+    [UIView animateWithDuration:0.3 animations:^{
+        _blur = blur;
+        
+        [self.layer setShouldRasterize:_blur];
+        
+        self.layer.rasterizationScale = (_blur)?0.02:[[UIScreen mainScreen] scale];
+        
+        overlayView.backgroundColor = (_blur)?[[UIColor whiteColor] colorWithAlphaComponent:0.3]:[UIColor clearColor];
+    }];
 }
 
 -(void)setFocusMode:(AVCaptureFocusMode)focusMode

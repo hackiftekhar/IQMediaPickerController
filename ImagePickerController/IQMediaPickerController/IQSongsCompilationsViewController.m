@@ -52,13 +52,27 @@
 
 -(void)doneAction:(UIBarButtonItem*)item
 {
+    if ([self.audioPickerController.delegate respondsToSelector:@selector(audioPickerController:didPickMediaItems:)])
+    {
+        MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:[self.audioPickerController.selectedItems allObjects]];
+        
+        [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:collection];
+    }
     
+    [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)cancelAction:(UIBarButtonItem*)item
 {
+    if ([self.audioPickerController.delegate respondsToSelector:@selector(audioPickerControllerDidCancel:)])
+    {
+        [self.audioPickerController.delegate audioPickerControllerDidCancel:self.audioPickerController];
+    }
+    
     [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];
 }
+
+
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
