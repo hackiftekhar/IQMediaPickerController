@@ -8,45 +8,24 @@
 
 #import "IQViewController.h"
 #import "IQMediaPickerController.h"
-#import "IQMediaCaptureController.h"
-#import "IQPartitionBar.h"
 #import "IQFileManager.h"
-
+#import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface IQViewController ()<IQMediaCaptureControllerDelegate,IQPartitionBarDelegate>
+@interface IQViewController ()<IQMediaPickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @end
 
 
 @implementation IQViewController
 {
-    IBOutlet UIImageView *imageView;
-    IBOutlet UIView *containerView;
-    
-    NSArray *mediaURLs;
-    
-    MPMoviePlayerController *moviePlayer;
-    IBOutlet IQPartitionBar *partitionBar;
+    IBOutlet UITableView *tableViewMedia;
+    NSDictionary *mediaInfo;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    //Initiate the movie player.....
-    moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:nil];
-    moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
-//    moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
-    moviePlayer.view.frame = CGRectInset(containerView.bounds, 10, 10);
-    moviePlayer.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight);
-    moviePlayer.shouldAutoplay = YES;
-    [containerView addSubview:moviePlayer.view];
-    
-    moviePlayer.view.hidden = YES;
-    partitionBar.hidden = YES;
-
-    imageView.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -56,120 +35,146 @@
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playbackDidFinish:)
-                                                 name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:nil];
+    [tableViewMedia reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    [moviePlayer pause];
-    [moviePlayer stop];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
 
-- (void)playbackDidFinish:(NSNotification*)notification
+- (IBAction)pickAction:(UIBarButtonItem *)sender
 {
-    [moviePlayer prepareToPlay];
-    [moviePlayer play];
-    [moviePlayer pause];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Media Picker Controller Media Types" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Capture Photo", @"Capture Video", @"Capture Audio", @"Photo Library", @"Video Library", @"Audio Library", nil];
+    [actionSheet showInView:self.view];
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if ([segue.identifier isEqualToString:NSStringFromClass([IQMediaCaptureController class])])
+    switch (buttonIndex)
     {
-        IQMediaCaptureController *controller = segue.destinationViewController;
-        controller.delegate = self;
+        case 0:
+        {
+            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+            controller.delegate = self;
+            [controller setMediaType:IQMediaPickerControllerMediaTypePhoto];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+            break;
+        case 1:
+        {
+            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+            controller.delegate = self;
+            [controller setMediaType:IQMediaPickerControllerMediaTypeVideo];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+            break;
+        case 2:
+        {
+            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+            controller.delegate = self;
+            [controller setMediaType:IQMediaPickerControllerMediaTypeAudio];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+            break;
+        case 3:
+        {
+            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+            controller.delegate = self;
+            [controller setMediaType:IQMediaPickerControllerMediaTypePhotoLibrary];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+            break;
+        case 4:
+        {
+            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+            controller.delegate = self;
+            [controller setMediaType:IQMediaPickerControllerMediaTypeVideoLibrary];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+            break;
+        case 5:
+        {
+            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+            controller.delegate = self;
+            [controller setMediaType:IQMediaPickerControllerMediaTypeAudioLibrary];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+            break;
+        default:
+            break;
     }
 }
 
-- (void)mediaCaptureController:(IQMediaCaptureController*)controller didFinishMediaWithInfo:(NSDictionary *)info
+
+- (void)mediaPickerController:(IQMediaPickerController*)controller didFinishMediaWithInfo:(NSDictionary *)info;
 {
-//    if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeVideo])
-//    {
-//        mediaURLs = [info objectForKey:IQMediaURLs];
-//        
-//        moviePlayer.view.hidden = NO;
-//        partitionBar.hidden = NO;
-//
-//        [partitionBar setPartitions:[IQFileManager durationsOfMediaURLs:mediaURLs] animated:YES];
-//        [partitionBar setSelectedIndex:-1];
-//        
-//        imageView.hidden = YES;
-//    }
-//    else if (([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeImage]))
-//    {
-//        imageView.image = [info objectForKey:IQMediaImage];
-//        
-//        moviePlayer.view.hidden = YES;
-//        partitionBar.hidden = YES;
-//
-//        imageView.hidden = NO;
-//    }
+    mediaInfo = [info copy];
+    [tableViewMedia reloadData];
 }
 
-- (void)mediaCaptureControllerDidCancel:(IQMediaCaptureController *)controller
+- (void)mediaPickerControllerDidCancel:(IQMediaPickerController *)controller;
 {
-
+    NSLog(@"%@",NSStringFromSelector(_cmd));
 }
 
--(void)partitionBar:(IQPartitionBar*)bar didSelectPartitionIndex:(NSUInteger)index
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    [moviePlayer pause];
-    [moviePlayer stop];
+    return [mediaInfo count];
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [[mediaInfo allKeys] objectAtIndex:section];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSString *key = [[mediaInfo allKeys] objectAtIndex:section];
+    return [[mediaInfo objectForKey:key] count];
+}
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
     
-    if (bar.selectedIndex == -1)
+    if (cell == nil)
     {
-        moviePlayer.contentURL = nil;
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NSStringFromClass([UITableViewCell class])];
     }
-    else
+    
+    NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section];
+ 
+    NSURL *url = [[[mediaInfo objectForKey:key] objectAtIndex:indexPath.row] objectForKey:IQMediaURL];
+    cell.textLabel.text = [[NSFileManager defaultManager] displayNameAtPath:url.relativePath];
+
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section];
+    
+    NSURL *url = [[[mediaInfo objectForKey:key] objectAtIndex:indexPath.row] objectForKey:IQMediaURL];
+
+    if ([key isEqualToString:IQMediaTypeVideo])
     {
-        moviePlayer.contentURL = [mediaURLs objectAtIndex:index];
+        MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+        [self presentMoviePlayerViewControllerAnimated:controller];
     }
+    else if ([key isEqualToString:IQMediaTypeAudio])
+    {
+        MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+        [self presentMoviePlayerViewControllerAnimated:controller];
+    }
+    else if ([key isEqualToString:IQMediaTypeImage])
+    {
+    
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (IBAction)photoCaptureAction:(UIButton *)sender
-{
-    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-    [controller setMediaType:IQMediaPickerControllerMediaTypePhoto];
-    [self presentViewController:controller animated:YES completion:nil];
-}
-- (IBAction)videoCaptureAction:(UIButton *)sender
-{
-    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-    [controller setMediaType:IQMediaPickerControllerMediaTypeVideo];
-    [self presentViewController:controller animated:YES completion:nil];
-}
-- (IBAction)audioCaptureAction:(UIButton *)sender
-{
-    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-    [controller setMediaType:IQMediaPickerControllerMediaTypeAudio];
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
-- (IBAction)photoLibraryAction:(UIButton *)sender
-{
-    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-    [controller setMediaType:IQMediaPickerControllerMediaTypePhotoLibrary];
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
-- (IBAction)videoLibraryAction:(UIButton *)sender
-{
-    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-    [controller setMediaType:IQMediaPickerControllerMediaTypeVideoLibrary];
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
-- (IBAction)audioLibraryAction:(UIButton *)sender
-{
-    IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-    [controller setMediaType:IQMediaPickerControllerMediaTypeAudioLibrary];
-    [self presentViewController:controller animated:YES completion:nil];
-}
 @end

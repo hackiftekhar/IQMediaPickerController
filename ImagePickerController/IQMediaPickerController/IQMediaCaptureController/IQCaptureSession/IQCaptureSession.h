@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 - (BOOL)isWhiteBalanceModeSupported:(AVCaptureWhiteBalanceMode)whiteBalanceMode;
 
 - (IQCameraCaptureMode)captureMode;
++ (NSArray*)supportedVideoCaptureDevices;
 - (AVCaptureDevicePosition)cameraPosition;
 - (AVCaptureFlashMode)flashMode;
 - (AVCaptureTorchMode)torchMode;
@@ -102,4 +103,5 @@ extern NSString *const IQMediaImage;          // a UIImage
 extern NSString *const IQMediaURL;       // an NSURL
 
 extern NSString *const IQMediaTypeVideo;
+extern NSString *const IQMediaTypeAudio;
 extern NSString *const IQMediaTypeImage;

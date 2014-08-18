@@ -27,7 +27,10 @@
         }
         else if ([self respondsToSelector:@selector(setMinimumFontSize:)])
         {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
             [self setMinimumFontSize:1.0];
+#pragma GCC diagnostic pop
         }
 
         _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];

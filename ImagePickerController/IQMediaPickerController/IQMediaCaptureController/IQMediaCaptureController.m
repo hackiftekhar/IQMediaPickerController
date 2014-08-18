@@ -21,16 +21,15 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     IQMediaCaptureControllerCaptureMode _expectedCaptureMode;
     IQMediaCaptureControllerCameraDevice _expectedCameraDevice;
     
-    NSTimer *timerDuratioUpdate;
-    NSTimer *timerScreenRefresh;
+    CADisplayLink *displayDuratioUpdate;
     
     NSMutableArray *videoURLs;
     NSMutableArray *audioURLs;
+    NSMutableArray *imageURLs;
 
     NSUInteger videoCounter;
     NSUInteger audioCounter;
-    
-    UIImage *capturedImage;
+    NSUInteger imageCounter;
     
     BOOL _previousNavigationBarHidden;
     BOOL _previousStatusBarHidden;
@@ -70,6 +69,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 
     [IQFileManager removeItemsAtPath:[[self class] temporaryAudioStoragePath]];
     [IQFileManager removeItemsAtPath:[[self class] temporaryVideoStoragePath]];
+    [IQFileManager removeItemsAtPath:[[self class] temporaryImageStoragePath]];
 }
 
 -(void)dealloc
@@ -94,12 +94,14 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
         
         videoURLs = [[NSMutableArray alloc] init];
         audioURLs = [[NSMutableArray alloc] init];
+        imageURLs = [[NSMutableArray alloc] init];
         
         videoCounter = 0;
         audioCounter = 0;
+        imageCounter = 0;
         
         operationQueue = [[NSOperationQueue alloc] init];
-        operationQueue = [[NSOperationQueue alloc] init];
+        [operationQueue setMaxConcurrentOperationCount:1];
     }
     return self;
 }
@@ -124,6 +126,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 
     [IQFileManager removeItemsAtPath:[[self class] temporaryAudioStoragePath]];
     [IQFileManager removeItemsAtPath:[[self class] temporaryVideoStoragePath]];
+    [IQFileManager removeItemsAtPath:[[self class] temporaryImageStoragePath]];
 
     [self showSettings:NO animated:NO];
 
@@ -155,7 +158,10 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     _session.delegate = nil;
     
     [[self session] stopRunning];
-    [timerDuratioUpdate invalidate];
+    
+    [displayDuratioUpdate removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [displayDuratioUpdate invalidate];
+    displayDuratioUpdate = nil;
     
     self.navigationController.navigationBarHidden = _previousNavigationBarHidden;
     [[UIApplication sharedApplication] setStatusBarHidden:_previousStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
@@ -163,7 +169,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 
 #pragma mark - UI handling
 
-- (IBAction)settingTriggerAction:(UIButton *)button
+- (void)settingTriggerAction:(UIButton *)button
 {
     [self showSettings:self.buttonSettings.selected animated:YES];
 }
@@ -227,6 +233,8 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 -(void)updateUI
 {
     [UIView animateWithDuration:0.3 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
+        
+        self.buttonToggleCamera.enabled = ([[IQCaptureSession supportedVideoCaptureDevices] count]>1)?YES:NO;
         
         //Flash
         if ([[self session] hasFlash])
@@ -315,7 +323,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 
 -(void)updateDuration
 {
-    if ([[self session] isRecording])
+     if ([[self session] isRecording])
     {
         NSMutableArray *durations;
         
@@ -342,7 +350,10 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     else
     {
         [self.buttonCapture setTransform:CGAffineTransformIdentity];;
-        [timerDuratioUpdate invalidate];
+
+        [displayDuratioUpdate removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        [displayDuratioUpdate invalidate];
+        displayDuratioUpdate = nil;
     }
 }
 
@@ -480,7 +491,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     }
 }
 
-- (IBAction)toggleCameraAction:(UIButton *)sender
+- (void)toggleCameraAction:(UIButton *)sender
 {
     if ([self session].cameraPosition == AVCaptureDevicePositionBack)
     {
@@ -492,7 +503,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     }
 }
 
-- (IBAction)toggleCaptureMode:(UIButton *)sender
+- (void)toggleCaptureMode:(UIButton *)sender
 {
     if ([self session].captureMode == IQCameraCaptureModePhoto)
     {
@@ -508,7 +519,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     }
 }
 
-- (IBAction)toggleFlash:(UIButton *)sender
+- (void)toggleFlash:(UIButton *)sender
 {
     if ([self session].flashMode == AVCaptureFlashModeOff)
     {
@@ -535,7 +546,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     [self updateUI];
 }
 
-- (IBAction)toggleTorch:(UIButton *)sender
+- (void)toggleTorch:(UIButton *)sender
 {
     if ([self session].torchMode == AVCaptureTorchModeOff)
     {
@@ -551,7 +562,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     [self updateUI];
 }
 
-- (IBAction)toggleFocus:(UIButton *)sender
+- (void)toggleFocus:(UIButton *)sender
 {
     if ([self session].focusMode == AVCaptureFocusModeLocked ||[self session].focusMode == AVCaptureFocusModeAutoFocus)
     {
@@ -568,7 +579,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 }
 
 
-- (IBAction)toggleExposure:(UIButton *)sender
+- (void)toggleExposure:(UIButton *)sender
 {
     if ([self session].exposureMode == AVCaptureExposureModeLocked)
     {
@@ -595,7 +606,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     [self updateUI];
 }
 
-- (IBAction)whiteBalance:(UIButton *)sender
+- (void)whiteBalance:(UIButton *)sender
 {
     if ([self session].whiteBalanceMode == AVCaptureWhiteBalanceModeLocked)
     {
@@ -622,7 +633,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     [self updateUI];
 }
 
-- (IBAction)captureAction:(UIButton *)sender
+- (void)captureAction:(UIButton *)sender
 {
     if ([[self session] isSessionRunning] == NO)
     {
@@ -660,21 +671,29 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
                 [self.partitionBar setUserInteractionEnabled:NO];
                 [self.bottomContainerView setLeftContentView:nil];
                 [self.bottomContainerView setRightContentView:nil];
-                timerDuratioUpdate = [NSTimer scheduledTimerWithTimeInterval:1.0/30 target:self selector:@selector(updateDuration) userInfo:nil repeats:YES];
-                [[NSRunLoop currentRunLoop] addTimer:timerDuratioUpdate forMode:NSRunLoopCommonModes];
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+                    displayDuratioUpdate = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateDuration)];
+                    [displayDuratioUpdate addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+                });
             }
             else
             {
                 [[self session] stopVideoRecording];
                 [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
                     [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
-                    [timerDuratioUpdate invalidate];
+
                     [self.buttonCapture setTransform:CGAffineTransformIdentity];;
                 } completion:NULL];
                 
                 [self.bottomContainerView setLeftContentView:nil];
                 [self.bottomContainerView setRightContentView:nil];
                 [self.bottomContainerView setMiddleContentView:self.imageViewProcessing];
+                
+                [displayDuratioUpdate removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+                [displayDuratioUpdate invalidate];
+                displayDuratioUpdate = nil;
                 
                 [self.partitionBar setUserInteractionEnabled:YES];
             }
@@ -694,15 +713,15 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
                 [self.partitionBar setUserInteractionEnabled:NO];
                 [self.bottomContainerView setLeftContentView:nil];
                 [self.bottomContainerView setRightContentView:nil];
-                timerDuratioUpdate = [NSTimer scheduledTimerWithTimeInterval:1.0/30 target:self selector:@selector(updateDuration) userInfo:nil repeats:YES];
-                [[NSRunLoop currentRunLoop] addTimer:timerDuratioUpdate forMode:NSRunLoopCommonModes];
+
+                displayDuratioUpdate = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateDuration)];
+                [displayDuratioUpdate addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             }
             else
             {
                 [[self session] stopAudioRecording];
                 [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
                     [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
-                    [timerDuratioUpdate invalidate];
                     [self.buttonCapture setTransform:CGAffineTransformIdentity];;
                 } completion:NULL];
                 
@@ -710,6 +729,10 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
                 [self.bottomContainerView setRightContentView:nil];
                 [self.bottomContainerView setMiddleContentView:self.imageViewProcessing];
                 
+                [displayDuratioUpdate removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+                [displayDuratioUpdate invalidate];
+                displayDuratioUpdate = nil;
+
                 [self.partitionBar setUserInteractionEnabled:YES];
             }
         }
@@ -718,7 +741,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 
 #pragma mark - Other Actions
 
-- (IBAction)cancelAction:(UIButton *)sender
+- (void)cancelAction:(UIButton *)sender
 {
     if ([self.delegate respondsToSelector:@selector(mediaCaptureControllerDidCancel:)])
     {
@@ -734,10 +757,17 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
     {
         NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
         
-        if (capturedImage)
+        if ([imageURLs count])
         {
-            NSDictionary *imageInfo = [NSDictionary dictionaryWithObject:capturedImage forKey:IQMediaImage];
-            [info setObject:[NSArray arrayWithObject:imageInfo] forKey:IQMediaTypeImage];
+            NSMutableArray *imageMedias = [[NSMutableArray alloc] init];
+            
+            for (NSURL *imageURL in imageURLs)
+            {
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:imageURL forKey:IQMediaURL];
+                [imageMedias addObject:dict];
+            }
+            
+            [info setObject:imageMedias forKey:IQMediaTypeImage];
         }
         
         if ([videoURLs count])
@@ -808,7 +838,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 -(void)captureSession:(IQCaptureSession*)captureSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError*)error
 {
     [[self session] stopRunning];
-
+    
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         self.settingsContainerView.alpha = 1.0;
     } completion:NULL];
@@ -823,7 +853,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
         {
             NSURL *mediaURL = [info objectForKey:IQMediaURL];
 
-            NSString *nextMediaPath = [[[self class] temporaryVideoStoragePath] stringByAppendingFormat:@"/%lu.mov",(unsigned long)videoCounter++];
+            NSString *nextMediaPath = [[[self class] temporaryVideoStoragePath] stringByAppendingFormat:@"/movie%lu.mov",(unsigned long)videoCounter++];
 
             [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
             
@@ -835,13 +865,19 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
         }
         else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeImage])
         {
-            capturedImage = [info objectForKey:IQMediaImage];
+            NSURL *mediaURL = [info objectForKey:IQMediaURL];
+            
+            NSString *nextMediaPath = [[[self class] temporaryImageStoragePath] stringByAppendingFormat:@"/image%lu.jpg",(unsigned long)imageCounter++];
+            
+            [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
+            
+            [imageURLs addObject:[IQFileManager URLForFilePath:nextMediaPath]];
         }
         else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeAudio])
         {
             NSURL *mediaURL = [info objectForKey:IQMediaURL];
             
-            NSString *nextMediaPath = [[[self class] temporaryAudioStoragePath] stringByAppendingFormat:@"/%lu.m4a",(unsigned long)audioCounter++];
+            NSString *nextMediaPath = [[[self class] temporaryAudioStoragePath] stringByAppendingFormat:@"/audio%lu.m4a",(unsigned long)audioCounter++];
             
             [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
             
@@ -857,7 +893,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 #pragma mark - IQPartitionBar Delegate
 -(void)partitionBar:(IQPartitionBar*)bar didSelectPartitionIndex:(NSUInteger)index
 {
-    if (index != -1 && bar.partitions.count >0)
+    if (index != -1 && bar.partitions.count > 0)
     {
         [self.bottomContainerView setLeftContentView:self.buttonDelete];
     }
@@ -1095,6 +1131,16 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 +(NSString*)temporaryAudioStoragePath
 {
     NSString *audioPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"/IQAudio/"];
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:audioPath] == NO)
+        [[NSFileManager defaultManager] createDirectoryAtPath:audioPath withIntermediateDirectories:NO attributes:nil error:NULL];
+    
+    return audioPath;
+}
+
++(NSString*)temporaryImageStoragePath
+{
+    NSString *audioPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"/IQImage/"];
     
     if([[NSFileManager defaultManager] fileExistsAtPath:audioPath] == NO)
         [[NSFileManager defaultManager] createDirectoryAtPath:audioPath withIntermediateDirectories:NO attributes:nil error:NULL];

@@ -17,8 +17,6 @@
 #import "IQSongsComposersViewController.h"
 #import "IQSongsCompilationsViewController.h"
 
-NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
-
 @interface IQAudioPickerController ()<UITabBarControllerDelegate>
 
 @end

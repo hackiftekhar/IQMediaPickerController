@@ -36,6 +36,8 @@ typedef NS_ENUM(NSInteger, IQMediaPickerControllerMediaType) {
 
 
 // info dictionary keys
-extern NSString *const IQMediaTypeAudio;
-extern NSString *const IQMediaTypeVideo;
 extern NSString *const IQMediaTypeImage;
+extern NSString *const IQMediaTypeVideo;
+extern NSString *const IQMediaTypeAudio;
+
+extern NSString *const IQMediaURL;

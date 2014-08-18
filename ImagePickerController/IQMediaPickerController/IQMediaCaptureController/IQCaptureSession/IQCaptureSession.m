@@ -37,12 +37,6 @@ NSString *const IQMediaType    =   @"IQMediaType";
 @synthesize captureSession = _captureSession;
 //@synthesize captureSessionPreset = _captureSessionPreset;
 
-
-+(NSString*)storagePath
-{
-    return [IQFileManager IQTemporaryDirectory];
-}
-
 -(id)init
 {
     self = [super init];
@@ -101,15 +95,25 @@ NSString *const IQMediaType    =   @"IQMediaType";
     return nil;
 }
 
++ (NSArray*)supportedVideoCaptureDevices
+{
+    return [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+}
+
 +(AVCaptureDevice*)defaultAudioDevice
 {
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
     return device;
 }
 
-+(NSURL*)defaultRecordingURL
++(NSURL*)defaultVideoRecordingURL
 {
-    return [NSURL fileURLWithPath:[[[self class] storagePath] stringByAppendingString:@"video.mov"]];
+    return [NSURL fileURLWithPath:[[IQFileManager IQTemporaryDirectory] stringByAppendingString:@"video.mov"]];
+}
+
++(NSURL*)defaultImageStorageURL
+{
+    return [NSURL fileURLWithPath:[[IQFileManager IQTemporaryDirectory] stringByAppendingString:@"image.jpg"]];
 }
 
 #pragma mark - Methods
@@ -635,11 +639,11 @@ NSString *const IQMediaType    =   @"IQMediaType";
 {
     if (self.captureMode == IQCameraCaptureModeAudio)
     {
-        return [_audioSession startRunning];
+        [_audioSession startRunning];
     }
     else
     {
-        return [_captureSession startRunning];
+        [_captureSession startRunning];
     }
 }
 
@@ -647,11 +651,11 @@ NSString *const IQMediaType    =   @"IQMediaType";
 {
 //    if (self.captureMode == IQCameraCaptureModeAudio)
 //    {
-        return [_audioSession stopRunning];
+        [_audioSession stopRunning];
 //    }
 //    else
 //    {
-        return [_captureSession stopRunning];
+        [_captureSession stopRunning];
 //    }
 }
 
@@ -676,9 +680,14 @@ NSString *const IQMediaType    =   @"IQMediaType";
             if ( imageDataSampleBuffer != NULL )
             {
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                
+                NSURL *outputImageURL = [[self class] defaultImageStorageURL];
+                
+                [imageData writeToURL:outputImageURL.filePathURL atomically:YES];
+                
                 UIImage *image = [[UIImage alloc] initWithData:imageData];
                 
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage,IQMediaTypeImage,IQMediaType, nil];
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:outputImageURL,IQMediaURL,image,IQMediaImage,IQMediaTypeImage,IQMediaType, nil];
 
                 if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
                 {
@@ -759,7 +768,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
     }
     else
     {
-        NSURL *fileURL = [[self class] defaultRecordingURL];
+        NSURL *fileURL = [[self class] defaultVideoRecordingURL];
         
         [IQFileManager removeItemAtPath:fileURL.relativePath];
 

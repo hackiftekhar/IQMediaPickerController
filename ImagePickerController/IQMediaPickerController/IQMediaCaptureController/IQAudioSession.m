@@ -10,6 +10,7 @@
 #import "IQFileManager.h"
 #import <AVFoundation/AVFoundation.h>
 
+NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
 
 @interface IQAudioSession ()<AVAudioRecorderDelegate>
 
@@ -19,6 +20,8 @@
 {
     NSURL *outputURL;
     AVAudioRecorder *audioRecorder;
+    
+    NSString *_previousSessionCategory;
 }
 @synthesize recording = _recording;
 @synthesize isRunning = _isRunning;
@@ -58,7 +61,6 @@
         // Initiate and prepare the recorder
         audioRecorder = [[AVAudioRecorder alloc] initWithURL:fileURL settings:recordSetting error:nil];
         audioRecorder.delegate = self;
-        audioRecorder.meteringEnabled = YES;
     }
     return self;
 }
@@ -90,8 +92,8 @@
     {
         // Setup audio session
         AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-        [session setActive:YES error:nil];
+        _previousSessionCategory = session.category;
+        [session setCategory:AVAudioSessionCategoryRecord error:nil];
         
         [audioRecorder prepareToRecord];
         // Start recording
@@ -103,8 +105,8 @@
 {
     [audioRecorder stop];
     
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setActive:NO error:nil];
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:_previousSessionCategory error:nil];
 }
 
 - (CGFloat)recordingDuration

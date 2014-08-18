@@ -25,7 +25,3 @@
 - (void)audioPickerControllerDidCancel:(IQAudioPickerController *)mediaPicker;
 
 @end
-
-
-
-extern NSString *const IQMediaTypeAudio;

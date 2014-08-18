@@ -27,7 +27,7 @@
     self.tableView.rowHeight = 80;
     [self.tableView registerClass:[IQAssetsAlbumViewCell class] forCellReuseIdentifier:NSStringFromClass([IQAssetsAlbumViewCell class])];
     
-    cancelBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
+    cancelBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
 	[self.navigationItem setRightBarButtonItem:cancelBarButton];
     
     _assetGroups = [[NSMutableArray alloc] init];
