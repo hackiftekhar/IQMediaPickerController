@@ -2,7 +2,7 @@
 //  IQBottomContainerView.h
 //  ImagePickerController
 //
-//  Created by Canopus 4 on 08/08/14.
+//  Created by Iftekhar on 08/08/14.
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 

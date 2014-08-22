@@ -2,14 +2,18 @@
 //  IQMediaView.m
 //  ImagePickerController
 //
-//  Created by Canopus 4 on 06/08/14.
+//  Created by Iftekhar on 06/08/14.
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 
 #import "IQMediaView.h"
 #import "IQFeatureOverlay.h"
+#import "DPMeterView.h"
+#import "PocketSVG.h"
 
 @interface IQMediaView ()<IQFeatureOverlayDelegate>
+
+@property (retain)	DPMeterView *levelMeter;
 
 @end
 
@@ -17,6 +21,8 @@
 {
     IQFeatureOverlay *focusView;
     IQFeatureOverlay *exposureView;
+    
+    NSTimer *updateTimer;
     
     UIView *overlayView;
     UIPanGestureRecognizer *_panRecognizer;
@@ -60,6 +66,35 @@
     overlayView.userInteractionEnabled = NO;
     overlayView.backgroundColor = [UIColor clearColor];
     [self addSubview:overlayView];
+    
+    CGPathRef path = [PocketSVG pathFromSVGFileNamed:@"mic"];
+    CGRect rect = CGPathGetBoundingBox(path);
+
+    rect.size.width = CGRectGetMidX(rect)*2;
+    rect.size.height = CGRectGetMidY(rect)*2;
+    rect.origin.x = 0;
+    rect.origin.y = 0;
+    
+    NSLog(@"%@",NSStringFromCGRect(rect));
+    
+    CGFloat scale = 1.0;
+
+    float mW = self.bounds.size.width / rect.size.width;
+    float mH = self.bounds.size.height / rect.size.height;
+    if( mH < mW )
+        scale = self.bounds.size.height / rect.size.height;
+    else if( mW < mH )
+        scale = self.bounds.size.width / rect.size.width;
+    
+    self.levelMeter = [[DPMeterView alloc] initWithFrame:rect shape:path];
+    self.levelMeter.trackTintColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+    self.levelMeter.progressTintColor = [UIColor purpleColor];
+    self.levelMeter.alpha = 0.0;
+    self.levelMeter.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+    self.levelMeter.center = CGPointMake(CGRectGetMidX(overlayView.bounds), CGRectGetMidY(overlayView.bounds));
+    
+    self.levelMeter.transform = CGAffineTransformScale(self.levelMeter.transform, scale, scale);
+    [overlayView addSubview:self.levelMeter];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -103,6 +138,36 @@
     [self initialize];
 }
 
+-(void)setCaptureMode:(IQMediaCaptureControllerCaptureMode)captureMode
+{
+    _captureMode = captureMode;
+    
+    switch (captureMode)
+    {
+        case IQMediaCaptureControllerCaptureModePhoto:
+        case IQMediaCaptureControllerCaptureModeVideo:
+        {
+            self.levelMeter.alpha = 0.0;
+        }
+            break;
+        case IQMediaCaptureControllerCaptureModeAudio:
+        {
+            self.levelMeter.alpha = 1.0;
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)setMeteringLevel:(CGFloat)meteringLevel
+{
+    NSLog(@"%f",meteringLevel);
+    [self.levelMeter setProgress:meteringLevel];
+//    self.levelMeter.backgroundColor = [UIColor colorWithWhite:meteringLevel alpha:1.0];
+}
+
 -(void)setPreviewSession:(AVCaptureSession *)previewSession
 {
     _previewSession = previewSession;
@@ -118,7 +183,27 @@
         
         self.layer.rasterizationScale = (_blur)?0.02:[[UIScreen mainScreen] scale];
         
-        overlayView.backgroundColor = (_blur)?[[UIColor whiteColor] colorWithAlphaComponent:0.3]:[UIColor clearColor];
+        if (_blur)
+        {
+            overlayView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:0.0/255.0 alpha:0.3];
+        }
+        else
+        {
+            switch (_captureMode)
+            {
+                case IQMediaCaptureControllerCaptureModePhoto:
+                case IQMediaCaptureControllerCaptureModeVideo:
+                {
+                    overlayView.backgroundColor = [UIColor clearColor];
+                }
+                    break;
+                case IQMediaCaptureControllerCaptureModeAudio:
+                {
+                    overlayView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:0.0/255.0 alpha:1.0];
+                }
+                    break;
+            }
+        }
     }];
 }
 

@@ -2,7 +2,7 @@
 //  IQCaptureSession.h
 //  ImagePickerController
 //
-//  Created by Canopus 4 on 06/08/14.
+//  Created by Iftekhar on 06/08/14.
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 
@@ -94,6 +94,9 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 
 @optional
 - (void)captureSession:(IQCaptureSession*)captureSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError *)error;
+
+//IQCameraCaptureModeAudio
+- (void)captureSession:(IQCaptureSession*)audioSession didUpdateMeterLevel:(CGFloat)meterLevel;
 
 @end
 

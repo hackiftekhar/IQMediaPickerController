@@ -22,6 +22,8 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
     AVAudioRecorder *audioRecorder;
     
     NSString *_previousSessionCategory;
+    
+    NSTimer *meteringTimer;
 }
 @synthesize recording = _recording;
 @synthesize isRunning = _isRunning;
@@ -38,6 +40,9 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
 
 -(void)dealloc
 {
+    [meteringTimer invalidate];
+    meteringTimer = nil;
+    self.delegate = nil;
     audioRecorder.delegate = nil;
     [audioRecorder stop];
     audioRecorder = nil;
@@ -61,6 +66,7 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
         // Initiate and prepare the recorder
         audioRecorder = [[AVAudioRecorder alloc] initWithURL:fileURL settings:recordSetting error:nil];
         audioRecorder.delegate = self;
+        audioRecorder.meteringEnabled = YES;
     }
     return self;
 }
@@ -73,12 +79,16 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
 -(void)startRunning
 {
     _isRunning = YES;
+    meteringTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateMeter) userInfo:nil repeats:YES];
 }
 
 -(void)stopRunning
 {
     [audioRecorder stop];
     _isRunning = NO;
+
+    [meteringTimer invalidate];
+    meteringTimer = nil;
 }
 
 -(BOOL)isRecording
@@ -107,6 +117,9 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
     
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:_previousSessionCategory error:nil];
+
+    [meteringTimer invalidate];
+    meteringTimer = nil;
 }
 
 - (CGFloat)recordingDuration
@@ -144,6 +157,46 @@ NSString *const IQMediaTypeAudio =   @"IQMediaTypeAudio";
     }
 }
 
-
+- (void)updateMeter
+{
+    if ([self.delegate respondsToSelector:@selector(audioSession:didUpdateMeterLevel:)])
+    {
+        [audioRecorder updateMeters];
+//        float levelInDb = [audioRecorder averagePowerForChannel:0];
+//        levelInDb = levelInDb + 160;
+//        
+//        //Level will always be between 0 and 160 now
+//        //Usually it will sit around 100 in quiet so we need to correct
+//        levelInDb = MAX(levelInDb - 100,0);
+        float levelInZeroToOne;// = levelInDb / 60;
+        
+        
+        {
+            float   minDecibels = -80.0f; // Or use -60dB, which I measured in a silent room.
+            float   decibels    = [audioRecorder averagePowerForChannel:0];
+            
+            if (decibels < minDecibels)
+            {
+                levelInZeroToOne = 0.0f;
+            }
+            else if (decibels >= 0.0f)
+            {
+                levelInZeroToOne = 1.0f;
+            }
+            else
+            {
+                float   root            = 2.0f;
+                float   minAmp          = powf(10.0f, 0.05f * minDecibels);
+                float   inverseAmpRange = 1.0f / (1.0f - minAmp);
+                float   amp             = powf(10.0f, 0.05f * decibels);
+                float   adjAmp          = (amp - minAmp) * inverseAmpRange;
+                
+                levelInZeroToOne = powf(adjAmp, 1.0f / root);
+            }
+        }
+        
+        [self.delegate audioSession:self didUpdateMeterLevel:levelInZeroToOne];
+    }
+}
 
 @end

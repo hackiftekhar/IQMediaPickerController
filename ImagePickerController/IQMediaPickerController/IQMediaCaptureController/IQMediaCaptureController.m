@@ -2,7 +2,7 @@
 //  IQVideoCaptureController.m
 //  ImagePickerController
 //
-//  Created by Canopus 4 on 06/08/14.
+//  Created by Iftekhar on 06/08/14.
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 
@@ -399,6 +399,9 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 
                 [UIView transitionWithView:self.buttonToggleMedia duration:((animated && success)?0.5:0) options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionTransitionFlipFromLeft|UIViewAnimationOptionCurveEaseOut animations:^{
+                    
+                    [self.mediaView setCaptureMode:_captureMode];
+
                     
                     if ([self session].captureMode == IQCameraCaptureModePhoto)
                     {
@@ -834,6 +837,11 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";      // an NSString
 }
 
 #pragma mark - IQCaptureSession Delegates
+
+- (void)captureSession:(IQCaptureSession*)audioSession didUpdateMeterLevel:(CGFloat)meterLevel
+{
+    self.mediaView.meteringLevel = meterLevel;
+}
 
 -(void)captureSession:(IQCaptureSession*)captureSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError*)error
 {

@@ -49,6 +49,9 @@
 		9D9CCBE019990F0D0046D175 /* IQMediaPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9CCBD619990F0D0046D175 /* IQMediaPickerController.m */; };
 		9D9CCBE119990F0D0046D175 /* IQMediaCaptureController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D9CCBD719990F0D0046D175 /* IQMediaCaptureController.xcassets */; };
 		9DF4C75D199BA52C0061179B /* IQCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF4C75C199BA52C0061179B /* IQCheckmarkView.m */; };
+		C02FBEC419A7C81C0080C682 /* PocketSVG.m in Sources */ = {isa = PBXBuildFile; fileRef = C02FBEC319A7C81C0080C682 /* PocketSVG.m */; };
+		C02FBECC19A7C8660080C682 /* DPMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = C02FBEC919A7C8660080C682 /* DPMeterView.m */; };
+		C02FBECF19A7CBC20080C682 /* mic.svg in Resources */ = {isa = PBXBuildFile; fileRef = C02FBECE19A7CBC20080C682 /* mic.svg */; };
 		C0A86E28199E89380086AAC2 /* IQAssetsAlbumViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0A86E27199E89380086AAC2 /* IQAssetsAlbumViewCell.m */; };
 		C0A86E2A199EA3BA0086AAC2 /* IQAudioPickerController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0A86E29199EA3BA0086AAC2 /* IQAudioPickerController.xcassets */; };
 		C0D1F226199FCC4100B4BC5F /* IQAudioSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D1F225199FCC4100B4BC5F /* IQAudioSession.m */; };
@@ -138,6 +141,11 @@
 		9D9CCBD719990F0D0046D175 /* IQMediaCaptureController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = IQMediaCaptureController.xcassets; path = IQMediaPickerController/IQMediaCaptureController.xcassets; sourceTree = SOURCE_ROOT; };
 		9DF4C75B199BA52C0061179B /* IQCheckmarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCheckmarkView.h; sourceTree = "<group>"; };
 		9DF4C75C199BA52C0061179B /* IQCheckmarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCheckmarkView.m; sourceTree = "<group>"; };
+		C02FBEC219A7C81C0080C682 /* PocketSVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketSVG.h; sourceTree = "<group>"; };
+		C02FBEC319A7C81C0080C682 /* PocketSVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketSVG.m; sourceTree = "<group>"; };
+		C02FBEC819A7C8660080C682 /* DPMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPMeterView.h; sourceTree = "<group>"; };
+		C02FBEC919A7C8660080C682 /* DPMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPMeterView.m; sourceTree = "<group>"; };
+		C02FBECE19A7CBC20080C682 /* mic.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mic.svg; sourceTree = "<group>"; };
 		C0A86E26199E89380086AAC2 /* IQAssetsAlbumViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQAssetsAlbumViewCell.h; path = IQMediaPickerController/IQAssetsPickerController/IQAssetsAlbumViewCell.h; sourceTree = SOURCE_ROOT; };
 		C0A86E27199E89380086AAC2 /* IQAssetsAlbumViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQAssetsAlbumViewCell.m; path = IQMediaPickerController/IQAssetsPickerController/IQAssetsAlbumViewCell.m; sourceTree = SOURCE_ROOT; };
 		C0A86E29199EA3BA0086AAC2 /* IQAudioPickerController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IQAudioPickerController.xcassets; sourceTree = "<group>"; };
@@ -470,9 +478,31 @@
 			path = IQPartitionBar;
 			sourceTree = "<group>";
 		};
+		C02FBEC119A7C8110080C682 /* SVG */ = {
+			isa = PBXGroup;
+			children = (
+				C02FBEC719A7C8660080C682 /* DPMeterView */,
+				C02FBECE19A7CBC20080C682 /* mic.svg */,
+				C02FBEC219A7C81C0080C682 /* PocketSVG.h */,
+				C02FBEC319A7C81C0080C682 /* PocketSVG.m */,
+			);
+			name = SVG;
+			path = IQMediaView;
+			sourceTree = "<group>";
+		};
+		C02FBEC719A7C8660080C682 /* DPMeterView */ = {
+			isa = PBXGroup;
+			children = (
+				C02FBEC819A7C8660080C682 /* DPMeterView.h */,
+				C02FBEC919A7C8660080C682 /* DPMeterView.m */,
+			);
+			path = DPMeterView;
+			sourceTree = "<group>";
+		};
 		C0D1F223199FCC1200B4BC5F /* IQAudioRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				C02FBEC119A7C8110080C682 /* SVG */,
 				C0D1F224199FCC4100B4BC5F /* IQAudioSession.h */,
 				C0D1F225199FCC4100B4BC5F /* IQAudioSession.m */,
 			);
@@ -556,6 +586,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C02FBECF19A7CBC20080C682 /* mic.svg in Resources */,
 				9D9CCBE119990F0D0046D175 /* IQMediaCaptureController.xcassets in Resources */,
 				C0A86E2A199EA3BA0086AAC2 /* IQAudioPickerController.xcassets in Resources */,
 				9D12469B1999FF9C00F2D309 /* Default-568h@2x.png in Resources */,
@@ -607,8 +638,10 @@
 				C0A86E28199E89380086AAC2 /* IQAssetsAlbumViewCell.m in Sources */,
 				9D1246AF199A4B9300F2D309 /* IQAssetsCell.m in Sources */,
 				9D9CCBDF19990F0D0046D175 /* IQPartitionView.m in Sources */,
+				C02FBEC419A7C81C0080C682 /* PocketSVG.m in Sources */,
 				9D4E24B3199BA70100E4E8FC /* IQSongsComposersViewController.m in Sources */,
 				9D1246AE199A4B9300F2D309 /* IQAlbumAssetsViewController.m in Sources */,
+				C02FBECC19A7C8660080C682 /* DPMeterView.m in Sources */,
 				C0D1F226199FCC4100B4BC5F /* IQAudioSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

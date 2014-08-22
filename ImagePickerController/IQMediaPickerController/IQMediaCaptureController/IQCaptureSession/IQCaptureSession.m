@@ -2,7 +2,7 @@
 //  IQCaptureSession.m
 //  ImagePickerController
 //
-//  Created by Canopus 4 on 06/08/14.
+//  Created by Iftekhar on 06/08/14.
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 
@@ -365,6 +365,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
         
         if (success)
         {
+            [_audioSession stopRunning];
             _audioSession = nil;
             _movieFileOutput = nil;
         }
@@ -383,6 +384,7 @@ NSString *const IQMediaType    =   @"IQMediaType";
         
         if (success)
         {
+            [_audioSession stopRunning];
             _audioSession = nil;
             _stillImageOutput = nil;
         }
@@ -827,6 +829,13 @@ NSString *const IQMediaType    =   @"IQMediaType";
     }
 }
 
+-(void)audioSession:(IQAudioSession *)audioSession didUpdateMeterLevel:(CGFloat)meterLevel
+{
+    if ([self.delegate respondsToSelector:@selector(captureSession:didUpdateMeterLevel:)])
+    {
+        [self.delegate captureSession:self didUpdateMeterLevel:meterLevel];
+    }
+}
 
 -(void)dealloc
 {

@@ -2,12 +2,13 @@
 //  IQMediaView.h
 //  ImagePickerController
 //
-//  Created by Canopus 4 on 06/08/14.
+//  Created by Iftekhar on 06/08/14.
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "IQMediaCaptureController.h"
 
 @class IQMediaView;
 
@@ -25,11 +26,14 @@
 @property(nonatomic, weak) AVCaptureSession *previewSession;
 
 @property(nonatomic, assign) BOOL blur;
+@property(nonatomic, assign) CGFloat meteringLevel;
 
 @property(nonatomic, assign) AVCaptureFocusMode focusMode;
 @property(nonatomic, assign) AVCaptureExposureMode exposureMode;
 
 @property(nonatomic, assign) CGPoint focusPointOfInterest;
 @property(nonatomic, assign) CGPoint exposurePointOfInterest;
+
+@property(nonatomic, assign) IQMediaCaptureControllerCaptureMode captureMode;
 
 @end

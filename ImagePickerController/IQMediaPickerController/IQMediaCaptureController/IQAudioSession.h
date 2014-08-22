@@ -10,6 +10,8 @@
 
 @protocol IQAudioSessionDelegate;
 
+@class AVAudioRecorder;
+
 @interface IQAudioSession : NSObject
 
 @property(nonatomic, assign) id<IQAudioSessionDelegate> delegate;
@@ -32,7 +34,7 @@
 
 @optional
 - (void)audioSession:(IQAudioSession*)audioSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError *)error;
-
+- (void)audioSession:(IQAudioSession *)audioSession didUpdateMeterLevel:(CGFloat)meterLevel;
 @end
 
 
