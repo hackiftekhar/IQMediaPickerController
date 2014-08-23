@@ -8,12 +8,12 @@
 
 #import "IQMediaView.h"
 #import "IQFeatureOverlay.h"
-#import "DPMeterView.h"
-#import "PocketSVG.h"
+#import "IQ_DPMeterView.h"
+#import "IQ_PocketSVG.h"
 
 @interface IQMediaView ()<IQFeatureOverlayDelegate,UIGestureRecognizerDelegate>
 
-@property (retain)	DPMeterView *levelMeter;
+@property (retain)	IQ_DPMeterView *levelMeter;
 
 @end
 
@@ -45,7 +45,7 @@
     focusView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
     focusView.center = self.center;
     focusView.delegate = self;
-    focusView.image = [UIImage imageNamed:@"appbar_focus"];
+    focusView.image = [UIImage imageNamed:@"IQ_focus"];
     [self addSubview:focusView];
     
     exposureView = [[IQFeatureOverlay alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
@@ -53,7 +53,7 @@
     exposureView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
     exposureView.center = self.center;
     exposureView.delegate = self;
-    exposureView.image = [UIImage imageNamed:@"appbar_exposure"];
+    exposureView.image = [UIImage imageNamed:@"IQ_exposure"];
     [self addSubview:exposureView];
     
     _longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognizer:)];
@@ -80,7 +80,7 @@
     
     //Audio Meter View
     {
-        CGPathRef path = [PocketSVG pathFromSVGFileNamed:@"mic"];
+        CGPathRef path = [IQ_PocketSVG pathFromSVGFileNamed:@"mic"];
         CGRect rect = CGPathGetBoundingBox(path);
         
         rect.size.width = CGRectGetMidX(rect)*2;
@@ -88,7 +88,7 @@
         rect.origin.x = 0;
         rect.origin.y = 0;
         
-        self.levelMeter = [[DPMeterView alloc] initWithFrame:rect shape:path];
+        self.levelMeter = [[IQ_DPMeterView alloc] initWithFrame:rect shape:path];
         self.levelMeter.trackTintColor = [UIColor colorWithWhite:0.5 alpha:0.5];
         self.levelMeter.progressTintColor = [UIColor purpleColor];
         self.levelMeter.alpha = 0.0;
@@ -226,9 +226,7 @@
 
 -(void)setMeteringLevel:(CGFloat)meteringLevel
 {
-    NSLog(@"%f",meteringLevel);
     [self.levelMeter setProgress:meteringLevel];
-//    self.levelMeter.backgroundColor = [UIColor colorWithWhite:meteringLevel alpha:1.0];
 }
 
 -(void)setPreviewSession:(AVCaptureSession *)previewSession

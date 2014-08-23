@@ -9,6 +9,8 @@
 #import "IQMediaPickerControllerConstants.h"
 
 NSString *const IQMediaURL          =   @"IQMediaURL";
+NSString *const IQMediaAssetURL     =   @"IQMediaAssetURL";
+NSString *const IQMediaItem         =   @"IQMediaItem";
 NSString *const IQMediaType         =   @"IQMediaType";
 NSString *const IQMediaImage        =   @"IQMediaImage";
 

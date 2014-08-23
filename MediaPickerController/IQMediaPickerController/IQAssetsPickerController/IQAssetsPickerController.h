@@ -6,9 +6,9 @@
 
 @interface IQAssetsPickerController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, assign) IQAssetsPickerControllerAssetType pickerType;
-
 @property(nonatomic, assign) id<IQAssetsPickerControllerDelegate> delegate;
+@property (nonatomic) BOOL allowsPickingMultipleItems; // default is NO
+@property (nonatomic, assign) IQAssetsPickerControllerAssetType pickerType;
 
 @end
 

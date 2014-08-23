@@ -11,6 +11,7 @@
 #import "IQSongsListViewController.h"
 #import "IQSongsAlbumViewCell.h"
 #import "IQAudioPickerController.h"
+#import "IQMediaPickerControllerConstants.h"
 
 @implementation IQSongsComposersViewController
 {
@@ -44,8 +45,8 @@
     }
     else
     {
-        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
-        self.navigationItem.rightBarButtonItem = cancelItem;
+        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
+        self.navigationItem.rightBarButtonItem = doneItem;
     }
 }
 
@@ -53,9 +54,16 @@
 {
     if ([self.audioPickerController.delegate respondsToSelector:@selector(audioPickerController:didPickMediaItems:)])
     {
-        MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:[self.audioPickerController.selectedItems allObjects]];
+        NSMutableArray *items = [[NSMutableArray alloc] init];
         
-        [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:collection];
+        for (MPMediaItem *item in self.audioPickerController.selectedItems)
+        {
+            NSDictionary *dict = [NSDictionary dictionaryWithObject:item forKey:IQMediaItem];
+            
+            [items addObject:dict];
+        }
+        
+        [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:items];
     }
     
     [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];

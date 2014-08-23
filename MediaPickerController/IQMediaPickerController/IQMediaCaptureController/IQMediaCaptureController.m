@@ -23,7 +23,7 @@
     
     NSMutableArray *videoURLs;
     NSMutableArray *audioURLs;
-    NSMutableArray *imageURLs;
+    NSMutableArray *arrayImagesAttribute;
 
     NSUInteger videoCounter;
     NSUInteger audioCounter;
@@ -92,7 +92,7 @@
         
         videoURLs = [[NSMutableArray alloc] init];
         audioURLs = [[NSMutableArray alloc] init];
-        imageURLs = [[NSMutableArray alloc] init];
+        arrayImagesAttribute = [[NSMutableArray alloc] init];
         
         videoCounter = 0;
         audioCounter = 0;
@@ -107,7 +107,7 @@
 -(void)loadView
 {
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     
     [self.view addSubview:self.mediaView];
     [self.view addSubview:self.settingsContainerView];
@@ -238,17 +238,17 @@
         if ([[self session] hasFlash])
         {
             if ([self session].flashMode == AVCaptureFlashModeOn)
-                [self.buttonFlash setImage:[UIImage imageNamed:@"appbar_camera_flash"] forState:UIControlStateNormal];
+                [self.buttonFlash setImage:[UIImage imageNamed:@"IQ_camera_flash"] forState:UIControlStateNormal];
             else if ([self session].flashMode == AVCaptureFlashModeOff)
-                [self.buttonFlash setImage:[UIImage imageNamed:@"appbar_camera_flash_off"] forState:UIControlStateNormal];
+                [self.buttonFlash setImage:[UIImage imageNamed:@"IQ_camera_flash_off"] forState:UIControlStateNormal];
             else if ([self session].flashMode == AVCaptureFlashModeAuto)
-                [self.buttonFlash setImage:[UIImage imageNamed:@"appbar_camera_flash_auto"] forState:UIControlStateNormal];
+                [self.buttonFlash setImage:[UIImage imageNamed:@"IQ_camera_flash_auto"] forState:UIControlStateNormal];
             
             self.buttonFlash.enabled = YES;
         }
         else
         {
-            [self.buttonFlash setImage:[UIImage imageNamed:@"appbar_camera_flash_off"] forState:UIControlStateNormal];
+            [self.buttonFlash setImage:[UIImage imageNamed:@"IQ_camera_flash_off"] forState:UIControlStateNormal];
             self.buttonFlash.enabled = NO;
         }
         
@@ -256,17 +256,17 @@
         if ([[self session] hasTorch])
         {
             if ([self session].torchMode == AVCaptureTorchModeOn)
-                [self.buttonTorch setImage:[UIImage imageNamed:@"appbar_torch_on"] forState:UIControlStateNormal];
+                [self.buttonTorch setImage:[UIImage imageNamed:@"IQ_torch_on"] forState:UIControlStateNormal];
             else if ([self session].torchMode == AVCaptureTorchModeOff)
-                [self.buttonTorch setImage:[UIImage imageNamed:@"appbar_torch_off"] forState:UIControlStateNormal];
+                [self.buttonTorch setImage:[UIImage imageNamed:@"IQ_torch_off"] forState:UIControlStateNormal];
             else if ([self session].torchMode == AVCaptureTorchModeAuto)
-                [self.buttonTorch setImage:[UIImage imageNamed:@"appbar_torch_auto"] forState:UIControlStateNormal];
+                [self.buttonTorch setImage:[UIImage imageNamed:@"IQ_torch_auto"] forState:UIControlStateNormal];
             
             self.buttonTorch.enabled = YES;
         }
         else
         {
-            [self.buttonTorch setImage:[UIImage imageNamed:@"appbar_torch_off"] forState:UIControlStateNormal];
+            [self.buttonTorch setImage:[UIImage imageNamed:@"IQ_torch_off"] forState:UIControlStateNormal];
             self.buttonTorch.enabled = NO;
         }
         
@@ -278,17 +278,17 @@
             if ([[self session] hasFocus])
             {
                 if ([self session].focusMode == AVCaptureFocusModeLocked)
-                    [self.buttonFocus setImage:[UIImage imageNamed:@"appbar_focus_off"] forState:UIControlStateNormal];
+                    [self.buttonFocus setImage:[UIImage imageNamed:@"IQ_focus_off"] forState:UIControlStateNormal];
                 else if ([self session].focusMode == AVCaptureFocusModeAutoFocus)
-                    [self.buttonFocus setImage:[UIImage imageNamed:@"appbar_focus_on"] forState:UIControlStateNormal];
+                    [self.buttonFocus setImage:[UIImage imageNamed:@"IQ_focus_on"] forState:UIControlStateNormal];
                 else if ([self session].focusMode == AVCaptureFocusModeContinuousAutoFocus)
-                    [self.buttonFocus setImage:[UIImage imageNamed:@"appbar_focus_auto"] forState:UIControlStateNormal];
+                    [self.buttonFocus setImage:[UIImage imageNamed:@"IQ_focus_auto"] forState:UIControlStateNormal];
                 
                 self.buttonFocus.enabled = YES;
             }
             else
             {
-                [self.buttonFocus setImage:[UIImage imageNamed:@"appbar_focus_off"] forState:UIControlStateNormal];
+                [self.buttonFocus setImage:[UIImage imageNamed:@"IQ_focus_off"] forState:UIControlStateNormal];
                 self.buttonFocus.enabled = NO;
             }
         }
@@ -301,17 +301,17 @@
             if ([[self session] hasExposure])
             {
                 if ([self session].exposureMode == AVCaptureExposureModeLocked)
-                    [self.buttonExposure setImage:[UIImage imageNamed:@"appbar_exposure_off"] forState:UIControlStateNormal];
+                    [self.buttonExposure setImage:[UIImage imageNamed:@"IQ_exposure_off"] forState:UIControlStateNormal];
                 else if ([self session].exposureMode == AVCaptureExposureModeAutoExpose)
-                    [self.buttonExposure setImage:[UIImage imageNamed:@"appbar_exposure_on"] forState:UIControlStateNormal];
+                    [self.buttonExposure setImage:[UIImage imageNamed:@"IQ_exposure_on"] forState:UIControlStateNormal];
                 else if ([self session].exposureMode == AVCaptureExposureModeContinuousAutoExposure)
-                    [self.buttonExposure setImage:[UIImage imageNamed:@"appbar_exposure_auto"] forState:UIControlStateNormal];
+                    [self.buttonExposure setImage:[UIImage imageNamed:@"IQ_exposure_auto"] forState:UIControlStateNormal];
                 
                 self.buttonExposure.enabled = YES;
             }
             else
             {
-                [self.buttonExposure setImage:[UIImage imageNamed:@"appbar_exposure_off"] forState:UIControlStateNormal];
+                [self.buttonExposure setImage:[UIImage imageNamed:@"IQ_exposure_off"] forState:UIControlStateNormal];
                 self.buttonExposure.enabled = NO;
             }
         }
@@ -319,17 +319,17 @@
         {
             if ([[self session] isSessionRunning] == NO)
             {
-                [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
+                [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_neutral_mode"] forState:UIControlStateNormal];
             }
             else
             {
                 if ([[self session] isRecording] == NO)
                 {
-                    [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_marvel_ironman"] forState:UIControlStateNormal];
+                    [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_start_capture_mode"] forState:UIControlStateNormal];
                 }
                 else
                 {
-                    [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_vector_circle"] forState:UIControlStateNormal];
+                    [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_stop_capture_mode"] forState:UIControlStateNormal];
                 }
             }
         }
@@ -427,7 +427,7 @@
 //                        [self.mediaView setOverlayColor:nil];
                         
                         [self.bottomContainerView setTopContentView:nil];
-                        [self.buttonToggleMedia setImage:[UIImage imageNamed:@"appbar_camera"] forState:UIControlStateNormal];
+                        [self.buttonToggleMedia setImage:[UIImage imageNamed:@"IQ_camera"] forState:UIControlStateNormal];
                     }
                     else if ([self session].captureMode == IQCameraCaptureModeVideo)
                     {
@@ -438,7 +438,7 @@
                         [self.partitionBar setPartitions:durations animated:YES];
                         
                         [self.bottomContainerView setTopContentView:self.partitionBar];
-                        [self.buttonToggleMedia setImage:[UIImage imageNamed:@"appbar_video"] forState:UIControlStateNormal];
+                        [self.buttonToggleMedia setImage:[UIImage imageNamed:@"IQ_video"] forState:UIControlStateNormal];
                     }
                     else if ([self session].captureMode == IQCameraCaptureModeAudio)
                     {
@@ -449,7 +449,7 @@
                         [self.partitionBar setPartitions:durations animated:YES];
                         
                         [self.bottomContainerView setTopContentView:self.partitionBar];
-                        [self.buttonToggleMedia setImage:[UIImage imageNamed:@"appbar_audio"] forState:UIControlStateNormal];
+                        [self.buttonToggleMedia setImage:[UIImage imageNamed:@"IQ_audio"] forState:UIControlStateNormal];
                     }
                     
                 } completion:^(BOOL finished) {
@@ -658,7 +658,7 @@
 {
     if ([[self session] isSessionRunning] == NO)
     {
-        [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_marvel_ironman"] forState:UIControlStateNormal];
+        [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_start_capture_mode"] forState:UIControlStateNormal];
 
         [[self session] startRunning];
         [self.bottomContainerView setRightContentView:self.buttonToggleMedia];
@@ -668,7 +668,7 @@
         if ([self session].captureMode == IQCameraCaptureModePhoto)
         {
             [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
-                [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
+                [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_neutral_mode"] forState:UIControlStateNormal];
                 self.settingsContainerView.alpha = 0.0;
             } completion:NULL];
 
@@ -685,7 +685,7 @@
                 [[self session] startVideoRecording];
                 
                 [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
-                    [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_vector_circle"] forState:UIControlStateNormal];
+                    [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_stop_capture_mode"] forState:UIControlStateNormal];
                     [self.partitionBar setSelectedIndex:-1];
                     self.settingsContainerView.alpha = 0.0;
                 } completion:NULL];
@@ -704,7 +704,7 @@
             {
                 [[self session] stopVideoRecording];
                 [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
-                    [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
+                    [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_neutral_mode"] forState:UIControlStateNormal];
                     [self.buttonCapture setTransform:CGAffineTransformIdentity];;
                 } completion:NULL];
                 
@@ -726,7 +726,7 @@
                 [[self session] startAudioRecording];
                 
                 [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
-                    [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_vector_circle"] forState:UIControlStateNormal];
+                    [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_stop_capture_mode"] forState:UIControlStateNormal];
                     [self.partitionBar setSelectedIndex:-1];
                     self.settingsContainerView.alpha = 0.0;
                 } completion:NULL];
@@ -742,7 +742,7 @@
             {
                 [[self session] stopAudioRecording];
                 [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
-                    [self.buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
+                    [self.buttonCapture setImage:[UIImage imageNamed:@"IQ_neutral_mode"] forState:UIControlStateNormal];
                     [self.buttonCapture setTransform:CGAffineTransformIdentity];;
                 } completion:NULL];
                 
@@ -778,17 +778,9 @@
     {
         NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
         
-        if ([imageURLs count])
+        if ([arrayImagesAttribute count])
         {
-            NSMutableArray *imageMedias = [[NSMutableArray alloc] init];
-            
-            for (NSURL *imageURL in imageURLs)
-            {
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:imageURL forKey:IQMediaURL];
-                [imageMedias addObject:dict];
-            }
-            
-            [info setObject:imageMedias forKey:IQMediaTypeImage];
+            [info setObject:arrayImagesAttribute forKey:IQMediaTypeImage];
         }
         
         if ([videoURLs count])
@@ -897,7 +889,11 @@
             
             [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
             
-            [imageURLs addObject:[IQFileManager URLForFilePath:nextMediaPath]];
+            NSMutableDictionary *dict = [info mutableCopy];
+            [dict removeObjectForKey:IQMediaType];
+            [dict setObject:[IQFileManager URLForFilePath:nextMediaPath] forKey:IQMediaURL];
+            
+            [arrayImagesAttribute addObject:dict];
         }
         else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeAudio])
         {
@@ -975,7 +971,7 @@
     if (_buttonSettings == nil)
     {
         _buttonSettings          = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-        [_buttonSettings         setImage:[UIImage imageNamed:@"appbar_settings"] forState:UIControlStateNormal];
+        [_buttonSettings         setImage:[UIImage imageNamed:@"IQ_settings"] forState:UIControlStateNormal];
         [_buttonSettings         addTarget:self action:@selector(settingTriggerAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -987,7 +983,7 @@
     if (_buttonFlash == nil)
     {
         _buttonFlash             = [[UIButton alloc] initWithFrame:CGRectMake(44, 0, 44, 44)];
-        [_buttonFlash            setImage:[UIImage imageNamed:@"appbar_camera_flash_off"] forState:UIControlStateNormal];
+        [_buttonFlash            setImage:[UIImage imageNamed:@"IQ_camera_flash_off"] forState:UIControlStateNormal];
         [_buttonFlash            addTarget:self action:@selector(toggleFlash:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -999,7 +995,7 @@
     if (_buttonTorch == nil)
     {
         _buttonTorch             = [[UIButton alloc] initWithFrame:CGRectMake(88, 0, 44, 44)];
-        [_buttonTorch            setImage:[UIImage imageNamed:@"appbar_torch_off"] forState:UIControlStateNormal];
+        [_buttonTorch            setImage:[UIImage imageNamed:@"IQ_torch_off"] forState:UIControlStateNormal];
         [_buttonTorch            addTarget:self action:@selector(toggleTorch:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -1011,7 +1007,7 @@
     if (_buttonFocus == nil)
     {
         _buttonFocus             = [[UIButton alloc] initWithFrame:CGRectMake(132, 0, 44, 44)];
-        [_buttonFocus            setImage:[UIImage imageNamed:@"appbar_focus_off"] forState:UIControlStateNormal];
+        [_buttonFocus            setImage:[UIImage imageNamed:@"IQ_focus_off"] forState:UIControlStateNormal];
         [_buttonFocus            addTarget:self action:@selector(toggleFocus:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -1023,7 +1019,7 @@
     if (_buttonExposure == nil)
     {
         _buttonExposure          = [[UIButton alloc] initWithFrame:CGRectMake(176, 0, 44, 44)];
-        [_buttonExposure         setImage:[UIImage imageNamed:@"appbar_exposure_off"] forState:UIControlStateNormal];
+        [_buttonExposure         setImage:[UIImage imageNamed:@"IQ_exposure_off"] forState:UIControlStateNormal];
         [_buttonExposure         addTarget:self action:@selector(toggleExposure:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -1035,7 +1031,7 @@
     if (_buttonToggleCamera == nil)
     {
         _buttonToggleCamera      = [[UIButton alloc] initWithFrame:CGRectMake(220, 0, 44, 44)];
-        [_buttonToggleCamera     setImage:[UIImage imageNamed:@"appbar_camera_switch"] forState:UIControlStateNormal];
+        [_buttonToggleCamera     setImage:[UIImage imageNamed:@"IQ_camera_switch"] forState:UIControlStateNormal];
         [_buttonToggleCamera     addTarget:self action:@selector(toggleCameraAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -1074,7 +1070,7 @@
 {
     if (_imageViewProcessing == nil)
     {
-        _imageViewProcessing = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"appbar_hourglass"]];
+        _imageViewProcessing = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IQ_hourglass"]];
         _imageViewProcessing.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _imageViewProcessing;
@@ -1098,7 +1094,7 @@
     if (_buttonCapture == nil)
     {
         _buttonCapture = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_buttonCapture setImage:[UIImage imageNamed:@"appbar_location_circle"] forState:UIControlStateNormal];
+        [_buttonCapture setImage:[UIImage imageNamed:@"IQ_neutral_mode"] forState:UIControlStateNormal];
         [_buttonCapture addTarget:self action:@selector(captureAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -1110,7 +1106,7 @@
     if (_buttonToggleMedia == nil)
     {
         _buttonToggleMedia = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_buttonToggleMedia setImage:[UIImage imageNamed:@"appbar_camera"] forState:UIControlStateNormal];
+        [_buttonToggleMedia setImage:[UIImage imageNamed:@"IQ_camera"] forState:UIControlStateNormal];
         [_buttonToggleMedia addTarget:self action:@selector(toggleCaptureMode:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -1136,7 +1132,7 @@
     if (_buttonDelete == nil)
     {
         _buttonDelete = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_buttonDelete setImage:[UIImage imageNamed:@"appbar_delete"] forState:UIControlStateNormal];
+        [_buttonDelete setImage:[UIImage imageNamed:@"IQ_delete"] forState:UIControlStateNormal];
         [_buttonDelete addTarget:self action:@selector(deleteAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     

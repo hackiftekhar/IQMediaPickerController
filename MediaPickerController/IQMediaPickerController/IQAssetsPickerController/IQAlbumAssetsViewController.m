@@ -9,7 +9,7 @@
 @interface IQAlbumAssetsViewController () <UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 {
     UIBarButtonItem *doneBarButton;
-
+    
     BOOL _isPlayerPlaying;
     UIImage *_selectedImageToShare;
 }
@@ -24,10 +24,12 @@
 {
     [super viewDidLoad];
     
-    doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
-    doneBarButton.enabled = NO;
-    
-    self.navigationItem.rightBarButtonItem = doneBarButton;
+    if (self.assetController.allowsPickingMultipleItems == YES)
+    {
+        doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
+        self.navigationItem.rightBarButtonItem = doneBarButton;
+        doneBarButton.enabled = NO;
+    }
     
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
@@ -83,7 +85,7 @@
     }
 }
 
-- (void)doneAction:(UIButton *)sender
+- (void)doneAction:(UIBarButtonItem *)sender
 {
     NSMutableArray *selectedVideo = [[NSMutableArray alloc] init];
     NSMutableArray *selectedImages = [[NSMutableArray alloc] init];
@@ -101,14 +103,12 @@
                 
                 [selectedImages addObject:dict];
             }
-            else if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
+            else if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo])
             {
-                NSDictionary *assetURLs = [result valueForKey:ALAssetPropertyURLs];
-                NSString *key = [[assetURLs objectForKey:assetURLs.allKeys] firstObject];
-                
-                NSURL *assetURL = [assetURLs objectForKey:key];
-                
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:assetURL,IQMediaURL, nil];
+                ALAssetRepresentation *representation = [result defaultRepresentation];
+                NSURL *url = [representation url];
+
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,IQMediaAssetURL, nil];
                 
                 [selectedVideo addObject:dict];
             }
@@ -117,15 +117,8 @@
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
-    if ([selectedImages count])
-    {
-        [dict setObject:selectedImages forKey:IQMediaTypeImage];
-    }
-    
-    if ([selectedVideo count])
-    {
-        [dict setObject:selectedImages forKey:IQMediaTypeVideo];
-    }
+    if ([selectedImages count]) [dict setObject:selectedImages forKey:IQMediaTypeImage];
+    if ([selectedVideo count])  [dict setObject:selectedVideo forKey:IQMediaTypeVideo];
     
     if ([self.assetController.delegate respondsToSelector:@selector(assetsPickerController:didFinishMediaWithInfo:)])
     {
@@ -231,35 +224,81 @@
         [self.selectedAssets addIndex:indexPath.row];
     }
     
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    
+    if (self.assetController.allowsPickingMultipleItems == NO)
+    {
+        NSMutableArray *selectedVideo = [[NSMutableArray alloc] init];
+        NSMutableArray *selectedImages = [[NSMutableArray alloc] init];
         
-        if ([self.selectedAssets count])
-        {
-            doneBarButton.enabled = YES;
+        [self.assetsGroup enumerateAssetsAtIndexes:self.selectedAssets options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             
-            if (_pickerType == IQAssetsPickerControllerAssetTypePhoto)
+            if (result)
             {
-                self.title = [NSString stringWithFormat:@"%lu %@ selected",(unsigned long)[self.selectedAssets count],self.selectedAssets.count>1?@"Photos":@"Photo"];
+                if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
+                {
+                    CGImageRef imageRef = [[result defaultRepresentation] fullResolutionImage];
+                    UIImage *image = [UIImage imageWithCGImage:imageRef];
+                    
+                    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
+                    
+                    [selectedImages addObject:dict];
+                }
+                else if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo])
+                {
+                    ALAssetRepresentation *representation = [result defaultRepresentation];
+                    NSURL *url = [representation url];
+                    
+                    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,IQMediaAssetURL, nil];
+                    
+                    [selectedVideo addObject:dict];
+                }
             }
-            else if (_pickerType == IQAssetsPickerControllerAssetTypeVideo)
+        }];
+
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        
+        if ([selectedImages count]) [dict setObject:selectedImages forKey:IQMediaTypeImage];
+        if ([selectedVideo count])  [dict setObject:selectedVideo forKey:IQMediaTypeVideo];
+        
+        if ([self.assetController.delegate respondsToSelector:@selector(assetsPickerController:didFinishMediaWithInfo:)])
+        {
+            [self.assetController.delegate assetsPickerController:self.assetController didFinishMediaWithInfo:dict];
+        }
+        
+        [self.assetController dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            
+            if ([self.selectedAssets count])
             {
-                self.title = [NSString stringWithFormat:@"%lu %@ selected",(unsigned long)[self.selectedAssets count],self.selectedAssets.count>1?@"Videos":@"Video"];
+                doneBarButton.enabled = YES;
+                
+                if (_pickerType == IQAssetsPickerControllerAssetTypePhoto)
+                {
+                    self.title = [NSString stringWithFormat:@"%lu %@ selected",(unsigned long)[self.selectedAssets count],self.selectedAssets.count>1?@"Photos":@"Photo"];
+                }
+                else if (_pickerType == IQAssetsPickerControllerAssetTypeVideo)
+                {
+                    self.title = [NSString stringWithFormat:@"%lu %@ selected",(unsigned long)[self.selectedAssets count],self.selectedAssets.count>1?@"Videos":@"Video"];
+                }
+                else
+                {
+                    self.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedAssets count]];
+                }
             }
             else
             {
-                self.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedAssets count]];
+                doneBarButton.enabled = NO;
+                self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
             }
-        }
-        else
-        {
-            doneBarButton.enabled = NO;
-            self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-        }
-        
-
-        cell.checkmarkView.alpha = previouslyContainsIndex?0.0:1.0;
-
-    } completion:NULL];
+            
+            
+            cell.checkmarkView.alpha = previouslyContainsIndex?0.0:1.0;
+            
+        } completion:NULL];
+    }
 }
 
 - (void)movieFinishedCallback:(NSNotification*)aNotification

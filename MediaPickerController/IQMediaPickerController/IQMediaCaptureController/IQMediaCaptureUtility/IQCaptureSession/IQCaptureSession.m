@@ -145,7 +145,7 @@
 
     if (success == NO)
     {
-        NSLog(@"Can't add inputs: %@",newInputs);
+//        NSLog(@"Can't add inputs: %@",newInputs);
 
         //Restoring inputs
         for (AVCaptureInput *input in oldInputs)
@@ -193,7 +193,7 @@
     
     if ( success == NO)
     {
-        NSLog(@"Can't add outputs: %@",newOutputs);
+//        NSLog(@"Can't add outputs: %@",newOutputs);
         
         //Restoring outputs
         for (AVCaptureOutput *output in oldOutputs)
@@ -631,7 +631,7 @@
     }
     else
     {
-        NSLog(@"Exposure adjustment not supported");
+//        NSLog(@"Exposure adjustment not supported");
         return NO;
     }
 }

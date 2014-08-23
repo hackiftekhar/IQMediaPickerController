@@ -21,7 +21,7 @@
 
 @protocol IQAudioPickerControllerDelegate <NSObject>
 
-- (void)audioPickerController:(IQAudioPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection;
+- (void)audioPickerController:(IQAudioPickerController *)mediaPicker didPickMediaItems:(NSArray*)mediaItems;
 - (void)audioPickerControllerDidCancel:(IQAudioPickerController *)mediaPicker;
 
 @end

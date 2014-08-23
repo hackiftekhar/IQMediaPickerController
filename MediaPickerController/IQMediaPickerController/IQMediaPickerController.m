@@ -65,6 +65,7 @@
         case IQMediaPickerControllerMediaTypePhotoLibrary:
         {
             IQAssetsPickerController *controller = [[IQAssetsPickerController alloc] init];
+            controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
             controller.delegate = self;
             controller.pickerType = IQAssetsPickerControllerAssetTypePhoto;
             self.viewControllers = @[controller];
@@ -73,6 +74,7 @@
         case IQMediaPickerControllerMediaTypeVideoLibrary:
         {
             IQAssetsPickerController *controller = [[IQAssetsPickerController alloc] init];
+            controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
             controller.delegate = self;
             controller.pickerType = IQAssetsPickerControllerAssetTypeVideo;
             self.viewControllers = @[controller];
@@ -81,6 +83,7 @@
         case IQMediaPickerControllerMediaTypeAudioLibrary:
         {
             IQAudioPickerController *controller = [[IQAudioPickerController alloc] init];
+            controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
             controller.delegate = self;
             self.viewControllers = @[controller];
         }
@@ -130,11 +133,11 @@
 }
 
 #pragma mark - IQAudioPickerControllerDelegate
-- (void)audioPickerController:(IQAudioPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection
+- (void)audioPickerController:(IQAudioPickerController *)mediaPicker didPickMediaItems:(NSArray*)mediaItems
 {
     if ([self.delegate respondsToSelector:@selector(mediaPickerController:didFinishMediaWithInfo:)])
     {
-        NSDictionary *info = [NSDictionary dictionaryWithObject:mediaItemCollection forKey:IQMediaTypeAudio];
+        NSDictionary *info = [NSDictionary dictionaryWithObject:mediaItems forKey:IQMediaTypeAudio];
         
         [self.delegate mediaPickerController:self didFinishMediaWithInfo:info];
     }
