@@ -1,9 +1,8 @@
 //
 //  VideoTableViewCell.m
-//  MediaPickerController
+//  IQMediaPickerController
 //
-//  Created by Iftekhar on 23/08/14.
-//  Copyright (c) 2014 Iftekhar. All rights reserved.
+//  Copyright (c) 2013-14 Iftekhar Qurashi.
 //
 
 #import "VideoTableViewCell.h"
