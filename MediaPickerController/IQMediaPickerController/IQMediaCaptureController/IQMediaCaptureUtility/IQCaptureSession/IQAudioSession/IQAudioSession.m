@@ -78,7 +78,11 @@
 -(void)startRunning
 {
     _isRunning = YES;
-    meteringTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateMeter) userInfo:nil repeats:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        meteringTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateMeter) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:meteringTimer forMode:NSDefaultRunLoopMode];
+    });
 }
 
 -(void)stopRunning

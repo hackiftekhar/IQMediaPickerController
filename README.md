@@ -7,7 +7,7 @@ IQMediaPickerController
 
 IQMediaCaptureController
 -----------------------
-   IQMediaCaptureController can be used to capture images, videos and audio.
+   IQMediaCaptureController is used to capture multiple images, videos and audio.
 
 [![Video Capture](./MediaPickerController/Screenshots/VideoCapture.png)]
 [![Photo Capture](./MediaPickerController/Screenshots/PhotoCapture.png)]
@@ -15,13 +15,13 @@ IQMediaCaptureController
 
 IQAssetsPickerController
 -----------------------
-  IQAssetsPickerController can be used to pick images & videos from the iPhone photo gallery.
+  IQAssetsPickerController is used to pick multiple images & videos from the iPhone photo gallery.
 
 [![Photo Picker Picker](./MediaPickerController/Screenshots/PhotoVideoPicker.png)]
 
 IQAudioPickerController
 -----------------------
-  IQAudioPickerController can be used to pick audio files from the iPhone music library.
+  IQAudioPickerController is used to pick multiple audio files from the iPhone music library.
 
 [![Audio Picker](./MediaPickerController/Screenshots/AudioPicker.png)]
 
@@ -32,7 +32,7 @@ IQAudioPickerController
  
  2) Allows user to pick 3 types of media.
 
- 3) Allows picking multiple media files at once.
+ 3) Allows picking or capturing multiple media files at once.
 
 
 LICENSE

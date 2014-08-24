@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCameraDevice) {
 @property(nonatomic, assign) IQMediaCaptureControllerCaptureMode captureMode;
 @property(nonatomic, assign) IQMediaCaptureControllerCameraDevice captureDevice;
 
-//@property (nonatomic, assign) BOOL allowsCapturingMultipleItems; // default is NO.
+@property (nonatomic, assign) BOOL allowsCapturingMultipleItems; // default is NO.
 
 @end
 

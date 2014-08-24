@@ -14,7 +14,6 @@
 		C035C22B19A8B5BE0072C2C0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C035C22A19A8B5BE0072C2C0 /* main.m */; };
 		C035C22F19A8B5BE0072C2C0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C035C22E19A8B5BE0072C2C0 /* AppDelegate.m */; };
 		C035C23219A8B5BE0072C2C0 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C035C23019A8B5BE0072C2C0 /* Main_iPhone.storyboard */; };
-		C035C23519A8B5BE0072C2C0 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C035C23319A8B5BE0072C2C0 /* Main_iPad.storyboard */; };
 		C035C23819A8B5BE0072C2C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C035C23719A8B5BE0072C2C0 /* ViewController.m */; };
 		C035C23A19A8B5BE0072C2C0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C035C23919A8B5BE0072C2C0 /* Images.xcassets */; };
 		C035C24119A8B5BE0072C2C0 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C035C24019A8B5BE0072C2C0 /* XCTest.framework */; };
@@ -84,7 +83,6 @@
 		C035C22D19A8B5BE0072C2C0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C035C22E19A8B5BE0072C2C0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C035C23119A8B5BE0072C2C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		C035C23419A8B5BE0072C2C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		C035C23619A8B5BE0072C2C0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C035C23719A8B5BE0072C2C0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		C035C23919A8B5BE0072C2C0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -229,7 +227,6 @@
 				C035C22D19A8B5BE0072C2C0 /* AppDelegate.h */,
 				C035C22E19A8B5BE0072C2C0 /* AppDelegate.m */,
 				C035C23019A8B5BE0072C2C0 /* Main_iPhone.storyboard */,
-				C035C23319A8B5BE0072C2C0 /* Main_iPad.storyboard */,
 				C035C23619A8B5BE0072C2C0 /* ViewController.h */,
 				C035C23719A8B5BE0072C2C0 /* ViewController.m */,
 				C0AEE56319A8FA5700879C17 /* AudioTableViewCell.h */,
@@ -600,7 +597,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACF1AE19A8BD8A0071D368 /* mic.svg in Resources */,
-				C035C23519A8B5BE0072C2C0 /* Main_iPad.storyboard in Resources */,
 				C0ACF19619A8BD8A0071D368 /* IQAudioPickerController.xcassets in Resources */,
 				C035C23A19A8B5BE0072C2C0 /* Images.xcassets in Resources */,
 				C035C23219A8B5BE0072C2C0 /* Main_iPhone.storyboard in Resources */,
@@ -700,14 +696,6 @@
 			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
-		C035C23319A8B5BE0072C2C0 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C035C23419A8B5BE0072C2C0 /* Base */,
-			);
-			name = Main_iPad.storyboard;
-			sourceTree = "<group>";
-		};
 		C035C24919A8B5BE0072C2C0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -800,6 +788,7 @@
 				GCC_PREFIX_HEADER = "MediaPickerController/MediaPickerController-Prefix.pch";
 				INFOPLIST_FILE = "MediaPickerController/MediaPickerController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -813,6 +802,7 @@
 				GCC_PREFIX_HEADER = "MediaPickerController/MediaPickerController-Prefix.pch";
 				INFOPLIST_FILE = "MediaPickerController/MediaPickerController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

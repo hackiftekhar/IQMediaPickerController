@@ -18,6 +18,8 @@
 {
     IBOutlet UITableView *tableViewMedia;
     NSDictionary *mediaInfo;
+    
+    IQMediaPickerControllerMediaType mediaType;
 }
 
 - (void)viewDidLoad
@@ -42,70 +44,28 @@
 
 - (IBAction)pickAction:(UIBarButtonItem *)sender
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Media Picker Controller Media Types" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Capture Photo", @"Capture Video", @"Capture Audio", @"Photo Library", @"Video Library", @"Audio Library",@"Photo Library Multiple Items", @"Video Library Multiple Items", @"Audio Library Multiple Items", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Media Picker Controller Media Types" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Video Library", @"Audio Library", @"Capture Photo", @"Capture Video", @"Capture Audio", nil];
+    actionSheet.tag = 1;
     [actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    switch (buttonIndex)
+    if (actionSheet.tag == 1)
     {
-        case 0:
-        {
-            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-            controller.delegate = self;
-            [controller setMediaType:IQMediaPickerControllerMediaTypePhoto];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-            break;
-        case 1:
-        {
-            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-            controller.delegate = self;
-            [controller setMediaType:IQMediaPickerControllerMediaTypeVideo];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-            break;
-        case 2:
-        {
-            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-            controller.delegate = self;
-            [controller setMediaType:IQMediaPickerControllerMediaTypeAudio];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-            break;
-        case 3:
-        case 6:
-        {
-            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-            controller.delegate = self;
-            controller.allowsPickingMultipleItems = (buttonIndex == 6);
-            [controller setMediaType:IQMediaPickerControllerMediaTypePhotoLibrary];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-            break;
-        case 4:
-        case 7:
-        {
-            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-            controller.delegate = self;
-            controller.allowsPickingMultipleItems = (buttonIndex == 7);
-            [controller setMediaType:IQMediaPickerControllerMediaTypeVideoLibrary];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-            break;
-        case 5:
-        case 8:
-        {
-            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-            controller.delegate = self;
-            controller.allowsPickingMultipleItems = (buttonIndex == 8);
-            [controller setMediaType:IQMediaPickerControllerMediaTypeAudioLibrary];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-            break;
-        default:
-            break;
+        mediaType = buttonIndex;
+        
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"allowsPickingMultipleItems" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Yes",@"No", nil];
+        actionSheet.tag = 2;
+        [actionSheet showInView:self.view];
+    }
+    else if (actionSheet.tag == 2)
+    {
+        IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+        controller.delegate = self;
+        [controller setMediaType:mediaType];
+        controller.allowsPickingMultipleItems = (buttonIndex == 0);
+        [self presentViewController:controller animated:YES completion:nil];
     }
 }
 

@@ -662,6 +662,24 @@
 
         [[self session] startRunning];
         [self.bottomContainerView setRightContentView:self.buttonToggleMedia];
+        
+        //Resetting
+        if (self.allowsCapturingMultipleItems == NO)
+        {
+            videoCounter = 0;
+            audioCounter = 0;
+            imageCounter = 0;
+            
+            [videoURLs removeAllObjects];
+            [audioURLs removeAllObjects];
+            [arrayImagesAttribute removeAllObjects];
+            
+            [IQFileManager removeItemsAtPath:[[self class] temporaryAudioStoragePath]];
+            [IQFileManager removeItemsAtPath:[[self class] temporaryVideoStoragePath]];
+            [IQFileManager removeItemsAtPath:[[self class] temporaryImageStoragePath]];
+            
+            [self.partitionBar setPartitions:[NSArray new] animated:YES];
+        }
     }
     else
     {
@@ -857,10 +875,28 @@
 {
     [[self session] stopRunning];
     
+    //Resetting
+    if (self.allowsCapturingMultipleItems == NO)
+    {
+        videoCounter = 0;
+        audioCounter = 0;
+        imageCounter = 0;
+        
+        [videoURLs removeAllObjects];
+        [audioURLs removeAllObjects];
+        [arrayImagesAttribute removeAllObjects];
+        
+        [IQFileManager removeItemsAtPath:[[self class] temporaryAudioStoragePath]];
+        [IQFileManager removeItemsAtPath:[[self class] temporaryVideoStoragePath]];
+        [IQFileManager removeItemsAtPath:[[self class] temporaryImageStoragePath]];
+        
+        [self.partitionBar setPartitions:[NSArray new] animated:YES];
+    }
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         self.settingsContainerView.alpha = 1.0;
     } completion:NULL];
-
+    
     [self.bottomContainerView setLeftContentView:self.buttonCancel];
     [self.bottomContainerView setMiddleContentView:self.buttonCapture];
     [self.bottomContainerView setRightContentView:self.buttonSelect];
@@ -870,13 +906,13 @@
         if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeVideo])
         {
             NSURL *mediaURL = [info objectForKey:IQMediaURL];
-
+            
             NSString *nextMediaPath = [[[self class] temporaryVideoStoragePath] stringByAppendingFormat:@"/movie%lu.mov",(unsigned long)videoCounter++];
-
+            
             [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
             
             [videoURLs addObject:[IQFileManager URLForFilePath:nextMediaPath]];
-
+            
             NSArray *durations = [IQFileManager durationsOfFilesAtPath:[[self class] temporaryVideoStoragePath]];
             
             [self.partitionBar setPartitions:durations animated:NO];

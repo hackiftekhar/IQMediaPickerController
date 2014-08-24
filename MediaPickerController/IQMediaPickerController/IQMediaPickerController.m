@@ -30,6 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -41,6 +42,7 @@
         case IQMediaPickerControllerMediaTypeVideo:
         {
             IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
+            controller.allowsCapturingMultipleItems = self.allowsPickingMultipleItems;
             controller.delegate = self;
             controller.captureMode = IQMediaCaptureControllerCaptureModeVideo;
             self.viewControllers = @[controller];
@@ -49,6 +51,7 @@
         case IQMediaPickerControllerMediaTypePhoto:
         {
             IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
+            controller.allowsCapturingMultipleItems = self.allowsPickingMultipleItems;
             controller.captureMode = IQMediaCaptureControllerCaptureModePhoto;
             controller.delegate = self;
             self.viewControllers = @[controller];
@@ -57,6 +60,7 @@
         case IQMediaPickerControllerMediaTypeAudio:
         {
             IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
+            controller.allowsCapturingMultipleItems = self.allowsPickingMultipleItems;
             controller.delegate = self;
             controller.captureMode = IQMediaCaptureControllerCaptureModeAudio;
             self.viewControllers = @[controller];
