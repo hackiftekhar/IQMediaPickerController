@@ -42,20 +42,21 @@
     self.navigationController.navigationBarHidden = YES;
     
     IQSongsPlaylistViewController *playlistController = [[IQSongsPlaylistViewController alloc] init];
-    playlistController.audioPickerController = self;
     IQSongsArtistListViewController *artistController = [[IQSongsArtistListViewController alloc] init];
-    artistController.audioPickerController = self;
     IQSongsListViewController *songsController = [[IQSongsListViewController alloc] init];
-    songsController.audioPickerController = self;
     IQSongsAlbumListViewController *albumsController = [[IQSongsAlbumListViewController alloc] init];
-    albumsController.audioPickerController = self;
     IQSongsGenreViewController *genreController = [[IQSongsGenreViewController alloc] init];
-    genreController.audioPickerController = self;
     IQSongsCompilationsViewController *compilationsController = [[IQSongsCompilationsViewController alloc] init];
-    compilationsController.audioPickerController = self;
     IQSongsComposersViewController *composersController = [[IQSongsComposersViewController alloc] init];
+
+    playlistController.audioPickerController = self;
+    artistController.audioPickerController = self;
+    songsController.audioPickerController = self;
     composersController.audioPickerController = self;
-    
+    compilationsController.audioPickerController = self;
+    genreController.audioPickerController = self;
+    albumsController.audioPickerController = self;
+
     self.viewControllers = @[[[UINavigationController alloc] initWithRootViewController:playlistController],
                              [[UINavigationController alloc] initWithRootViewController:artistController],
                              [[UINavigationController alloc] initWithRootViewController:songsController],
@@ -64,6 +65,7 @@
                              [[UINavigationController alloc] initWithRootViewController:compilationsController],
                              [[UINavigationController alloc] initWithRootViewController:composersController],
                              ];
+    [self setSelectedIndex:2];
     self.customizableViewControllers = nil;
 }
 
