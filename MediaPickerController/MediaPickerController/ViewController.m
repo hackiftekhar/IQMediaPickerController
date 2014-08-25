@@ -57,21 +57,24 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (actionSheet.tag == 1)
+    if (buttonIndex != actionSheet.cancelButtonIndex)
     {
-        mediaType = buttonIndex;
-        
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"allowsPickingMultipleItems" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Yes",@"No", nil];
-        actionSheet.tag = 2;
-        [actionSheet showInView:self.view];
-    }
-    else if (actionSheet.tag == 2)
-    {
-        IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
-        controller.delegate = self;
-        [controller setMediaType:mediaType];
-        controller.allowsPickingMultipleItems = (buttonIndex == 0);
-        [self presentViewController:controller animated:YES completion:nil];
+        if (actionSheet.tag == 1)
+        {
+            mediaType = buttonIndex;
+            
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"allowsPickingMultipleItems" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Yes",@"No", nil];
+            actionSheet.tag = 2;
+            [actionSheet showInView:self.view];
+        }
+        else if (actionSheet.tag == 2)
+        {
+            IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
+            controller.delegate = self;
+            [controller setMediaType:mediaType];
+            controller.allowsPickingMultipleItems = (buttonIndex == 0);
+            [self presentViewController:controller animated:YES completion:nil];
+        }
     }
 }
 
