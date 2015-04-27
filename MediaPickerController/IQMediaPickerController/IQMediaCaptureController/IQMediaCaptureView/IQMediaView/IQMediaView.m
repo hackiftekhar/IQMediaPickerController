@@ -23,12 +23,11 @@
 
 #import "IQMediaView.h"
 #import "IQFeatureOverlay.h"
-#import "IQ_DPMeterView.h"
-#import "IQ_PocketSVG.h"
+#import "IQ_SCSiriWaveformView.h"
 
 @interface IQMediaView ()<IQFeatureOverlayDelegate,UIGestureRecognizerDelegate>
 
-@property (retain)	IQ_DPMeterView *levelMeter;
+@property (retain)	IQ_SCSiriWaveformView *levelMeter;
 
 @end
 
@@ -95,33 +94,16 @@
     
     //Audio Meter View
     {
-        CGPathRef path = [IQ_PocketSVG pathFromSVGFileNamed:@"mic"];
-        CGRect rect = CGPathGetBoundingBox(path);
-        
-        rect.size.width = CGRectGetMidX(rect)*2;
-        rect.size.height = CGRectGetMidY(rect)*2;
-        rect.origin.x = 0;
-        rect.origin.y = 0;
-        
-        self.levelMeter = [[IQ_DPMeterView alloc] initWithFrame:rect shape:path];
-        self.levelMeter.trackTintColor = [UIColor colorWithWhite:0.5 alpha:0.5];
-        self.levelMeter.progressTintColor = [UIColor purpleColor];
+        self.levelMeter = [[IQ_SCSiriWaveformView alloc] initWithFrame:CGRectInset(self.bounds, 0, self.bounds.size.height/4)];
+        self.levelMeter.backgroundColor = [UIColor clearColor];
+        [self.levelMeter setWaveColor:[UIColor colorWithRed:0.0/255.0 green:128.0/255.0 blue:255.0/255.0 alpha:1.0]];
+        [self.levelMeter setPrimaryWaveLineWidth:3.0f];
+        [self.levelMeter setSecondaryWaveLineWidth:1.0];
+        self.levelMeter.phaseShift = -0.5;
         self.levelMeter.alpha = 0.0;
-        self.levelMeter.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+        self.levelMeter.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.levelMeter.center = CGPointMake(CGRectGetMidX(overlayView.bounds), CGRectGetMidY(overlayView.bounds));
         [overlayView addSubview:self.levelMeter];
-        
-        {
-            CGFloat scale = 1.0;
-            
-            float mW = self.bounds.size.width / rect.size.width;
-            float mH = self.bounds.size.height / rect.size.height;
-            if( mH < mW )
-                scale = self.bounds.size.height / rect.size.height;
-            else if( mW < mH )
-                scale = self.bounds.size.width / rect.size.width;
-            self.levelMeter.transform = CGAffineTransformScale(self.levelMeter.transform, scale, scale);
-        }
     }
 }
 
@@ -241,7 +223,7 @@
 
 -(void)setMeteringLevel:(CGFloat)meteringLevel
 {
-    [self.levelMeter setProgress:meteringLevel];
+    [self.levelMeter updateWithLevel:meteringLevel];
 }
 
 -(void)setPreviewSession:(AVCaptureSession *)previewSession

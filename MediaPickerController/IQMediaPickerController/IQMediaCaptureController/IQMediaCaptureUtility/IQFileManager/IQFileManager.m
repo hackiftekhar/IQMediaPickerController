@@ -29,7 +29,7 @@
 
 + (NSString*)IQDocumentDirectory
 {
-    return [NSHomeDirectory() stringByAppendingString:@"/Documents"];
+    return [NSHomeDirectory() stringByAppendingString:@"/Documents/"];
 }
 
 + (NSString*)IQTemporaryDirectory

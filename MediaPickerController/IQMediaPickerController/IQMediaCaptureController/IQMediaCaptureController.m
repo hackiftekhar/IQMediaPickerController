@@ -923,7 +923,7 @@
         {
             NSURL *mediaURL = [info objectForKey:IQMediaURL];
             
-            NSString *nextMediaPath = [[[self class] temporaryVideoStoragePath] stringByAppendingFormat:@"/movie%lu.mov",(unsigned long)videoCounter++];
+            NSString *nextMediaPath = [[[self class] temporaryVideoStoragePath] stringByAppendingFormat:@"movie%lu.mov",(unsigned long)videoCounter++];
             
             [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
             
@@ -937,7 +937,7 @@
         {
             NSURL *mediaURL = [info objectForKey:IQMediaURL];
             
-            NSString *nextMediaPath = [[[self class] temporaryImageStoragePath] stringByAppendingFormat:@"/image%lu.jpg",(unsigned long)imageCounter++];
+            NSString *nextMediaPath = [[[self class] temporaryImageStoragePath] stringByAppendingFormat:@"image%lu.jpg",(unsigned long)imageCounter++];
             
             [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
             
@@ -951,7 +951,7 @@
         {
             NSURL *mediaURL = [info objectForKey:IQMediaURL];
             
-            NSString *nextMediaPath = [[[self class] temporaryAudioStoragePath] stringByAppendingFormat:@"/audio%lu.m4a",(unsigned long)audioCounter++];
+            NSString *nextMediaPath = [[[self class] temporaryAudioStoragePath] stringByAppendingFormat:@"audio%lu.m4a",(unsigned long)audioCounter++];
             
             [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
             
@@ -1194,7 +1194,7 @@
 #pragma mark - Temporary path
 +(NSString*)temporaryVideoStoragePath
 {
-    NSString *videoPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"/IQVideo/"];
+    NSString *videoPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"IQVideo/"];
     
     if([[NSFileManager defaultManager] fileExistsAtPath:videoPath] == NO)
         [[NSFileManager defaultManager] createDirectoryAtPath:videoPath withIntermediateDirectories:NO attributes:nil error:NULL];
@@ -1204,7 +1204,7 @@
 
 +(NSString*)temporaryAudioStoragePath
 {
-    NSString *audioPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"/IQAudio/"];
+    NSString *audioPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"IQAudio/"];
     
     if([[NSFileManager defaultManager] fileExistsAtPath:audioPath] == NO)
         [[NSFileManager defaultManager] createDirectoryAtPath:audioPath withIntermediateDirectories:NO attributes:nil error:NULL];
@@ -1214,7 +1214,7 @@
 
 +(NSString*)temporaryImageStoragePath
 {
-    NSString *audioPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"/IQImage/"];
+    NSString *audioPath = [[IQFileManager IQDocumentDirectory] stringByAppendingString:@"IQImage/"];
     
     if([[NSFileManager defaultManager] fileExistsAtPath:audioPath] == NO)
         [[NSFileManager defaultManager] createDirectoryAtPath:audioPath withIntermediateDirectories:NO attributes:nil error:NULL];

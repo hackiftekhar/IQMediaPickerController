@@ -51,14 +51,12 @@
 		C0ACF1AA19A8BD8A0071D368 /* IQMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF17D19A8BD8A0071D368 /* IQMediaView.m */; };
 		C0ACF1AB19A8BD8A0071D368 /* IQPartitionBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18019A8BD8A0071D368 /* IQPartitionBar.m */; };
 		C0ACF1AC19A8BD8A0071D368 /* IQPartitionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18219A8BD8A0071D368 /* IQPartitionView.m */; };
-		C0ACF1AD19A8BD8A0071D368 /* IQ_DPMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18619A8BD8A0071D368 /* IQ_DPMeterView.m */; };
-		C0ACF1AE19A8BD8A0071D368 /* mic.svg in Resources */ = {isa = PBXBuildFile; fileRef = C0ACF18819A8BD8A0071D368 /* mic.svg */; };
-		C0ACF1AF19A8BD8A0071D368 /* IQ_PocketSVG.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18A19A8BD8A0071D368 /* IQ_PocketSVG.m */; };
 		C0ACF1B019A8BD8A0071D368 /* IQMediaPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18C19A8BD8A0071D368 /* IQMediaPickerController.m */; };
 		C0ACF1B119A8BD8A0071D368 /* IQMediaPickerControllerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18E19A8BD8A0071D368 /* IQMediaPickerControllerConstants.m */; };
 		C0AEE56519A8FA5700879C17 /* AudioTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0AEE56419A8FA5700879C17 /* AudioTableViewCell.m */; };
 		C0AEE56819A8FA6400879C17 /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0AEE56719A8FA6400879C17 /* VideoTableViewCell.m */; };
 		C0AEE56B19A8FA6E00879C17 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0AEE56A19A8FA6E00879C17 /* PhotoTableViewCell.m */; };
+		C0D5741D1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D5741C1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,11 +147,6 @@
 		C0ACF18019A8BD8A0071D368 /* IQPartitionBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPartitionBar.m; sourceTree = "<group>"; };
 		C0ACF18119A8BD8A0071D368 /* IQPartitionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPartitionView.h; sourceTree = "<group>"; };
 		C0ACF18219A8BD8A0071D368 /* IQPartitionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPartitionView.m; sourceTree = "<group>"; };
-		C0ACF18519A8BD8A0071D368 /* IQ_DPMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQ_DPMeterView.h; sourceTree = "<group>"; };
-		C0ACF18619A8BD8A0071D368 /* IQ_DPMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQ_DPMeterView.m; sourceTree = "<group>"; };
-		C0ACF18819A8BD8A0071D368 /* mic.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mic.svg; sourceTree = "<group>"; };
-		C0ACF18919A8BD8A0071D368 /* IQ_PocketSVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQ_PocketSVG.h; sourceTree = "<group>"; };
-		C0ACF18A19A8BD8A0071D368 /* IQ_PocketSVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQ_PocketSVG.m; sourceTree = "<group>"; };
 		C0ACF18B19A8BD8A0071D368 /* IQMediaPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerController.h; sourceTree = "<group>"; };
 		C0ACF18C19A8BD8A0071D368 /* IQMediaPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerController.m; sourceTree = "<group>"; };
 		C0ACF18D19A8BD8A0071D368 /* IQMediaPickerControllerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerControllerConstants.h; sourceTree = "<group>"; };
@@ -164,6 +157,8 @@
 		C0AEE56719A8FA6400879C17 /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
 		C0AEE56919A8FA6E00879C17 /* PhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTableViewCell.h; sourceTree = "<group>"; };
 		C0AEE56A19A8FA6E00879C17 /* PhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTableViewCell.m; sourceTree = "<group>"; };
+		C0D5741B1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQ_SCSiriWaveformView.h; sourceTree = "<group>"; };
+		C0D5741C1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQ_SCSiriWaveformView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -495,29 +490,18 @@
 		C0ACF18319A8BD8A0071D368 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
-				C0ACF18419A8BD8A0071D368 /* DPMeterView */,
-				C0ACF18719A8BD8A0071D368 /* PocketSVG */,
+				C0D5741A1AEEC1F8002B49B7 /* SCSiriWaveformView */,
 			);
 			path = "Third Party";
 			sourceTree = "<group>";
 		};
-		C0ACF18419A8BD8A0071D368 /* DPMeterView */ = {
+		C0D5741A1AEEC1F8002B49B7 /* SCSiriWaveformView */ = {
 			isa = PBXGroup;
 			children = (
-				C0ACF18519A8BD8A0071D368 /* IQ_DPMeterView.h */,
-				C0ACF18619A8BD8A0071D368 /* IQ_DPMeterView.m */,
+				C0D5741B1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.h */,
+				C0D5741C1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m */,
 			);
-			path = DPMeterView;
-			sourceTree = "<group>";
-		};
-		C0ACF18719A8BD8A0071D368 /* PocketSVG */ = {
-			isa = PBXGroup;
-			children = (
-				C0ACF18819A8BD8A0071D368 /* mic.svg */,
-				C0ACF18919A8BD8A0071D368 /* IQ_PocketSVG.h */,
-				C0ACF18A19A8BD8A0071D368 /* IQ_PocketSVG.m */,
-			);
-			path = PocketSVG;
+			path = SCSiriWaveformView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -596,7 +580,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0ACF1AE19A8BD8A0071D368 /* mic.svg in Resources */,
 				C0ACF19619A8BD8A0071D368 /* IQAudioPickerController.xcassets in Resources */,
 				C035C23A19A8B5BE0072C2C0 /* Images.xcassets in Resources */,
 				C035C23219A8B5BE0072C2C0 /* Main_iPhone.storyboard in Resources */,
@@ -622,12 +605,12 @@
 			files = (
 				C0ACF1AA19A8BD8A0071D368 /* IQMediaView.m in Sources */,
 				C0ACF19019A8BD8A0071D368 /* IQAssetsAlbumViewCell.m in Sources */,
+				C0D5741D1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m in Sources */,
 				C0ACF1A819A8BD8A0071D368 /* IQBottomContainerView.m in Sources */,
 				C0ACF1A219A8BD8A0071D368 /* IQSongsPlaylistViewController.m in Sources */,
 				C0ACF19E19A8BD8A0071D368 /* IQSongsCompilationsViewController.m in Sources */,
 				C035C23819A8B5BE0072C2C0 /* ViewController.m in Sources */,
 				C0ACF19A19A8BD8A0071D368 /* IQSongsCell.m in Sources */,
-				C0ACF1AF19A8BD8A0071D368 /* IQ_PocketSVG.m in Sources */,
 				C0ACF19419A8BD8A0071D368 /* IQAssetsPickerController.m in Sources */,
 				C0ACF19D19A8BD8A0071D368 /* IQSongsArtistListViewController.m in Sources */,
 				C0ACF19819A8BD8A0071D368 /* IQAudioPickerShadowView.m in Sources */,
@@ -644,7 +627,6 @@
 				C0AEE56519A8FA5700879C17 /* AudioTableViewCell.m in Sources */,
 				C0ACF1A719A8BD8A0071D368 /* IQFileManager.m in Sources */,
 				C0ACF1A019A8BD8A0071D368 /* IQSongsGenreViewController.m in Sources */,
-				C0ACF1AD19A8BD8A0071D368 /* IQ_DPMeterView.m in Sources */,
 				C0ACF19F19A8BD8A0071D368 /* IQSongsComposersViewController.m in Sources */,
 				C0ACF19119A8BD8A0071D368 /* IQAssetsCell.m in Sources */,
 				C0ACF19219A8BD8A0071D368 /* IQAssetsPickerShadowView.m in Sources */,
