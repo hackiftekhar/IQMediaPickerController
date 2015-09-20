@@ -42,6 +42,8 @@
     BOOL _previousNavigationBarHidden;
 }
 
+@dynamic delegate;
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];

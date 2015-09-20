@@ -33,6 +33,8 @@
 
 @implementation IQMediaPickerController
 
+@dynamic delegate;
+
 - (instancetype)init
 {
     self = [super init];
