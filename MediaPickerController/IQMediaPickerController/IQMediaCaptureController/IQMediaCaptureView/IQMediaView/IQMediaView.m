@@ -230,6 +230,15 @@
 {
     _previewSession = previewSession;
     [(AVCaptureVideoPreviewLayer*)self.layer setSession:_previewSession];
+    
+    UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    AVCaptureVideoOrientation initialVideoOrientation = AVCaptureVideoOrientationPortrait;
+    if ( statusBarOrientation != UIInterfaceOrientationUnknown ) {
+        initialVideoOrientation = (AVCaptureVideoOrientation)statusBarOrientation;
+    }
+    
+    AVCaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)self.layer;
+    previewLayer.connection.videoOrientation = initialVideoOrientation;
 }
 
 -(void)setBlur:(BOOL)blur
