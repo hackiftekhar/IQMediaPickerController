@@ -703,6 +703,13 @@
     }
     else
     {
+        UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        AVCaptureVideoOrientation initialVideoOrientation = AVCaptureVideoOrientationPortrait;
+        if ( statusBarOrientation != UIInterfaceOrientationUnknown ) {
+            initialVideoOrientation = (AVCaptureVideoOrientation)statusBarOrientation;
+        }
+        connection.videoOrientation = initialVideoOrientation;
+
         [_stillImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             
             if ( imageDataSampleBuffer != NULL )

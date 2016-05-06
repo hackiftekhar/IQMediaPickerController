@@ -1222,5 +1222,27 @@
     return audioPath;
 }
 
+#pragma mark - Orientation
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if ( UIDeviceOrientationIsPortrait( deviceOrientation ) || UIDeviceOrientationIsLandscape( deviceOrientation ) ) {
+        AVCaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)self.mediaView.layer;
+        previewLayer.connection.videoOrientation = (AVCaptureVideoOrientation)deviceOrientation;
+    }
+}
 
 @end
