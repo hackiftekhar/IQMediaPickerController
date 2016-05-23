@@ -120,7 +120,7 @@
             if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
             {
                 CGImageRef imageRef = [[result defaultRepresentation] fullResolutionImage];
-                UIImage *image = [UIImage imageWithCGImage:imageRef];
+                UIImage *image = [UIImage imageWithCGImage:imageRef scale:result.defaultRepresentation.scale orientation:result.defaultRepresentation.orientation];
                 
                 NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
                 
@@ -130,7 +130,7 @@
             {
                 ALAssetRepresentation *representation = [result defaultRepresentation];
                 NSURL *url = [representation url];
-
+                
                 NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,IQMediaAssetURL, nil];
                 
                 [selectedVideo addObject:dict];
