@@ -119,7 +119,22 @@
             if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
             {
                 CGImageRef imageRef = [[result defaultRepresentation] fullResolutionImage];
-                UIImage *image = [UIImage imageWithCGImage:imageRef];
+                
+                UIImageOrientation orienatation;
+                
+                switch (result.defaultRepresentation.orientation)
+                {
+                    case ALAssetOrientationUp:              orienatation = UIImageOrientationUp;            break;
+                    case ALAssetOrientationDown:            orienatation = UIImageOrientationDown;          break;
+                    case ALAssetOrientationLeft:            orienatation = UIImageOrientationLeft;          break;
+                    case ALAssetOrientationRight:           orienatation = UIImageOrientationRight;         break;
+                    case ALAssetOrientationUpMirrored:      orienatation = UIImageOrientationUpMirrored;    break;
+                    case ALAssetOrientationDownMirrored:    orienatation = UIImageOrientationDownMirrored;  break;
+                    case ALAssetOrientationLeftMirrored:    orienatation = UIImageOrientationLeftMirrored;  break;
+                    case ALAssetOrientationRightMirrored:   orienatation = UIImageOrientationRightMirrored; break;
+                }
+
+                UIImage *image = [UIImage imageWithCGImage:imageRef scale:result.defaultRepresentation.scale orientation:orienatation];
                 
                 NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
                 
@@ -259,7 +274,22 @@
                 if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
                 {
                     CGImageRef imageRef = [[result defaultRepresentation] fullResolutionImage];
-                    UIImage *image = [UIImage imageWithCGImage:imageRef];
+                    
+                    UIImageOrientation orienatation;
+                    
+                    switch (result.defaultRepresentation.orientation)
+                    {
+                        case ALAssetOrientationUp:              orienatation = UIImageOrientationUp;            break;
+                        case ALAssetOrientationDown:            orienatation = UIImageOrientationDown;          break;
+                        case ALAssetOrientationLeft:            orienatation = UIImageOrientationLeft;          break;
+                        case ALAssetOrientationRight:           orienatation = UIImageOrientationRight;         break;
+                        case ALAssetOrientationUpMirrored:      orienatation = UIImageOrientationUpMirrored;    break;
+                        case ALAssetOrientationDownMirrored:    orienatation = UIImageOrientationDownMirrored;  break;
+                        case ALAssetOrientationLeftMirrored:    orienatation = UIImageOrientationLeftMirrored;  break;
+                        case ALAssetOrientationRightMirrored:   orienatation = UIImageOrientationRightMirrored; break;
+                    }
+
+                    UIImage *image = [UIImage imageWithCGImage:imageRef scale:result.defaultRepresentation.scale orientation:orienatation];
                     
                     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
                     

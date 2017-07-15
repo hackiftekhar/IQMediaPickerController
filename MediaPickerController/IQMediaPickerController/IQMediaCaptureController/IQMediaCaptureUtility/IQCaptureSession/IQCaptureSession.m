@@ -863,6 +863,24 @@
     }
     else
     {
+        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+        
+        switch (orientation)
+        {
+            case UIDeviceOrientationLandscapeLeft:
+                connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+                break;
+            case UIDeviceOrientationLandscapeRight:
+                connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+                break;
+            case UIDeviceOrientationPortraitUpsideDown:
+                connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+                break;
+            default:
+                connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+                break;
+        }
+
         [_stillImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             
             if ( imageDataSampleBuffer != NULL )
@@ -976,6 +994,26 @@
         
         [IQFileManager removeItemAtPath:fileURL.relativePath];
 
+        {
+            UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+            
+            switch (orientation)
+            {
+                case UIDeviceOrientationLandscapeLeft:
+                    connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+                    break;
+                case UIDeviceOrientationLandscapeRight:
+                    connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+                    break;
+                case UIDeviceOrientationPortraitUpsideDown:
+                    connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+                    break;
+                default:
+                    connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+                    break;
+            }
+        }
+        
         [_movieFileOutput stopRecording];
         [_movieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:self];
     }

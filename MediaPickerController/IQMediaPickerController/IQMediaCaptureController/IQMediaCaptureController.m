@@ -1220,6 +1220,7 @@
     return audioPath;
 }
 
+#pragma mark - Orientation
 -(BOOL)shouldAutorotate
 {
     return NO;
