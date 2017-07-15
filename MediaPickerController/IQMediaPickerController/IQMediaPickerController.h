@@ -42,7 +42,7 @@
 @property BOOL allowsPickingMultipleItems; // default is NO.
 
 @property(nonatomic, assign) IQMediaPickerControllerSourceType sourceType;
-@property(nonatomic, assign) IQMediaPickerControllerMediaType mediaType;
+@property(nonatomic, assign) IQMediaPickerControllerMediaType mediaType;    //You can combine multiple media types to be picked or captured. If you are capturing the media then any combinations are accepted but if you would like to pick media from library then only photo + video combinations are accepted. Combining audio picking with photo and or video isn't supported and no future plans to do it.
 @property(nonatomic, assign) IQMediaPickerControllerCameraDevice captureDevice;
 //@property(nonatomic, assign) IQMediaPickerControllerCameraFlashMode flashMode;
 
