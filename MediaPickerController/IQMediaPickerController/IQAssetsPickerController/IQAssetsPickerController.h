@@ -1,7 +1,7 @@
 //
 //  IQAssetsPickerController.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +21,25 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import <UIKit/UIKit.h>
 #import "IQAlbumAssetsViewController.h"
+#import "IQMediaPickerControllerConstants.h"
 
 @protocol IQAssetsPickerControllerDelegate;
 
 @interface IQAssetsPickerController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property(nonatomic, assign) id<IQAssetsPickerControllerDelegate> delegate;
-@property (nonatomic) BOOL allowsPickingMultipleItems; // default is NO
-@property (nonatomic, assign) IQAssetsPickerControllerAssetType pickerType;
+@property(nullable, weak) id<IQAssetsPickerControllerDelegate> delegate;
+@property BOOL allowsPickingMultipleItems; // default is NO
+@property IQMediaPickerControllerMediaType pickerType;
 
 @end
 
 
 @protocol IQAssetsPickerControllerDelegate <NSObject>
 
-- (void)assetsPickerController:(IQAssetsPickerController*)controller didFinishMediaWithInfo:(NSDictionary *)info;
-- (void)assetsPickerControllerDidCancel:(IQAssetsPickerController *)controller;
+- (void)assetsPickerController:(IQAssetsPickerController*_Nonnull)controller didFinishMediaWithInfo:(NSDictionary *_Nonnull)info;
+- (void)assetsPickerControllerDidCancel:(IQAssetsPickerController *_Nonnull)controller;
 
 @end

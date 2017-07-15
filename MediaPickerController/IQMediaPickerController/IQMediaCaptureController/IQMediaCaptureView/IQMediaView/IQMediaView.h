@@ -1,7 +1,7 @@
 //
 //  IQMediaView.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "IQMediaCaptureController.h"
@@ -29,26 +30,33 @@
 
 @protocol IQMediaViewDelegate <NSObject>
 
--(void)mediaView:(IQMediaView*)mediaView focusPointOfInterest:(CGPoint)focusPoint;
--(void)mediaView:(IQMediaView*)mediaView exposurePointOfInterest:(CGPoint)exposurePoint;
+-(void)mediaView:(IQMediaView*_Nonnull)mediaView focusPointOfInterest:(CGPoint)focusPoint;
+-(void)mediaView:(IQMediaView*_Nonnull)mediaView exposurePointOfInterest:(CGPoint)exposurePoint;
+-(void)mediaView:(IQMediaView*_Nonnull)mediaView swipeDirection:(UISwipeGestureRecognizerDirection)direction;
 
 @end
 
 @interface IQMediaView : UIView
 
-@property(nonatomic, assign) id<IQMediaViewDelegate> delegate;
+@property(nullable, weak) id<IQMediaViewDelegate> delegate;
 
-@property(nonatomic, weak) AVCaptureSession *previewSession;
+@property(nonatomic, nullable, weak) AVCaptureSession *previewSession;
 
-@property(nonatomic, assign) BOOL blur;
-@property(nonatomic, assign) CGFloat meteringLevel;
+@property (nullable) AVCaptureVideoPreviewLayer *previewLayer;
+@property (nonatomic) UIEdgeInsets previewInset;
 
-@property(nonatomic, assign) AVCaptureFocusMode focusMode;
-@property(nonatomic, assign) AVCaptureExposureMode exposureMode;
+@property (nonatomic) CGFloat meteringLevel;
 
-@property(nonatomic, assign) CGPoint focusPointOfInterest;
-@property(nonatomic, assign) CGPoint exposurePointOfInterest;
+@property (nonatomic) AVCaptureFocusMode focusMode;
+@property (nonatomic) AVCaptureExposureMode exposureMode;
 
-@property(nonatomic, assign) IQMediaCaptureControllerCaptureMode captureMode;
+@property (nonatomic) CGPoint focusPointOfInterest;
+@property (nonatomic) CGPoint exposurePointOfInterest;
+
+@property (nonatomic) IQMediaCaptureControllerCaptureMode captureMode;
+
+@property(nonatomic) BOOL recording;
+
+-(void)setBlur:(BOOL)blur completion:(void (^_Nullable)(void))completion;
 
 @end

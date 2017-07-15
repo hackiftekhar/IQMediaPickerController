@@ -1,7 +1,7 @@
 //
 //  IQAudioPickerController.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -38,9 +38,6 @@
 @end
 
 @implementation IQAudioPickerController
-{
-    BOOL _previousNavigationBarHidden;
-}
 
 @dynamic delegate;
 
@@ -56,8 +53,7 @@
 {
     [super viewWillAppear:animated];
 
-    _previousNavigationBarHidden = self.navigationController.navigationBarHidden;
-    self.navigationController.navigationBarHidden = YES;
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     
     IQSongsPlaylistViewController *playlistController = [[IQSongsPlaylistViewController alloc] init];
     IQSongsArtistListViewController *artistController = [[IQSongsArtistListViewController alloc] init];
@@ -87,11 +83,14 @@
     self.customizableViewControllers = nil;
 }
 
--(void)viewWillDisappear:(BOOL)animated
+-(BOOL)shouldAutorotate
 {
-    [super viewWillDisappear:animated];
-    
-    self.navigationController.navigationBarHidden = _previousNavigationBarHidden;
+    return NO;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

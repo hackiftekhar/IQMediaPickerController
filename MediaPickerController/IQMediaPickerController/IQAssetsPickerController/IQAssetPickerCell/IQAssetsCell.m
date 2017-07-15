@@ -1,7 +1,7 @@
 //
 //  IQAssetsCell.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import "IQAssetsCell.h"
-#import "IQAssetsPickerShadowView.h"
 
 @implementation IQAssetsCell
 
@@ -36,7 +36,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        IQAssetsPickerShadowView *shadowView = [[IQAssetsPickerShadowView alloc] initWithFrame:self.contentView.bounds];
+        UIView *shadowView = [[UIView alloc] initWithFrame:self.contentView.bounds];
         shadowView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:shadowView];
         

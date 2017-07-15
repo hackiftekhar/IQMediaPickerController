@@ -1,7 +1,7 @@
 //
 //  IQBottomContainerView.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import "IQBottomContainerView.h"
 
 @implementation IQBottomContainerView
@@ -35,12 +36,12 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        topContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 20)];
+        topContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 30)];
         topContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
         topContainerView.backgroundColor = [UIColor clearColor];
         [self addSubview:topContainerView];
         
-        leftContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 70, 70)];
+        leftContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 100, 66)];
         leftContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
         CGPoint center = leftContainerView.center;
         center.x = CGRectGetMidX(frame)/3;
@@ -48,7 +49,7 @@
         leftContainerView.backgroundColor = [UIColor clearColor];
         [self addSubview:leftContainerView];
         
-        middleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 70, 70)];
+        middleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 66, 66)];
         middleContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
         center = middleContainerView.center;
         center.x = CGRectGetMidX(frame);
@@ -56,7 +57,7 @@
         middleContainerView.backgroundColor = [UIColor clearColor];
         [self addSubview:middleContainerView];
         
-        rightContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 70, 70)];
+        rightContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 100, 66)];
         rightContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
         center = rightContainerView.center;
         center.x = CGRectGetMidX(frame)+CGRectGetMidX(frame)*2/3;
@@ -99,7 +100,7 @@
             view.alpha = 0.0;
         }
         
-        topContentView.alpha = 0.5;
+        topContentView.alpha = 1.0;
         
     } completion:NULL];
 }

@@ -1,7 +1,7 @@
 //
 //  IQSongsCell.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 
 
 #import "IQSongsCell.h"
-#import "IQAudioPickerShadowView.h"
 
 @implementation IQSongsCell
 
@@ -34,7 +33,7 @@
     {
         self.contentView.frame = CGRectMake(0, 0, 320, 50);
 
-        IQAudioPickerShadowView *shadowView = [[IQAudioPickerShadowView alloc] initWithFrame:CGRectMake(5, 5, 40, 40)];
+        UIView *shadowView = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 40, 40)];
         shadowView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         [self.contentView addSubview:shadowView];
 
@@ -94,6 +93,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     // Initialization code
 }
 

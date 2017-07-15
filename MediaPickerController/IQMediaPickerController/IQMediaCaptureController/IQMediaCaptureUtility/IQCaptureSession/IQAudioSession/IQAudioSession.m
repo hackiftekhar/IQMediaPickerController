@@ -1,7 +1,7 @@
 //
 //  IQAudioSession.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -95,10 +95,7 @@
 {
     _isRunning = YES;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        meteringTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(updateMeter) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:meteringTimer forMode:NSDefaultRunLoopMode];
-    });
+    [self startSendingAudioMetering];
 }
 
 -(void)stopRunning
@@ -106,8 +103,7 @@
     [audioRecorder stop];
     _isRunning = NO;
 
-    [meteringTimer invalidate];
-    meteringTimer = nil;
+    [self stopSendingAudioMetering];
 }
 
 -(BOOL)isRecording
@@ -136,14 +132,34 @@
     
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:_previousSessionCategory error:nil];
+}
 
-    [meteringTimer invalidate];
-    meteringTimer = nil;
+-(void)startSendingAudioMetering
+{
+    if (meteringTimer == nil)
+    {
+        meteringTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/30.0 target:self selector:@selector(updateMeter) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:meteringTimer forMode:NSDefaultRunLoopMode];
+    }
+}
+
+-(void)stopSendingAudioMetering
+{
+    if (meteringTimer)
+    {
+        [meteringTimer invalidate];
+        meteringTimer = nil;
+    }
 }
 
 - (CGFloat)recordingDuration
 {
     return audioRecorder.currentTime;
+}
+
+- (long long)recordingSize
+{
+    return 0;
 }
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)successful

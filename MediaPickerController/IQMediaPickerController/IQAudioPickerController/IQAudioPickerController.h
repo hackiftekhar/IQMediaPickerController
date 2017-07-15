@@ -1,7 +1,7 @@
 //
 //  IQAudioPickerController.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -29,15 +29,15 @@
 
 @interface IQAudioPickerController : UITabBarController
 
-@property(nonatomic, assign) id<IQAudioPickerControllerDelegate,UITabBarControllerDelegate> delegate;
-@property (nonatomic) BOOL allowsPickingMultipleItems; // default is NO
-@property(nonatomic, strong) NSMutableSet *selectedItems;
+@property (nonatomic, nullable, weak) id<IQAudioPickerControllerDelegate,UITabBarControllerDelegate> delegate;
+@property BOOL allowsPickingMultipleItems; // default is NO
+@property(nullable) NSMutableSet *selectedItems;
 
 @end
 
 @protocol IQAudioPickerControllerDelegate <NSObject>
 
-- (void)audioPickerController:(IQAudioPickerController *)mediaPicker didPickMediaItems:(NSArray*)mediaItems;
-- (void)audioPickerControllerDidCancel:(IQAudioPickerController *)mediaPicker;
+- (void)audioPickerController:(IQAudioPickerController *_Nonnull)mediaPicker didPickMediaItems:(NSArray*_Nonnull)mediaItems;
+- (void)audioPickerControllerDidCancel:(IQAudioPickerController *_Nonnull)mediaPicker;
 
 @end

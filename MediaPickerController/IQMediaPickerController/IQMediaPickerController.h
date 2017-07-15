@@ -1,7 +1,7 @@
 //
 //  IQMediaPickerController.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,28 +25,46 @@
 #import <UIKit/UIKit.h>
 #import "IQMediaPickerControllerConstants.h"
 
-typedef NS_ENUM(NSInteger, IQMediaPickerControllerMediaType) {
-    IQMediaPickerControllerMediaTypePhotoLibrary,
-    IQMediaPickerControllerMediaTypeVideoLibrary,
-    IQMediaPickerControllerMediaTypeAudioLibrary,
-    IQMediaPickerControllerMediaTypePhoto,
-    IQMediaPickerControllerMediaTypeVideo,
-    IQMediaPickerControllerMediaTypeAudio,
-};
-
 @protocol IQMediaPickerControllerDelegate;
 
 @interface IQMediaPickerController : UINavigationController
 
-@property(nonatomic, assign) id<IQMediaPickerControllerDelegate,UINavigationControllerDelegate> delegate;
-@property (nonatomic, assign) BOOL allowsPickingMultipleItems; // default is NO. Currently only applicable for IQMediaPickerControllerMediaTypePhotoLibrary, IQMediaPickerControllerMediaTypeVideoLibrary, IQMediaPickerControllerMediaTypeAudioLibrary;
++ (BOOL)isSourceTypeAvailable:(IQMediaPickerControllerSourceType)sourceType;
+
++ (IQMediaPickerControllerMediaType)availableMediaTypesForSourceType:(IQMediaPickerControllerSourceType)sourceType;
+
++ (BOOL)isCameraDeviceAvailable:(IQMediaPickerControllerCameraDevice)cameraDevice;
+
++ (BOOL)isFlashAvailableForCameraDevice:(IQMediaPickerControllerCameraDevice)cameraDevice;
+
+
+@property(nonatomic, weak, nullable) id<IQMediaPickerControllerDelegate,UINavigationControllerDelegate> delegate;
+@property BOOL allowsPickingMultipleItems; // default is NO.
+
+@property(nonatomic, assign) IQMediaPickerControllerSourceType sourceType;
 @property(nonatomic, assign) IQMediaPickerControllerMediaType mediaType;
+@property(nonatomic, assign) IQMediaPickerControllerCameraDevice captureDevice;
+//@property(nonatomic, assign) IQMediaPickerControllerCameraFlashMode flashMode;
+
+//@property(nonatomic) NSTimeInterval videoMaximumDuration;
+
+//@property(nonatomic) UIImagePickerControllerQualityType videoQuality;
+
+- (void)takePicture;
+
+- (BOOL)startVideoCapture;
+- (void)stopVideoCapture;
+
+- (BOOL)startAudioCapture;
+- (void)stopAudioCapture;
+
+//@property(nonatomic) UIImagePickerControllerCameraFlashMode   cameraFlashMode   NS_AVAILABLE_IOS(4_0); // default is UIImagePickerControllerCameraFlashModeAuto.
 
 @end
 
 @protocol IQMediaPickerControllerDelegate <NSObject>
 
-- (void)mediaPickerController:(IQMediaPickerController*)controller didFinishMediaWithInfo:(NSDictionary *)info;
-- (void)mediaPickerControllerDidCancel:(IQMediaPickerController *)controller;
+- (void)mediaPickerController:(IQMediaPickerController*_Nonnull)controller didFinishMediaWithInfo:(NSDictionary *_Nonnull)info;
+- (void)mediaPickerControllerDidCancel:(IQMediaPickerController *_Nonnull)controller;
 
 @end

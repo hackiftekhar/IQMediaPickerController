@@ -1,7 +1,7 @@
 //
 //  IQBottomContainerView.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,14 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import <UIKit/UIKit.h>
 
 @interface IQBottomContainerView : UIView
 
-@property(nonatomic, assign) UIView *topContentView;
-@property(nonatomic, assign) UIView *leftContentView;
-@property(nonatomic, assign) UIView *middleContentView;
-@property(nonatomic, assign) UIView *rightContentView;
+@property(nonatomic, weak) UIView *topContentView;
+@property(nonatomic, weak) UIView *leftContentView;
+@property(nonatomic, weak) UIView *middleContentView;
+@property(nonatomic, weak) UIView *rightContentView;
 
 @end

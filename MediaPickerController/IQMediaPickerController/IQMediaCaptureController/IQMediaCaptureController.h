@@ -1,7 +1,7 @@
 //
 //  IQMediaCaptureController.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-147Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import "IQMediaPickerControllerConstants.h"
 
 typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
     IQMediaCaptureControllerCaptureModePhoto,
@@ -30,21 +31,27 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
     IQMediaCaptureControllerCaptureModeAudio,
 };
 
-typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCameraDevice) {
-    IQMediaCaptureControllerCameraDeviceRear,
-    IQMediaCaptureControllerCameraDeviceFront,
-};
-
 @protocol IQMediaCaptureControllerDelegate;
 
 @interface IQMediaCaptureController : UIViewController
 
-@property(nonatomic, assign) id<IQMediaCaptureControllerDelegate> delegate;
+@property(nonatomic, weak) id<IQMediaCaptureControllerDelegate> delegate;
 
-@property(nonatomic, assign) IQMediaCaptureControllerCaptureMode captureMode;
-@property(nonatomic, assign) IQMediaCaptureControllerCameraDevice captureDevice;
+@property(nonatomic, assign) IQMediaPickerControllerMediaType mediaType;
+@property(nonatomic, assign) IQMediaPickerControllerCameraDevice captureDevice;
+@property(nonatomic, assign) IQMediaPickerControllerCameraFlashMode flashMode;
+
+@property(nonatomic, readonly) IQMediaCaptureControllerCaptureMode captureMode;
 
 @property (nonatomic, assign) BOOL allowsCapturingMultipleItems; // default is NO.
+
+- (void)takePicture;
+
+- (BOOL)startVideoCapture;
+- (void)stopVideoCapture;
+
+- (BOOL)startAudioCapture;
+- (void)stopAudioCapture;
 
 @end
 

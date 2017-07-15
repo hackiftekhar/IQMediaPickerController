@@ -1,7 +1,7 @@
 //
 //  IQAlbumAssetsViewController.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,19 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import <UIKit/UIKit.h>
+#import "IQMediaPickerControllerConstants.h"
 
 @protocol IQAssetsPickerControllerDelegate;
 @class IQAssetsPickerController;
-
-typedef NS_ENUM(NSInteger, IQAssetsPickerControllerAssetType) {
-    IQAssetsPickerControllerAssetTypePhoto,
-    IQAssetsPickerControllerAssetTypeVideo,
-};
 
 @class ALAssetsGroup;
 
 @interface IQAlbumAssetsViewController : UICollectionViewController
 
-@property (assign, nonatomic) ALAssetsGroup *assetsGroup;
-@property(nonatomic, assign) IQAssetsPickerController *assetController;
-@property (assign, nonatomic) IQAssetsPickerControllerAssetType pickerType;
+@property (nullable, weak) ALAssetsGroup *assetsGroup;
+@property (nullable, weak) IQAssetsPickerController *assetController;
+@property IQMediaPickerControllerMediaType pickerType;
 
 @end

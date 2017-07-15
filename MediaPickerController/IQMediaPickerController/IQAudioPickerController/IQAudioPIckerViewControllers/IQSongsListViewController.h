@@ -1,7 +1,7 @@
 //
 //  IQSongsListViewController.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,8 @@
 
 @interface IQSongsListViewController : UITableViewController
 
-@property(nonatomic, assign) IQAudioPickerController *audioPickerController;
+@property(nullable, weak) IQAudioPickerController *audioPickerController;
 
-@property(nonatomic, strong) NSString *property;
-
-@property(nonatomic, strong) NSArray *collections;
+@property (nullable) NSArray *collections;
 
 @end

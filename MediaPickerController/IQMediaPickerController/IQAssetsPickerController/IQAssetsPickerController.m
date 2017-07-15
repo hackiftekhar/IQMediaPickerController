@@ -1,7 +1,7 @@
 //
 //  IQAssetsPickerController.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,7 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
+
 
 #import "IQAssetsPickerController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -67,11 +68,16 @@
                            
                            NSString *sGroupPropertyName = (NSString *)[group valueForProperty:ALAssetsGroupPropertyName];
                            NSUInteger nType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
-                           if (self.pickerType == IQAssetsPickerControllerAssetTypePhoto)
+                           
+                           if ((self.pickerType & IQMediaPickerControllerMediaTypePhoto) && (self.pickerType & IQMediaPickerControllerMediaTypeVideo))
+                           {
+                               [group setAssetsFilter:[ALAssetsFilter allAssets]];
+                           }
+                           else if (self.pickerType & IQMediaPickerControllerMediaTypePhoto)
                            {
                                [group setAssetsFilter:[ALAssetsFilter allPhotos]];
                            }
-                           else if (self.pickerType == IQAssetsPickerControllerAssetTypeVideo)
+                           else if (self.pickerType & IQMediaPickerControllerMediaTypeVideo)
                            {
                                [group setAssetsFilter:[ALAssetsFilter allVideos]];
                            }
@@ -103,7 +109,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 -(void)cancelAction:(UIBarButtonItem*)item
@@ -141,58 +147,67 @@
     NSUInteger photos = 0;
     NSUInteger videos = 0;
     
-    if (self.pickerType == IQAssetsPickerControllerAssetTypePhoto)
+    
+    if ((self.pickerType & IQMediaPickerControllerMediaTypePhoto) && (self.pickerType & IQMediaPickerControllerMediaTypeVideo))
     {
         [group setAssetsFilter:[ALAssetsFilter allPhotos]];
         photos = [group numberOfAssets];
+
+        [group setAssetsFilter:[ALAssetsFilter allVideos]];
+        videos = [group numberOfAssets];
+
+        [group setAssetsFilter:[ALAssetsFilter allAssets]];
+
+        NSMutableArray *stringsArray = [[NSMutableArray alloc] init];
+        
+        if (photos > 0)
+        {
+            [stringsArray addObject:[NSString stringWithFormat:@"%lu %@",(unsigned long)photos, photos>1?@"Photos":@"Photo"]];
+        }
+        else
+        {
+            [stringsArray addObject:@"No photos"];
+        }
+
+        if (videos > 0)
+        {
+            [stringsArray addObject:[NSString stringWithFormat:@"%lu %@",(unsigned long)videos, videos>1?@"Videos":@"Video"]];
+        }
+        else
+        {
+            [stringsArray addObject:@"No videos"];
+        }
+        
+        cell.labelSubTitle.text = [stringsArray componentsJoinedByString:@", "];
     }
-    else if (self.pickerType == IQAssetsPickerControllerAssetTypeVideo)
+    else if (self.pickerType & IQMediaPickerControllerMediaTypePhoto)
+    {
+        [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+        photos = [group numberOfAssets];
+
+        if (photos > 0)
+        {
+            cell.labelSubTitle.text = [NSString stringWithFormat:@"%lu %@",(unsigned long)photos, photos>1?@"Photos":@"Photo"];
+        }
+        else
+        {
+            cell.labelSubTitle.text = @"No photos";
+        }
+    }
+    else if (self.pickerType & IQMediaPickerControllerMediaTypeVideo)
     {
         [group setAssetsFilter:[ALAssetsFilter allVideos]];
         videos = [group numberOfAssets];
-    }
-    else
-    {
-        {
-            [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-            photos = [group numberOfAssets];
-        }
 
-        {
-            [group setAssetsFilter:[ALAssetsFilter allVideos]];
-            videos = [group numberOfAssets];
-        }
-    }
-    
-    
-    NSMutableString *stringSubtitle = [[NSMutableString alloc] init];
-    
-    if (photos > 0)
-    {
-        [stringSubtitle appendFormat:@"%lu %@",(unsigned long)photos, photos>1?@"Photos":@"Photo"];
-        
         if (videos > 0)
         {
-            [stringSubtitle appendFormat:@", %lu %@",(unsigned long)videos, videos>1?@"Videos":@"Video"];
+            cell.labelSubTitle.text = [NSString stringWithFormat:@"%lu %@",(unsigned long)videos, videos>1?@"Videos":@"Video"];
         }
-    }
-    else if (videos > 0)
-    {
-        [stringSubtitle appendFormat:@"%lu %@",(unsigned long)videos, videos>1?@"Videos":@"Video"];
-    }
-    else
-    {
-        if (self.pickerType == IQAssetsPickerControllerAssetTypePhoto)
+        else
         {
-            [stringSubtitle appendString:@"No photos"];
-        }
-        else if (self.pickerType == IQAssetsPickerControllerAssetTypeVideo)
-        {
-            [stringSubtitle appendString:@"No videos"];
+            cell.labelSubTitle.text = @"No videos";
         }
     }
-    
-    cell.labelSubTitle.text = stringSubtitle;
     
     return cell;
 }

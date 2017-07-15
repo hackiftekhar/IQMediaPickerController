@@ -1,7 +1,7 @@
 //
 //  IQMediaPickerControllerConstants.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import <Foundation/Foundation.h>
 
 extern NSString *const IQMediaURL;          // an NSURL
@@ -33,3 +34,26 @@ extern NSString *const IQMediaType;      // an NSString (UTI, i.e. kUTTypeImage)
 extern NSString *const IQMediaTypeAudio;
 extern NSString *const IQMediaTypeVideo;
 extern NSString *const IQMediaTypeImage;
+
+typedef NS_ENUM(NSInteger, IQMediaPickerControllerSourceType) {
+    IQMediaPickerControllerSourceTypeLibrary,
+    IQMediaPickerControllerSourceTypeCameraMicrophone,
+};
+
+typedef NS_ENUM(NSInteger, IQMediaPickerControllerMediaType) {
+    IQMediaPickerControllerMediaTypePhoto   = 1 << 0,
+    IQMediaPickerControllerMediaTypeVideo   = 1 << 1,
+    IQMediaPickerControllerMediaTypeAudio   = 1 << 2,
+};
+
+typedef NS_ENUM(NSInteger, IQMediaPickerControllerCameraDevice) {
+    IQMediaPickerControllerCameraDeviceRear,
+    IQMediaPickerControllerCameraDeviceFront,
+};
+
+typedef NS_ENUM(NSInteger, IQMediaPickerControllerCameraFlashMode) {
+    IQMediaPickerControllerCameraFlashModeOff,
+    IQMediaPickerControllerCameraFlashModeOn,
+    IQMediaPickerControllerCameraFlashModeAuto,
+};
+

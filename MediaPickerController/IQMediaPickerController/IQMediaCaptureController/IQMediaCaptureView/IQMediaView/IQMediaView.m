@@ -1,7 +1,7 @@
 //
 //  IQMediaView.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,70 +21,88 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import "IQMediaView.h"
 #import "IQFeatureOverlay.h"
 #import "IQ_SCSiriWaveformView.h"
 
 @interface IQMediaView ()<IQFeatureOverlayDelegate,UIGestureRecognizerDelegate>
 
-@property (retain)	IQ_SCSiriWaveformView *levelMeter;
+@property IQ_SCSiriWaveformView *levelMeter;
+
+@property (nonatomic) BOOL blur;
 
 @end
 
 @implementation IQMediaView
 {
-    IQFeatureOverlay *focusView;
-    IQFeatureOverlay *exposureView;
+//    IQFeatureOverlay *focusView;
+//    IQFeatureOverlay *exposureView;
     
+    UIVisualEffectView *blurView;
     NSTimer *updateTimer;
     
     UIView *overlayView;
-    UIPanGestureRecognizer *_panRecognizer;
-    UITapGestureRecognizer *_tapRecognizer;
-    UILongPressGestureRecognizer *_longPressRecognizer;
-}
-
-+(Class)layerClass
-{
-    return [AVCaptureVideoPreviewLayer class];
+//    UIPanGestureRecognizer *_panRecognizer;
+//    UITapGestureRecognizer *_tapRecognizer;
+//    UILongPressGestureRecognizer *_longPressRecognizer;
+    UISwipeGestureRecognizer *_swipeRightRecognizer;
+    UISwipeGestureRecognizer *_swipeLeftRecognizer;
 }
 
 -(void)initialize
 {
-    self.backgroundColor = [UIColor blackColor];
-    [(AVCaptureVideoPreviewLayer*)self.layer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    self.backgroundColor = [UIColor clearColor];
     
-    focusView = [[IQFeatureOverlay alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    focusView.alpha = 0.0;
-    focusView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
-    focusView.center = self.center;
-    focusView.delegate = self;
-    focusView.image = [UIImage imageNamed:@"IQ_focus"];
-    [self addSubview:focusView];
+    self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] init];
+    self.previewLayer.frame = self.bounds;
+    self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+    [self.layer addSublayer:self.previewLayer];
     
-    exposureView = [[IQFeatureOverlay alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    exposureView.alpha = 0.0;
-    exposureView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
-    exposureView.center = self.center;
-    exposureView.delegate = self;
-    exposureView.image = [UIImage imageNamed:@"IQ_exposure"];
-    [self addSubview:exposureView];
+//    focusView = [[IQFeatureOverlay alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+//    focusView.alpha = 0.0;
+//    focusView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+//    focusView.center = self.center;
+//    focusView.delegate = self;
+//    focusView.image = [UIImage imageNamed:@"IQ_focus"];
+//    [self addSubview:focusView];
+//    
+//    exposureView = [[IQFeatureOverlay alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+//    exposureView.alpha = 0.0;
+//    exposureView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+//    exposureView.center = self.center;
+//    exposureView.delegate = self;
+//    exposureView.image = [UIImage imageNamed:@"IQ_exposure"];
+//    [self addSubview:exposureView];
     
-    _longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognizer:)];
-    _longPressRecognizer.delegate = self;
-    [self addGestureRecognizer:_longPressRecognizer];
-
-    _panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognizer:)];
-    [_panRecognizer requireGestureRecognizerToFail:_longPressRecognizer];
-    _panRecognizer.delegate = self;
-    [self addGestureRecognizer:_panRecognizer];
     
-    _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizer:)];
-    [_tapRecognizer requireGestureRecognizerToFail:_panRecognizer];
-    [_tapRecognizer requireGestureRecognizerToFail:_longPressRecognizer];
-    _tapRecognizer.delegate = self;
-    [self addGestureRecognizer:_tapRecognizer];
+    _swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRecognizer:)];
+    _swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [self addGestureRecognizer:_swipeRightRecognizer];
     
+    _swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRecognizer:)];
+    _swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    _swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self addGestureRecognizer:_swipeLeftRecognizer];
+    
+//    _longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognizer:)];
+//    _longPressRecognizer.delegate = self;
+//    [self addGestureRecognizer:_longPressRecognizer];
+//
+//    _panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognizer:)];
+//    [_panRecognizer requireGestureRecognizerToFail:_longPressRecognizer];
+//    [_panRecognizer requireGestureRecognizerToFail:_swipeRightRecognizer];
+//    [_panRecognizer requireGestureRecognizerToFail:_swipeLeftRecognizer];
+//    _panRecognizer.delegate = self;
+//    [self addGestureRecognizer:_panRecognizer];
+//    
+//    _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizer:)];
+//    [_tapRecognizer requireGestureRecognizerToFail:_panRecognizer];
+//    [_tapRecognizer requireGestureRecognizerToFail:_longPressRecognizer];
+//    [_tapRecognizer requireGestureRecognizerToFail:_swipeRightRecognizer];
+//    [_tapRecognizer requireGestureRecognizerToFail:_swipeLeftRecognizer];
+//    _tapRecognizer.delegate = self;
+//    [self addGestureRecognizer:_tapRecognizer];
     
     overlayView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, -CGRectGetMidX(self.bounds), -CGRectGetMidY(self.bounds))];
     overlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -96,7 +114,7 @@
     {
         self.levelMeter = [[IQ_SCSiriWaveformView alloc] initWithFrame:CGRectInset(self.bounds, 0, self.bounds.size.height/4)];
         self.levelMeter.backgroundColor = [UIColor clearColor];
-        [self.levelMeter setWaveColor:[UIColor colorWithRed:0.0/255.0 green:128.0/255.0 blue:255.0/255.0 alpha:1.0]];
+        [self.levelMeter setWaveColor:[UIColor colorWithRed:192.0/255.0 green:1 blue:1 alpha:1]];
         [self.levelMeter setPrimaryWaveLineWidth:3.0f];
         [self.levelMeter setSecondaryWaveLineWidth:1.0];
         self.levelMeter.phaseShift = -0.5;
@@ -105,6 +123,12 @@
         self.levelMeter.center = CGPointMake(CGRectGetMidX(overlayView.bounds), CGRectGetMidY(overlayView.bounds));
         [overlayView addSubview:self.levelMeter];
     }
+    
+    blurView = [[UIVisualEffectView alloc] initWithEffect:nil];
+    blurView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    blurView.hidden = YES;
+    blurView.frame = self.bounds;
+    [self addSubview:blurView];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -117,61 +141,72 @@
     return self;
 }
 
--(void)tapGestureRecognizer:(UIPanGestureRecognizer*)recognizer
-{
-    CGPoint center = [recognizer locationInView:self];
-    
-    [exposureView setCenter:center];
-    
-    if (recognizer.state == UIGestureRecognizerStateEnded  && [self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
-    {
-        [self.delegate mediaView:self exposurePointOfInterest:exposureView.center];
-        [exposureView hideAfterSeconds:1];
+//-(void)tapGestureRecognizer:(UIPanGestureRecognizer*)recognizer
+//{
+//    CGPoint center = [recognizer locationInView:self];
+//    
+//    [exposureView setCenter:center];
+//    
+//    if (recognizer.state == UIGestureRecognizerStateEnded  && [self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
+//    {
+//        [self.delegate mediaView:self exposurePointOfInterest:exposureView.center];
+//        [exposureView hideAfterSeconds:1];
+//
+//        if (exposureView.alpha == 0.0)
+//        {
+//            [exposureView animate];
+//        }
+//    }
+//}
 
-        if (exposureView.alpha == 0.0)
-        {
-            [exposureView animate];
-        }
-    }
-}
+//-(void)panGestureRecognizer:(UIPanGestureRecognizer*)recognizer
+//{
+//    CGPoint center = [recognizer locationInView:self];
+//    
+//    [exposureView setCenter:center];
+//    
+//    if (recognizer.state == UIGestureRecognizerStateBegan)
+//    {
+//        if (exposureView.alpha == 0.0)
+//        {
+//            [exposureView animate];
+//        }
+//    }
+//    else if (recognizer.state == UIGestureRecognizerStateEnded  && [self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
+//    {
+//        [self.delegate mediaView:self exposurePointOfInterest:exposureView.center];
+//        [exposureView hideAfterSeconds:1];
+//    }
+//}
 
--(void)panGestureRecognizer:(UIPanGestureRecognizer*)recognizer
-{
-    CGPoint center = [recognizer locationInView:self];
-    
-    [exposureView setCenter:center];
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan)
-    {
-        if (exposureView.alpha == 0.0)
-        {
-            [exposureView animate];
-        }
-    }
-    else if (recognizer.state == UIGestureRecognizerStateEnded  && [self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
-    {
-        [self.delegate mediaView:self exposurePointOfInterest:exposureView.center];
-        [exposureView hideAfterSeconds:1];
-    }
-}
+//-(void)longPressGestureRecognizer:(UILongPressGestureRecognizer*)recognizer
+//{
+//    CGPoint center = [recognizer locationInView:self];
+//    
+//    [focusView setCenter:center];
+//    
+//    if (recognizer.state == UIGestureRecognizerStateBegan)
+//    {
+//        if (focusView.alpha == 0.0)
+//        {
+//            [focusView animate];
+//        }
+//    }
+//    else if (recognizer.state == UIGestureRecognizerStateEnded  && [self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
+//    {
+//        [self.delegate mediaView:self focusPointOfInterest:focusView.center];
+//        [focusView hideAfterSeconds:1];
+//    }
+//}
 
--(void)longPressGestureRecognizer:(UILongPressGestureRecognizer*)recognizer
+-(void)swipeGestureRecognizer:(UISwipeGestureRecognizer*)gesture
 {
-    CGPoint center = [recognizer locationInView:self];
-    
-    [focusView setCenter:center];
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan)
+    if (gesture.state == UIGestureRecognizerStateEnded)
     {
-        if (focusView.alpha == 0.0)
+        if ([self.delegate respondsToSelector:@selector(mediaView:swipeDirection:)])
         {
-            [focusView animate];
+            [self.delegate mediaView:self swipeDirection:(gesture == _swipeLeftRecognizer?UISwipeGestureRecognizerDirectionLeft : UISwipeGestureRecognizerDirectionRight)];
         }
-    }
-    else if (recognizer.state == UIGestureRecognizerStateEnded  && [self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
-    {
-        [self.delegate mediaView:self focusPointOfInterest:focusView.center];
-        [focusView hideAfterSeconds:1];
     }
 }
 
@@ -180,44 +215,78 @@
     return NO;
 }
 
--(void)awakeFromNib
+-(void)setPreviewInset:(UIEdgeInsets)previewInset
 {
-    [super awakeFromNib];
-    [self initialize];
+    _previewInset = previewInset;
+    
+    CGRect previewRect = UIEdgeInsetsInsetRect(self.bounds, previewInset);
+
+    [CATransaction begin];
+    [CATransaction setValue: (id) kCFBooleanTrue forKey: kCATransactionDisableActions];
+    self.previewLayer.frame = previewRect;
+    [CATransaction commit];
 }
 
 -(void)setCaptureMode:(IQMediaCaptureControllerCaptureMode)captureMode
 {
     _captureMode = captureMode;
     
-    switch (captureMode)
+    [self updateGesturesState];
+}
+
+-(void)setRecording:(BOOL)recording
+{
+    _recording = recording;
+    
+    [self updateGesturesState];
+}
+
+-(void)updateGesturesState
+{
+    if (_recording)
     {
-        case IQMediaCaptureControllerCaptureModePhoto:
-        case IQMediaCaptureControllerCaptureModeVideo:
+//        _tapRecognizer.enabled = NO;
+//        _panRecognizer.enabled = NO;
+//        _longPressRecognizer.enabled = NO;
+//        focusView.userInteractionEnabled = NO;
+//        exposureView.userInteractionEnabled = NO;
+        _swipeRightRecognizer.enabled = NO;
+        _swipeLeftRecognizer.enabled = NO;
+    }
+    else
+    {
+        _swipeRightRecognizer.enabled = _blur == NO;
+        _swipeLeftRecognizer.enabled = _blur == NO;
+
+        switch (self.captureMode)
         {
-            _tapRecognizer.enabled = YES;
-            _panRecognizer.enabled = YES;
-            _longPressRecognizer.enabled = YES;
-            focusView.userInteractionEnabled = YES;
-            exposureView.userInteractionEnabled = YES;
-            
-            self.levelMeter.alpha = 0.0;
+            case IQMediaCaptureControllerCaptureModePhoto:
+            case IQMediaCaptureControllerCaptureModeVideo:
+            {
+//                _tapRecognizer.enabled = YES;
+//                _panRecognizer.enabled = YES;
+//                _longPressRecognizer.enabled = YES;
+//                focusView.userInteractionEnabled = YES;
+//                exposureView.userInteractionEnabled = YES;
+                
+                self.levelMeter.alpha = 0.0;
+            }
+                break;
+            case IQMediaCaptureControllerCaptureModeAudio:
+            {
+//                _tapRecognizer.enabled = NO;
+//                _panRecognizer.enabled = NO;
+//                _longPressRecognizer.enabled = NO;
+//                focusView.userInteractionEnabled = NO;
+//                exposureView.userInteractionEnabled = NO;
+                
+                self.levelMeter.alpha = 1.0;
+            }
+                break;
+                
+            default:
+                break;
         }
-            break;
-        case IQMediaCaptureControllerCaptureModeAudio:
-        {
-            _tapRecognizer.enabled = NO;
-            _panRecognizer.enabled = NO;
-            _longPressRecognizer.enabled = NO;
-            focusView.userInteractionEnabled = NO;
-            exposureView.userInteractionEnabled = NO;
-            
-            self.levelMeter.alpha = 1.0;
-        }
-            break;
-            
-        default:
-            break;
     }
 }
 
@@ -229,38 +298,53 @@
 -(void)setPreviewSession:(AVCaptureSession *)previewSession
 {
     _previewSession = previewSession;
-    [(AVCaptureVideoPreviewLayer*)self.layer setSession:_previewSession];
+    [self.previewLayer setSession:_previewSession];
 }
 
 -(void)setBlur:(BOOL)blur
 {
+    [self setBlur:blur completion:nil];
+}
+
+-(void)setBlur:(BOOL)blur completion:(void (^)(void))completion
+{
+    _blur = blur;
+    [self updateGesturesState];
+
     [UIView animateWithDuration:0.3 animations:^{
-        _blur = blur;
         
-        [self.layer setShouldRasterize:_blur];
-        
-        self.layer.rasterizationScale = (_blur)?0.02:[[UIScreen mainScreen] scale];
-        
-        if (_blur)
+        if (_blur == YES)
         {
-            overlayView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:0.0/255.0 alpha:0.3];
+            blurView.hidden = NO;
         }
-        else
+        
+        blurView.effect = _blur?[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]:nil;
+        
+        switch (_captureMode)
         {
-            switch (_captureMode)
+            case IQMediaCaptureControllerCaptureModePhoto:
+            case IQMediaCaptureControllerCaptureModeVideo:
             {
-                case IQMediaCaptureControllerCaptureModePhoto:
-                case IQMediaCaptureControllerCaptureModeVideo:
-                {
-                    overlayView.backgroundColor = [UIColor clearColor];
-                }
-                    break;
-                case IQMediaCaptureControllerCaptureModeAudio:
-                {
-                    overlayView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:0.0/255.0 alpha:1.0];
-                }
-                    break;
+                overlayView.backgroundColor = [UIColor clearColor];
             }
+                break;
+            case IQMediaCaptureControllerCaptureModeAudio:
+            {
+//                overlayView.backgroundColor = [UIColor colorWithRed:0 green:64.0/255.0 blue:0 alpha:1];
+                overlayView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1];
+            }
+                break;
+        }
+    } completion:^(BOOL finished) {
+
+        if (_blur == NO)
+        {
+            blurView.hidden = YES;
+        }
+        
+        if (completion)
+        {
+            completion();
         }
     }];
 }
@@ -269,70 +353,70 @@
 {
     _focusMode = focusMode;
     
-    if (focusMode == AVCaptureFocusModeAutoFocus)
-    {
-        focusView.alpha = 1.0;
-    }
-    else
-    {
-        focusView.alpha = 0.0;
-    }
+//    if (focusMode == AVCaptureFocusModeAutoFocus)
+//    {
+//        focusView.alpha = 1.0;
+//    }
+//    else
+//    {
+//        focusView.alpha = 0.0;
+//    }
 }
 
 -(void)setExposureMode:(AVCaptureExposureMode)exposureMode
 {
     _exposureMode = exposureMode;
     
-    if (exposureMode == AVCaptureExposureModeContinuousAutoExposure)
-    {
-        exposureView.alpha = 1.0;
-    }
-    else
-    {
-        exposureView.alpha = 0.0;
-    }
+//    if (exposureMode == AVCaptureExposureModeContinuousAutoExposure)
+//    {
+//        exposureView.alpha = 1.0;
+//    }
+//    else
+//    {
+//        exposureView.alpha = 0.0;
+//    }
 }
 
 -(void)setFocusPointOfInterest:(CGPoint)focusPointOfInterest
 {
     _focusPointOfInterest = focusPointOfInterest;
     
-    CGPoint point = [(AVCaptureVideoPreviewLayer*)self.layer pointForCaptureDevicePointOfInterest:focusPointOfInterest];
-    
-    if (isnan(point.x) == false && isnan(point.y) == false)
-    {
-        focusView.center = point;
-    }
+//    CGPoint point = [self.previewLayer pointForCaptureDevicePointOfInterest:focusPointOfInterest];
+//    
+//    if (isnan(point.x) == false && isnan(point.y) == false)
+//    {
+//        focusView.center = point;
+//    }
 }
 
 -(void)setExposurePointOfInterest:(CGPoint)exposurePointOfInterest
 {
     _exposurePointOfInterest = exposurePointOfInterest;
     
-    CGPoint point = [(AVCaptureVideoPreviewLayer*)self.layer pointForCaptureDevicePointOfInterest:exposurePointOfInterest];
-
-    if (isnan(point.x) == false && isnan(point.y) == false)
-    {
-        exposureView.center = point;
-    }
+//    CGPoint point = [self.previewLayer pointForCaptureDevicePointOfInterest:exposurePointOfInterest];
+//
+//    if (isnan(point.x) == false && isnan(point.y) == false)
+//    {
+//        exposureView.center = point;
+//    }
 }
 
 -(void)featureOverlay:(IQFeatureOverlay*)featureOverlay didEndWithCenter:(CGPoint)center
 {
-    if (featureOverlay == focusView)
-    {
-        if ([self.delegate respondsToSelector:@selector(mediaView:focusPointOfInterest:)])
-        {
-            [self.delegate mediaView:self focusPointOfInterest:[(AVCaptureVideoPreviewLayer*)self.layer captureDevicePointOfInterestForPoint:center]];
-        }
-    }
-    else if (featureOverlay == exposureView)
-    {
-        if ([self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
-        {
-            [self.delegate mediaView:self exposurePointOfInterest:[(AVCaptureVideoPreviewLayer*)self.layer captureDevicePointOfInterestForPoint:center]];
-        }
-    }
+//    if (featureOverlay == focusView)
+//    {
+//        if ([self.delegate respondsToSelector:@selector(mediaView:focusPointOfInterest:)])
+//        {
+//            [self.delegate mediaView:self focusPointOfInterest:[self.previewLayer captureDevicePointOfInterestForPoint:center]];
+//        }
+//    }
+//    else if (featureOverlay == exposureView)
+//    {
+//        if ([self.delegate respondsToSelector:@selector(mediaView:exposurePointOfInterest:)])
+//        {
+//            [self.delegate mediaView:self exposurePointOfInterest:[self.previewLayer captureDevicePointOfInterestForPoint:center]];
+//        }
+//    }
 }
 
 @end

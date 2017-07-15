@@ -1,7 +1,7 @@
 //
 //  IQSongsListTableHeaderView.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 
 
 #import "IQSongsListTableHeaderView.h"
-#import "IQAudioPickerShadowView.h"
 
 @implementation IQSongsListTableHeaderView
 
@@ -35,7 +34,7 @@
     {
         self.contentView.frame = CGRectMake(0, 0, 320, 80);
         
-        IQAudioPickerShadowView *shadowView = [[IQAudioPickerShadowView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+        UIView *shadowView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
         shadowView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         [self.contentView addSubview:shadowView];
         

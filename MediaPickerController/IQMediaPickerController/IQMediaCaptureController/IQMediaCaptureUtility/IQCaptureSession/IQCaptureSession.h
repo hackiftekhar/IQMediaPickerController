@@ -1,7 +1,7 @@
 //
 //  IQCaptureSession.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,24 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "IQMediaCaptureController.h"
 
 
-typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
-    IQCameraCaptureModePhoto,
-    IQCameraCaptureModeVideo,
-    IQCameraCaptureModeAudio,
-    IQCameraCaptureModeUnspecified,
+typedef NS_ENUM(NSInteger, IQCaptureSessionPreset) {
+    IQCaptureSessionPresetPhoto,    //High quality photo, full resolution
+    IQCaptureSessionPresetHigh,     //High quality video and audio
+    IQCaptureSessionPresetMedium,   //Medium quality output, suitable for sharing over Wi-Fi
+    IQCaptureSessionPresetLow,      //Low quality output, suitable for sharing over 3G
+    IQCaptureSessionPreset352x288,  //CIF quality
+    IQCaptureSessionPreset640x480,  //VGA quality
+    IQCaptureSessionPreset1280x720, //
+    IQCaptureSessionPreset1920x1080,//
+    IQCaptureSessionPreset3840x2160,//  UHD 4K
+    IQCaptureSessionPresetiFrame960x540,    //  iFrame H264 ~30 Mbits/sec, AAC audio
+    IQCaptureSessionPresetiFrame1280x720,   //  iFrame H264 ~40 Mbits/sec AAC audio
 };
 
 @protocol IQCaptureSessionDelegate;
@@ -38,13 +46,14 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 
 @interface IQCaptureSession : NSObject
 
-@property(nonatomic, weak) id<IQCaptureSessionDelegate> delegate;
+@property (nullable, weak) id<IQCaptureSessionDelegate> delegate;
 
 /*****Session*****/
-@property(nonatomic, strong, readonly) AVCaptureSession *captureSession; //An instance of AVCaptureSession to coordinate the data flow from the input to the output
-//@property(nonatomic, assign) IQCaptureSessionPreset captureSessionPreset;
+@property (nonnull, readonly) AVCaptureSession *captureSession; //An instance of AVCaptureSession to coordinate the data flow from the input to the output
+@property IQCaptureSessionPreset captureSessionPreset;
+@property (readonly) CGSize presetSize;
 
-@property(nonatomic, assign, readonly) BOOL isSessionRunning;
+@property (readonly) BOOL isSessionRunning;
 
 - (void)startRunning;
 - (void)stopRunning;
@@ -66,8 +75,8 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 - (BOOL)isExposureModeSupported:(AVCaptureExposureMode)exposureMode;
 - (BOOL)isWhiteBalanceModeSupported:(AVCaptureWhiteBalanceMode)whiteBalanceMode;
 
-- (IQCameraCaptureMode)captureMode;
-+ (NSArray*)supportedVideoCaptureDevices;
+- (IQMediaCaptureControllerCaptureMode)captureMode;
++ (NSArray<AVCaptureDevice*>*_Nonnull)supportedVideoCaptureDevices;
 - (AVCaptureDevicePosition)cameraPosition;
 - (AVCaptureFlashMode)flashMode;
 - (AVCaptureTorchMode)torchMode;
@@ -77,7 +86,7 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 - (CGPoint)focusPoint;
 - (CGPoint)exposurePoint;
 
-- (BOOL)setCaptureMode:(IQCameraCaptureMode)captureMode;
+- (BOOL)setCaptureMode:(IQMediaCaptureControllerCaptureMode)captureMode;
 - (BOOL)setCameraPosition:(AVCaptureDevicePosition)cameraPosition;
 - (BOOL)setFlashMode:(AVCaptureFlashMode)flashMode;
 - (BOOL)setTorchMode:(AVCaptureTorchMode)torchMode;
@@ -99,8 +108,9 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 - (void)startAudioRecording;
 - (void)stopAudioRecording;
 
-@property(nonatomic, readonly, getter=isRecording) BOOL recording;
+@property(readonly, getter=isRecording) BOOL recording;
 - (CGFloat)recordingDuration;
+- (long long)recordingSize;
 
 @end
 
@@ -108,9 +118,16 @@ typedef NS_ENUM(NSInteger, IQCameraCaptureMode) {
 @protocol IQCaptureSessionDelegate <NSObject>
 
 @optional
-- (void)captureSession:(IQCaptureSession*)captureSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError *)error;
+
+//Common
+- (void)captureSession:(IQCaptureSession*_Nonnull)captureSession didFinishMediaWithInfo:(NSDictionary *_Nullable)info error:(NSError *_Nullable)error;
+
+- (void)captureSessionDidStartRecording:(IQCaptureSession*_Nonnull)captureSession;
+- (void)captureSessionDidPauseRecording:(IQCaptureSession*_Nonnull)captureSession;
+
+- (void)captureSessionDidUpdateSessionPreset:(IQCaptureSession*_Nonnull)captureSession;
 
 //IQCameraCaptureModeAudio
-- (void)captureSession:(IQCaptureSession*)audioSession didUpdateMeterLevel:(CGFloat)meterLevel;
+- (void)captureSession:(IQCaptureSession*_Nonnull)audioSession didUpdateMeterLevel:(CGFloat)meterLevel;
 
 @end

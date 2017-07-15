@@ -1,7 +1,7 @@
 //
 //  IQAudioSession.h
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+
 #import <Foundation/Foundation.h>
 
 @protocol IQAudioSessionDelegate;
@@ -29,18 +30,19 @@
 
 @interface IQAudioSession : NSObject
 
-@property(nonatomic, assign) id<IQAudioSessionDelegate> delegate;
+@property(nullable, weak) id<IQAudioSessionDelegate> delegate;
 
-@property(nonatomic, assign, readonly) BOOL isRunning;
+@property(readonly) BOOL isRunning;
 
 - (void)startRunning;
 - (void)stopRunning;
 
-@property(nonatomic, readonly, getter=isRecording) BOOL recording;
+@property(readonly, getter=isRecording) BOOL recording;
 
 - (void)startAudioRecording;
 - (void)stopAudioRecording;
 - (CGFloat)recordingDuration;
+- (long long)recordingSize;
 
 @end
 
@@ -48,8 +50,8 @@
 @protocol IQAudioSessionDelegate <NSObject>
 
 @optional
-- (void)audioSession:(IQAudioSession*)audioSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError *)error;
-- (void)audioSession:(IQAudioSession *)audioSession didUpdateMeterLevel:(CGFloat)meterLevel;
+- (void)audioSession:(IQAudioSession*_Nonnull)audioSession didFinishMediaWithInfo:(NSDictionary *_Nullable)info error:(NSError *_Nullable)error;
+- (void)audioSession:(IQAudioSession *_Nonnull)audioSession didUpdateMeterLevel:(CGFloat)meterLevel;
 @end
 
 

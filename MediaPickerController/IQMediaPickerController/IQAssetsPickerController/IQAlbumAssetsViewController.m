@@ -1,7 +1,7 @@
 //
 //  IQAlbumAssetsViewController.m
 //  https://github.com/hackiftekhar/IQMediaPickerController
-//  Copyright (c) 2013-14 Iftekhar Qurashi.
+//  Copyright (c) 2013-17 Iftekhar Qurashi.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -55,12 +55,14 @@
     }
     
     self.collectionView.backgroundColor = [UIColor whiteColor];
-    
+    self.collectionView.alwaysBounceVertical = YES;
+
     UICollectionViewFlowLayout *_flowLayout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
-    _flowLayout.minimumLineSpacing = 5.0f;
-    _flowLayout.minimumInteritemSpacing = 5.0f;
-    _flowLayout.sectionInset = UIEdgeInsetsMake(5.0f, 2.0f, 5.0f, 2.0f);
-    _flowLayout.itemSize = CGSizeMake(75.0f, 75.0f);
+    _flowLayout.minimumLineSpacing = _flowLayout.minimumInteritemSpacing = 1.0f;
+    
+    NSUInteger numberOfItemsPerRow = 3;
+    CGFloat size = (self.view.bounds.size.width - (_flowLayout.minimumLineSpacing * (numberOfItemsPerRow+1)))/numberOfItemsPerRow;
+    _flowLayout.itemSize =  CGSizeMake(size, size);
 
     [self.collectionView registerClass:[IQAssetsCell class] forCellWithReuseIdentifier:@"cell"];
 
@@ -68,12 +70,9 @@
     
     _selectedAssets = [[NSMutableIndexSet alloc] init];
     
-    if (_pickerType == IQAssetsPickerControllerAssetTypeVideo)
-    {
-        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressGestureRecognizer:)];
-        [self.collectionView addGestureRecognizer:longPressGesture];
-        longPressGesture.delegate = self;
-    }
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressGestureRecognizer:)];
+    [self.collectionView addGestureRecognizer:longPressGesture];
+    longPressGesture.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,7 +90,7 @@
         
         if (indexPath)
         {
-            [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.row] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
+            [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
              {
                  if (result)
                  {
@@ -157,7 +156,7 @@
 //{
 //    __block CGSize thumbnailSize = CGSizeMake(80, 80);
 
-//    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.row] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
+//    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
 //     {
 //         if (result)
 //         {
@@ -185,7 +184,7 @@
 {
     IQAssetsCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.row] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
+    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
      {
          if (result)
          {
@@ -223,7 +222,7 @@
          }
      }];
     
-    BOOL selected = [self.selectedAssets containsIndex:indexPath.row];
+    BOOL selected = [self.selectedAssets containsIndex:indexPath.item];
 
     cell.checkmarkView.alpha = selected?1.0:0.0;
 
@@ -236,15 +235,15 @@
 {
     IQAssetsCell *cell = (IQAssetsCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
-    BOOL previouslyContainsIndex = [self.selectedAssets containsIndex:indexPath.row];
+    BOOL previouslyContainsIndex = [self.selectedAssets containsIndex:indexPath.item];
     
     if (previouslyContainsIndex)
     {
-        [self.selectedAssets removeIndex:indexPath.row];
+        [self.selectedAssets removeIndex:indexPath.item];
     }
     else
     {
-        [self.selectedAssets addIndex:indexPath.row];
+        [self.selectedAssets addIndex:indexPath.item];
     }
     
     
@@ -297,19 +296,8 @@
             if ([self.selectedAssets count])
             {
                 doneBarButton.enabled = YES;
-                
-                if (_pickerType == IQAssetsPickerControllerAssetTypePhoto)
-                {
-                    self.title = [NSString stringWithFormat:@"%lu %@ selected",(unsigned long)[self.selectedAssets count],self.selectedAssets.count>1?@"Photos":@"Photo"];
-                }
-                else if (_pickerType == IQAssetsPickerControllerAssetTypeVideo)
-                {
-                    self.title = [NSString stringWithFormat:@"%lu %@ selected",(unsigned long)[self.selectedAssets count],self.selectedAssets.count>1?@"Videos":@"Video"];
-                }
-                else
-                {
-                    self.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedAssets count]];
-                }
+
+                self.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedAssets count]];
             }
             else
             {
