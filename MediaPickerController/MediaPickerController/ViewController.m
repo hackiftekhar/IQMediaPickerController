@@ -10,6 +10,7 @@
 #import "IQFileManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "IQImagePreviewViewController.h"
 
 #import "AudioTableViewCell.h"
 #import "VideoTableViewCell.h"
@@ -17,13 +18,14 @@
 
 @interface ViewController ()<IQMediaPickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 
-@property (strong, nonatomic) IBOutlet UISwitch *multiPickerSwitch;
-@property (strong, nonatomic) IBOutlet UISwitch *pickingSourceCamera;
-@property (strong, nonatomic) IBOutlet UISwitch *photoPickerSwitch;
-@property (strong, nonatomic) IBOutlet UISwitch *videoPickerSwitch;
-@property (strong, nonatomic) IBOutlet UISwitch *audioPickerSwitch;
-@property (strong, nonatomic) IBOutlet UISwitch *rearCaptureSwitch;
-@property (strong, nonatomic) IBOutlet UISwitch *flashOffSwitch;
+@property (assign, nonatomic) BOOL multiPickerSwitch;
+@property (assign, nonatomic) BOOL pickingSourceCamera;
+@property (assign, nonatomic) BOOL photoPickerSwitch;
+@property (assign, nonatomic) BOOL videoPickerSwitch;
+@property (assign, nonatomic) BOOL audioPickerSwitch;
+@property (assign, nonatomic) BOOL rearCaptureSwitch;
+@property (assign, nonatomic) BOOL flashOffSwitch;
+
 
 @end
 
@@ -36,6 +38,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _multiPickerSwitch = YES;
+    _pickingSourceCamera = YES;
+    _photoPickerSwitch = YES;
+    _videoPickerSwitch = YES;
+    _audioPickerSwitch = YES;
+    _rearCaptureSwitch = YES;
+    _flashOffSwitch = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -57,30 +67,30 @@
 {
     IQMediaPickerController *controller = [[IQMediaPickerController alloc] init];
     controller.delegate = self;
-    [controller setSourceType:self.pickingSourceCamera.on ? IQMediaPickerControllerSourceTypeCameraMicrophone : IQMediaPickerControllerSourceTypeLibrary];
+    [controller setSourceType:self.pickingSourceCamera ? IQMediaPickerControllerSourceTypeCameraMicrophone : IQMediaPickerControllerSourceTypeLibrary];
     
     IQMediaPickerControllerMediaType mediaType = 0;
     
-    if (self.photoPickerSwitch.on)
+    if (self.photoPickerSwitch)
     {
         mediaType = mediaType | IQMediaPickerControllerMediaTypePhoto;
     }
     
-    if (self.videoPickerSwitch.on)
+    if (self.videoPickerSwitch)
     {
         mediaType = mediaType | IQMediaPickerControllerMediaTypeVideo;
     }
     
-    if (self.audioPickerSwitch.on)
+    if (self.audioPickerSwitch)
     {
         mediaType = mediaType | IQMediaPickerControllerMediaTypeAudio;
     }
     
     [controller setMediaType:mediaType];
-    controller.captureDevice = self.rearCaptureSwitch.on ? IQMediaPickerControllerCameraDeviceRear : IQMediaPickerControllerCameraDeviceFront;
+    controller.captureDevice = self.rearCaptureSwitch ? IQMediaPickerControllerCameraDeviceRear : IQMediaPickerControllerCameraDeviceFront;
 //    controller.flashMode = self.flashOffSwitch.on ? IQMediaPickerControllerCameraFlashModeOff : IQMediaPickerControllerCameraFlashModeOn;
     
-    controller.allowsPickingMultipleItems = self.multiPickerSwitch.on;
+    controller.allowsPickingMultipleItems = self.multiPickerSwitch;
     [self presentViewController:controller animated:YES completion:nil];
 }
 
@@ -96,6 +106,42 @@
 {
 }
 
+-(IBAction)multiPickerAction:(UISwitch*)aSwitch
+{
+    _multiPickerSwitch = aSwitch.on;
+}
+
+-(IBAction)pickingSourceCameraAction:(UISwitch*)aSwitch
+{
+    _pickingSourceCamera = aSwitch.on;
+}
+
+-(IBAction)photoPickerAction:(UISwitch*)aSwitch
+{
+    _photoPickerSwitch = aSwitch.on;
+}
+
+-(IBAction)videoPickerAction:(UISwitch*)aSwitch
+{
+    _videoPickerSwitch = aSwitch.on;
+}
+
+-(IBAction)audioPickerAction:(UISwitch*)aSwitch
+{
+    _audioPickerSwitch = aSwitch.on;
+}
+
+-(IBAction)rearCaptureAction:(UISwitch*)aSwitch
+{
+    _rearCaptureSwitch = aSwitch.on;
+}
+
+-(IBAction)flashOffAction:(UISwitch*)aSwitch
+{
+    _flashOffSwitch = aSwitch.on;
+}
+
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [mediaInfo count] + 1;
@@ -105,11 +151,11 @@
 {
     if (section == 0)
     {
-        return [super tableView:tableView titleForHeaderInSection:section];
+        return @"Picker Settings";
     }
     else
     {
-        return [[mediaInfo allKeys] objectAtIndex:section];
+        return [[mediaInfo allKeys] objectAtIndex:section-1];
     }
 }
 
@@ -117,11 +163,11 @@
 {
     if (section == 0)
     {
-        return [super tableView:tableView numberOfRowsInSection:section];
+        return 7;
     }
     else
     {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:section];
+        NSString *key = [[mediaInfo allKeys] objectAtIndex:section-1];
         return [[mediaInfo objectForKey:key] count];
     }
 }
@@ -130,11 +176,11 @@
 {
     if (indexPath.section == 0)
     {
-        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+        return 44;
     }
     else
     {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section];
+        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
         
         if ([key isEqualToString:IQMediaTypeImage])
         {
@@ -151,11 +197,14 @@
 {
     if (indexPath.section == 0)
     {
-        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        NSString *identifier = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+
+        return cell;
     }
     else
     {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section];
+        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
         
         NSDictionary *dict = [[mediaInfo objectForKey:key] objectAtIndex:indexPath.row];
         
@@ -166,7 +215,7 @@
             MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
             UIImage *image = [artwork imageWithSize:artwork.bounds.size];
             
-            AudioTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AudioTableViewCell class])];
+            AudioTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AudioTableViewCell class]) forIndexPath:indexPath];
             
             cell.imageViewAudio.image = image;
             cell.labelTitle.text = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
@@ -176,7 +225,7 @@
         }
         else if([dict objectForKey:IQMediaAssetURL])
         {
-            VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([VideoTableViewCell class])];
+            VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([VideoTableViewCell class]) forIndexPath:indexPath];
             cell.imageViewVideo.image = nil;
             NSURL *url = [dict objectForKey:IQMediaAssetURL];
             cell.labelTitle.text = [url relativePath];
@@ -187,7 +236,7 @@
         {
             UIImage *image = [dict objectForKey:IQMediaImage];
             
-            PhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PhotoTableViewCell class])];
+            PhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PhotoTableViewCell class]) forIndexPath:indexPath];
             
             cell.imageViewPhoto.image = image;
             
@@ -202,7 +251,7 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NSStringFromClass([UITableViewCell class])];
             }
             
-            NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section];
+            NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
             
             NSURL *url = [[[mediaInfo objectForKey:key] objectAtIndex:indexPath.row] objectForKey:IQMediaURL];
             cell.textLabel.text = [[NSFileManager defaultManager] displayNameAtPath:url.relativePath];
@@ -223,7 +272,7 @@
     }
     else
     {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section];
+        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
         
         NSDictionary *dict = [[mediaInfo objectForKey:key] objectAtIndex:indexPath.row];
         
@@ -245,7 +294,12 @@
         }
         else if ([dict objectForKey:IQMediaImage])
         {
-            //        UIImage *image = [dict objectForKey:IQMediaImage];
+            PhotoTableViewCell *cell = (PhotoTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+            
+            IQImagePreviewViewController *previewController = [[IQImagePreviewViewController alloc] init];
+            previewController.liftedImageView = cell.imageViewPhoto;
+            [previewController showOverController:self.navigationController];
+
         }
         else if ([dict objectForKey:IQMediaURL])
         {

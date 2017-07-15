@@ -16,6 +16,9 @@
 		4C59EAC91EFFECA300BEF6BF /* IQSettingsContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C59EAC81EFFECA300BEF6BF /* IQSettingsContainerView.m */; };
 		4C59EACD1EFFEFD300BEF6BF /* NSString+IQTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C59EACC1EFFEFD300BEF6BF /* NSString+IQTimeIntervalFormatter.m */; };
 		4C8EA1B51F1A76DF00026A35 /* IQAKPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1B41F1A76DF00026A35 /* IQAKPickerView.m */; };
+		4C8EA1BC1F1A8C7B00026A35 /* AudioTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1B71F1A8C7B00026A35 /* AudioTableViewCell.m */; };
+		4C8EA1BD1F1A8C7B00026A35 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1B91F1A8C7B00026A35 /* PhotoTableViewCell.m */; };
+		4C8EA1BE1F1A8C7B00026A35 /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1BB1F1A8C7B00026A35 /* VideoTableViewCell.m */; };
 		4C99E3181F13F75300CE757D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C99E3171F13F75300CE757D /* Launch Screen.storyboard */; };
 		4C99E31C1F162A4500CE757D /* IQSelectedMediaAudioCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C99E31B1F162A4500CE757D /* IQSelectedMediaAudioCell.m */; };
 		4C99E31F1F162A5300CE757D /* IQSelectedMediaVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C99E31E1F162A5300CE757D /* IQSelectedMediaVideoCell.m */; };
@@ -65,9 +68,6 @@
 		C0ACF1AA19A8BD8A0071D368 /* IQMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF17D19A8BD8A0071D368 /* IQMediaView.m */; };
 		C0ACF1B019A8BD8A0071D368 /* IQMediaPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18C19A8BD8A0071D368 /* IQMediaPickerController.m */; };
 		C0ACF1B119A8BD8A0071D368 /* IQMediaPickerControllerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ACF18E19A8BD8A0071D368 /* IQMediaPickerControllerConstants.m */; };
-		C0AEE56519A8FA5700879C17 /* AudioTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0AEE56419A8FA5700879C17 /* AudioTableViewCell.m */; };
-		C0AEE56819A8FA6400879C17 /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0AEE56719A8FA6400879C17 /* VideoTableViewCell.m */; };
-		C0AEE56B19A8FA6E00879C17 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0AEE56A19A8FA6E00879C17 /* PhotoTableViewCell.m */; };
 		C0D5741D1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D5741C1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +100,12 @@
 		4C59EACC1EFFEFD300BEF6BF /* NSString+IQTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+IQTimeIntervalFormatter.m"; sourceTree = "<group>"; };
 		4C8EA1B31F1A76DF00026A35 /* IQAKPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAKPickerView.h; sourceTree = "<group>"; };
 		4C8EA1B41F1A76DF00026A35 /* IQAKPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAKPickerView.m; sourceTree = "<group>"; };
+		4C8EA1B61F1A8C7B00026A35 /* AudioTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTableViewCell.h; sourceTree = "<group>"; };
+		4C8EA1B71F1A8C7B00026A35 /* AudioTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTableViewCell.m; sourceTree = "<group>"; };
+		4C8EA1B81F1A8C7B00026A35 /* PhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTableViewCell.h; sourceTree = "<group>"; };
+		4C8EA1B91F1A8C7B00026A35 /* PhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTableViewCell.m; sourceTree = "<group>"; };
+		4C8EA1BA1F1A8C7B00026A35 /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
+		4C8EA1BB1F1A8C7B00026A35 /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
 		4C99E3171F13F75300CE757D /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		4C99E31A1F162A4500CE757D /* IQSelectedMediaAudioCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSelectedMediaAudioCell.h; sourceTree = "<group>"; };
 		4C99E31B1F162A4500CE757D /* IQSelectedMediaAudioCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSelectedMediaAudioCell.m; sourceTree = "<group>"; };
@@ -186,12 +192,6 @@
 		C0ACF18C19A8BD8A0071D368 /* IQMediaPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerController.m; sourceTree = "<group>"; };
 		C0ACF18D19A8BD8A0071D368 /* IQMediaPickerControllerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerControllerConstants.h; sourceTree = "<group>"; };
 		C0ACF18E19A8BD8A0071D368 /* IQMediaPickerControllerConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerControllerConstants.m; sourceTree = "<group>"; };
-		C0AEE56319A8FA5700879C17 /* AudioTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTableViewCell.h; sourceTree = "<group>"; };
-		C0AEE56419A8FA5700879C17 /* AudioTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTableViewCell.m; sourceTree = "<group>"; };
-		C0AEE56619A8FA6400879C17 /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
-		C0AEE56719A8FA6400879C17 /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
-		C0AEE56919A8FA6E00879C17 /* PhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTableViewCell.h; sourceTree = "<group>"; };
-		C0AEE56A19A8FA6E00879C17 /* PhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTableViewCell.m; sourceTree = "<group>"; };
 		C0D5741B1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQ_SCSiriWaveformView.h; sourceTree = "<group>"; };
 		C0D5741C1AEEC1F8002B49B7 /* IQ_SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQ_SCSiriWaveformView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -324,12 +324,12 @@
 				4C99E3171F13F75300CE757D /* Launch Screen.storyboard */,
 				C035C23619A8B5BE0072C2C0 /* ViewController.h */,
 				C035C23719A8B5BE0072C2C0 /* ViewController.m */,
-				C0AEE56319A8FA5700879C17 /* AudioTableViewCell.h */,
-				C0AEE56419A8FA5700879C17 /* AudioTableViewCell.m */,
-				C0AEE56619A8FA6400879C17 /* VideoTableViewCell.h */,
-				C0AEE56719A8FA6400879C17 /* VideoTableViewCell.m */,
-				C0AEE56919A8FA6E00879C17 /* PhotoTableViewCell.h */,
-				C0AEE56A19A8FA6E00879C17 /* PhotoTableViewCell.m */,
+				4C8EA1B61F1A8C7B00026A35 /* AudioTableViewCell.h */,
+				4C8EA1B71F1A8C7B00026A35 /* AudioTableViewCell.m */,
+				4C8EA1B81F1A8C7B00026A35 /* PhotoTableViewCell.h */,
+				4C8EA1B91F1A8C7B00026A35 /* PhotoTableViewCell.m */,
+				4C8EA1BA1F1A8C7B00026A35 /* VideoTableViewCell.h */,
+				4C8EA1BB1F1A8C7B00026A35 /* VideoTableViewCell.m */,
 				C035C23919A8B5BE0072C2C0 /* Images.xcassets */,
 				C035C22519A8B5BE0072C2C0 /* Supporting Files */,
 			);
@@ -714,6 +714,7 @@
 				C0ACF1A219A8BD8A0071D368 /* IQSongsPlaylistViewController.m in Sources */,
 				4C99E3291F19124200CE757D /* IQImagePreviewViewController.m in Sources */,
 				C0ACF19E19A8BD8A0071D368 /* IQSongsCompilationsViewController.m in Sources */,
+				4C8EA1BE1F1A8C7B00026A35 /* VideoTableViewCell.m in Sources */,
 				C035C23819A8B5BE0072C2C0 /* ViewController.m in Sources */,
 				C0ACF19A19A8BD8A0071D368 /* IQSongsCell.m in Sources */,
 				C0ACF19419A8BD8A0071D368 /* IQAssetsPickerController.m in Sources */,
@@ -721,7 +722,6 @@
 				C0ACF19819A8BD8A0071D368 /* IQAudioPickerShadowView.m in Sources */,
 				C0ACF1A619A8BD8A0071D368 /* IQCaptureSession.m in Sources */,
 				4C59EAB11EFFAC3100BEF6BF /* IQSelectedMediaViewController.m in Sources */,
-				C0AEE56B19A8FA6E00879C17 /* PhotoTableViewCell.m in Sources */,
 				C0ACF19919A8BD8A0071D368 /* IQSongsAlbumViewCell.m in Sources */,
 				C0ACF1A319A8BD8A0071D368 /* IQMediaCaptureController.m in Sources */,
 				4C59EACD1EFFEFD300BEF6BF /* NSString+IQTimeIntervalFormatter.m in Sources */,
@@ -730,7 +730,6 @@
 				C0ACF19C19A8BD8A0071D368 /* IQSongsAlbumListViewController.m in Sources */,
 				C0ACF19319A8BD8A0071D368 /* IQCheckmarkView.m in Sources */,
 				C0ACF19519A8BD8A0071D368 /* IQAudioPickerController.m in Sources */,
-				C0AEE56519A8FA5700879C17 /* AudioTableViewCell.m in Sources */,
 				4C59EABC1EFFD9F400BEF6BF /* IQNSArray+Remove.m in Sources */,
 				C0ACF1A719A8BD8A0071D368 /* IQFileManager.m in Sources */,
 				C0ACF1A019A8BD8A0071D368 /* IQSongsGenreViewController.m in Sources */,
@@ -738,14 +737,15 @@
 				C0ACF19F19A8BD8A0071D368 /* IQSongsComposersViewController.m in Sources */,
 				4C99E3221F162A6700CE757D /* IQSelectedMediaPhotoCell.m in Sources */,
 				C0ACF19119A8BD8A0071D368 /* IQAssetsCell.m in Sources */,
+				4C8EA1BD1F1A8C7B00026A35 /* PhotoTableViewCell.m in Sources */,
 				C0ACF19219A8BD8A0071D368 /* IQAssetsPickerShadowView.m in Sources */,
 				C0ACF18F19A8BD8A0071D368 /* IQAlbumAssetsViewController.m in Sources */,
 				4C99E31C1F162A4500CE757D /* IQSelectedMediaAudioCell.m in Sources */,
 				4C59EAC61EFFEC9600BEF6BF /* IQAudioSettingsContainerView.m in Sources */,
 				4C59EAC91EFFECA300BEF6BF /* IQSettingsContainerView.m in Sources */,
-				C0AEE56819A8FA6400879C17 /* VideoTableViewCell.m in Sources */,
 				C0ACF1A519A8BD8A0071D368 /* IQAudioSession.m in Sources */,
 				C0ACF19719A8BD8A0071D368 /* IQAudioPickerUtility.m in Sources */,
+				4C8EA1BC1F1A8C7B00026A35 /* AudioTableViewCell.m in Sources */,
 				C035C22F19A8B5BE0072C2C0 /* AppDelegate.m in Sources */,
 				4C59EAC31EFFEC8D00BEF6BF /* IQPhotoSettingsContainerView.m in Sources */,
 				C0ACF1A919A8BD8A0071D368 /* IQFeatureOverlay.m in Sources */,
