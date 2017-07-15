@@ -104,6 +104,8 @@
                 controller.mediaType = self.mediaType;
                 controller.captureDevice = self.captureDevice;
 //                controller.flashMode = self.flashMode;
+                controller.videoMaximumDuration = self.videoMaximumDuration;
+                controller.audioMaximumDuration = self.audioMaximumDuration;
                 self.viewControllers = @[controller];
             }
                 break;

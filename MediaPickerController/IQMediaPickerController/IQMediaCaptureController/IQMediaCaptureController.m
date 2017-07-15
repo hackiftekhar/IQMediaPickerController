@@ -600,7 +600,7 @@
     if ([self session].isRecording == NO)
     {
         self.buttonCapture.isRecording = YES;
-        [[self session] startVideoRecording];
+        [[self session] startVideoRecordingWithMaximumDuration:self.videoMaximumDuration];
         return YES;
     }
     else
@@ -623,7 +623,7 @@
     if ([self session].isRecording == NO)
     {
         self.buttonCapture.isRecording = YES;
-        [[self session] startAudioRecording];
+        [[self session] startAudioRecordingWithMaximumDuration:self.audioMaximumDuration];
         return YES;
     }
     else
@@ -918,6 +918,8 @@
 {
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState) animations:^{
         
+        self.buttonCapture.isRecording = NO;
+
         switch (captureSession.captureMode)
         {
             case IQMediaCaptureControllerCaptureModeVideo:
@@ -1023,7 +1025,9 @@
     }
     else
     {
-        NSLog(@"%@",error);
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error!" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 

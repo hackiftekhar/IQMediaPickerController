@@ -101,11 +101,11 @@ typedef NS_ENUM(NSInteger, IQCaptureSessionPreset) {
 - (void)takePicture;
 
 //IQCameraCaptureModeVideo
-- (void)startVideoRecording;
+- (void)startVideoRecordingWithMaximumDuration:(NSTimeInterval)videoMaximumDuration;
 - (void)stopVideoRecording;
 
 //IQCameraCaptureModeAudio
-- (void)startAudioRecording;
+- (void)startAudioRecordingWithMaximumDuration:(NSTimeInterval)audioMaximumDuration;
 - (void)stopAudioRecording;
 
 @property(readonly, getter=isRecording) BOOL recording;

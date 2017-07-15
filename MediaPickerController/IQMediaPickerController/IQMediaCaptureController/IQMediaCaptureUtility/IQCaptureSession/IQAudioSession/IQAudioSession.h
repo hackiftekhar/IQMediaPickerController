@@ -39,7 +39,7 @@
 
 @property(readonly, getter=isRecording) BOOL recording;
 
-- (void)startAudioRecording;
+- (void)startAudioRecordingWithMaximumDuration:(NSTimeInterval)audioMaximumDuration;
 - (void)stopAudioRecording;
 - (CGFloat)recordingDuration;
 - (long long)recordingSize;

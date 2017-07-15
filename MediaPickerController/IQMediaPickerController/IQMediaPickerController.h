@@ -46,7 +46,8 @@
 @property(nonatomic, assign) IQMediaPickerControllerCameraDevice captureDevice;
 //@property(nonatomic, assign) IQMediaPickerControllerCameraFlashMode flashMode;
 
-//@property(nonatomic) NSTimeInterval videoMaximumDuration;
+@property(nonatomic) NSTimeInterval videoMaximumDuration;
+@property(nonatomic) NSTimeInterval audioMaximumDuration;
 
 //@property(nonatomic) UIImagePickerControllerQualityType videoQuality;
 

@@ -45,6 +45,9 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
 
 @property (nonatomic, assign) BOOL allowsCapturingMultipleItems; // default is NO.
 
+@property(nonatomic) NSTimeInterval videoMaximumDuration;
+@property(nonatomic) NSTimeInterval audioMaximumDuration;
+
 - (void)takePicture;
 
 - (BOOL)startVideoCapture;

@@ -89,7 +89,8 @@
     [controller setMediaType:mediaType];
     controller.captureDevice = self.rearCaptureSwitch ? IQMediaPickerControllerCameraDeviceRear : IQMediaPickerControllerCameraDeviceFront;
 //    controller.flashMode = self.flashOffSwitch.on ? IQMediaPickerControllerCameraFlashModeOff : IQMediaPickerControllerCameraFlashModeOn;
-    
+//    controller.audioMaximumDuration = 10;
+//    controller.videoMaximumDuration = 10;
     controller.allowsPickingMultipleItems = self.multiPickerSwitch;
     [self presentViewController:controller animated:YES completion:nil];
 }

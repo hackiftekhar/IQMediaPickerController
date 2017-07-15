@@ -975,7 +975,7 @@
 
 #pragma mark - Video recording
 
--(void)startVideoRecording
+- (void)startVideoRecordingWithMaximumDuration:(NSTimeInterval)videoMaximumDuration
 {
     AVCaptureConnection *connection = [_movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
 
@@ -1014,6 +1014,8 @@
             }
         }
         
+        _movieFileOutput.maxRecordedDuration = (videoMaximumDuration > 0) ? CMTimeMake(videoMaximumDuration, 1) : kCMTimeInvalid;
+
         [_movieFileOutput stopRecording];
         [_movieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:self];
     }
@@ -1039,6 +1041,16 @@
 
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
 {
+    if ([self.delegate respondsToSelector:@selector(captureSessionDidPauseRecording:)])
+    {
+        [self.delegate captureSessionDidPauseRecording:self];
+    }
+    
+    if (error.code == AVErrorMaximumDurationReached || error.code == AVErrorMaximumFileSizeReached)
+    {
+        error = nil;
+    }
+
     if (error)
     {
         if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
@@ -1059,14 +1071,14 @@
 
 #pragma mark - Audio recording
 
-- (void)startAudioRecording
+- (void)startAudioRecordingWithMaximumDuration:(NSTimeInterval)audioMaximumDuration
 {
     if ([self.delegate respondsToSelector:@selector(captureSessionDidStartRecording:)])
     {
         [self.delegate captureSessionDidStartRecording:self];
     }
 
-    [_audioSession startAudioRecording];
+    [_audioSession startAudioRecordingWithMaximumDuration:audioMaximumDuration];
 }
 
 - (void)stopAudioRecording
@@ -1081,6 +1093,11 @@
 
 - (void)audioSession:(IQAudioSession*)audioSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError *)error
 {
+    if ([self.delegate respondsToSelector:@selector(captureSessionDidPauseRecording:)])
+    {
+        [self.delegate captureSessionDidPauseRecording:self];
+    }
+
     if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
     {
         [self.delegate captureSession:self didFinishMediaWithInfo:info error:error];

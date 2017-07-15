@@ -111,7 +111,7 @@
     return audioRecorder.isRecording;
 }
 
-- (void)startAudioRecording
+- (void)startAudioRecordingWithMaximumDuration:(NSTimeInterval)audioMaximumDuration
 {
     if (audioRecorder.recording == NO)
     {
@@ -122,16 +122,21 @@
         
         [audioRecorder prepareToRecord];
         // Start recording
-        [audioRecorder record];
+        
+        if (audioMaximumDuration > 0)
+        {
+            [audioRecorder recordForDuration:audioMaximumDuration];
+        }
+        else
+        {
+            [audioRecorder record];
+        }
     }
 }
 
 - (void)stopAudioRecording
 {
     [audioRecorder stop];
-    
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:_previousSessionCategory error:nil];
 }
 
 -(void)startSendingAudioMetering
@@ -164,6 +169,9 @@
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)successful
 {
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:_previousSessionCategory error:nil];
+
     if (successful)
     {
         NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:recorder.url,IQMediaURL,IQMediaTypeAudio,IQMediaType, nil];
