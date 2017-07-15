@@ -78,6 +78,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    NSInteger section = [self.collectionView numberOfSections] - 1;
+    NSInteger item = [self.collectionView numberOfItemsInSection:section] - 1;
+    
+    if (section >= 0 && item >= 0)
+    {
+        NSIndexPath *lastIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+
+        [self.collectionView scrollToItemAtIndexPath:lastIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+    }
 }
 
 -(void)longPressGestureRecognizer:(UILongPressGestureRecognizer *)gestureRecognizer

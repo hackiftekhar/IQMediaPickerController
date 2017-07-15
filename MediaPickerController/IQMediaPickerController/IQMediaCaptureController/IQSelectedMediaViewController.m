@@ -75,12 +75,21 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self.navigationController setToolbarHidden:NO animated:animated];
+
     NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
     self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",itemCount];
 
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.navigationController setToolbarHidden:NO animated:animated];
+    NSInteger section = [self.collectionView numberOfSections] - 1;
+    NSInteger item = [self.collectionView numberOfItemsInSection:section] - 1;
+    
+    if (section >= 0 && item >= 0)
+    {
+        NSIndexPath *lastIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
+        
+        [self.collectionView scrollToItemAtIndexPath:lastIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+    }
 }
 
 -(UIStatusBarAnimation)preferredStatusBarUpdateAnimation
