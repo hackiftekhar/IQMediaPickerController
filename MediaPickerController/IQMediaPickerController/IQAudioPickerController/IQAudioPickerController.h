@@ -31,6 +31,7 @@
 
 @property (nonatomic, nullable, weak) id<IQAudioPickerControllerDelegate,UITabBarControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO
+@property NSUInteger maximumItemCount;
 @property(nullable) NSMutableArray<MPMediaItem*> *selectedItems;
 
 @end

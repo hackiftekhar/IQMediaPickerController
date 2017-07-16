@@ -29,6 +29,13 @@
 #import "IQAudioPickerController.h"
 #import "IQMediaPickerControllerConstants.h"
 
+@interface IQSongsPlaylistViewController ()
+
+@property UIBarButtonItem *doneBarButton;
+@property UIBarButtonItem *selectedMediaCountItem;
+
+@end
+
 @implementation IQSongsPlaylistViewController
 {
     NSArray *playlists;
@@ -56,15 +63,49 @@
 
     playlists = [query collections];
 
-    if (self.audioPickerController.allowsPickingMultipleItems == NO)
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
+    self.navigationItem.leftBarButtonItem = cancelItem;
+    
+    self.doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
+    
+    UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    self.selectedMediaCountItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.selectedMediaCountItem.possibleTitles = [NSSet setWithObject:@"999 media selected"];
+    self.selectedMediaCountItem.enabled = NO;
+    
+    self.toolbarItems = @[flexItem,self.selectedMediaCountItem,flexItem];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self updateSelectedCount];
+}
+
+-(void)updateSelectedCount
+{
+    if ([self.audioPickerController.selectedItems count])
     {
-        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
-        self.navigationItem.rightBarButtonItem = cancelItem;
+        [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:YES];
+        
+        [self.navigationController setToolbarHidden:NO animated:YES];
+        
+        NSString *finalText = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.audioPickerController.selectedItems count]];
+        
+        if (self.audioPickerController.maximumItemCount > 0)
+        {
+            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",self.audioPickerController.maximumItemCount];
+        }
+        
+        self.selectedMediaCountItem.title = finalText;
     }
     else
     {
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
-        self.navigationItem.rightBarButtonItem = doneItem;
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+        [self.navigationController setToolbarHidden:YES animated:YES];
+        self.selectedMediaCountItem.title = nil;
     }
 }
 

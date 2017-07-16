@@ -91,6 +91,7 @@
 //    controller.audioMaximumDuration = 10;
 //    controller.videoMaximumDuration = 10;
     controller.allowsPickingMultipleItems = self.multiPickerSwitch;
+//    controller.maximumItemCount = 5;
     controller.allowedVideoQualities = @[@(IQMediaPickerControllerQualityType1920x1080),@(IQMediaPickerControllerQualityTypeHigh)];
     [self presentViewController:controller animated:YES completion:nil];
 }

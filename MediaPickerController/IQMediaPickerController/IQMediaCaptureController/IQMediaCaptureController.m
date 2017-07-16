@@ -621,24 +621,32 @@
 
 - (void)takePicture
 {
-    [self.bottomContainerView setLeftContentView:nil];
-    [self.bottomContainerView setRightContentView:nil];
+    NSUInteger count = videoURLs.count + audioURLs.count + arrayImagesAttribute.count;
     
-    [[self session] takePicture];
+    if (self.maximumItemCount == 0 || self.maximumItemCount > count)
+    {
+        [self.bottomContainerView setLeftContentView:nil];
+        [self.bottomContainerView setRightContentView:nil];
+        
+        [[self session] takePicture];
+    }
 }
 
 - (BOOL)startVideoCapture
 {
     if ([self session].isRecording == NO)
     {
-        self.buttonCapture.isRecording = YES;
-        [[self session] startVideoRecordingWithMaximumDuration:self.videoMaximumDuration];
-        return YES;
+        NSUInteger count = videoURLs.count + audioURLs.count + arrayImagesAttribute.count;
+
+        if (self.maximumItemCount == 0 || self.maximumItemCount > count)
+        {
+            self.buttonCapture.isRecording = YES;
+            [[self session] startVideoRecordingWithMaximumDuration:self.videoMaximumDuration];
+            return YES;
+        }
     }
-    else
-    {
-        return NO;
-    }
+
+    return NO;
 }
 
 - (void)stopVideoCapture
@@ -654,14 +662,17 @@
 {
     if ([self session].isRecording == NO)
     {
-        self.buttonCapture.isRecording = YES;
-        [[self session] startAudioRecordingWithMaximumDuration:self.audioMaximumDuration];
-        return YES;
+        NSUInteger count = videoURLs.count + audioURLs.count + arrayImagesAttribute.count;
+        
+        if (self.maximumItemCount == 0 || self.maximumItemCount > count)
+        {
+            self.buttonCapture.isRecording = YES;
+            [[self session] startAudioRecordingWithMaximumDuration:self.audioMaximumDuration];
+            return YES;
+        }
     }
-    else
-    {
-        return NO;
-    }
+
+    return NO;
 }
 
 - (void)stopAudioCapture
@@ -995,63 +1006,68 @@
     self.bottomContainerView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
     [self.bottomContainerView setRightContentView:self.buttonSelect];
     
+    NSUInteger count = videoURLs.count + audioURLs.count + arrayImagesAttribute.count;
+
     if (error == nil)
     {
-        if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeVideo])
+        if (self.maximumItemCount == 0 || self.maximumItemCount > count)
         {
-            NSURL *mediaURL = [info objectForKey:IQMediaURL];
-            
-            NSString *nextMediaPath = [[[self class] temporaryVideoStoragePath] stringByAppendingFormat:@"movie%lu.mov",(unsigned long)videoURLs.count];
-            
-            [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
-            
-            [videoURLs addObject:[IQFileManager URLForFilePath:nextMediaPath]];
-        }
-        else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeImage])
-        {
-            NSURL *mediaURL = [info objectForKey:IQMediaURL];
-            
-            NSString *nextMediaPath = [[[self class] temporaryImageStoragePath] stringByAppendingFormat:@"image%lu.jpg",(unsigned long)arrayImagesAttribute.count];
-            
-            [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
-            
-            NSMutableDictionary *dict = [info mutableCopy];
-            [dict removeObjectForKey:IQMediaType];
-            [dict setObject:[IQFileManager URLForFilePath:nextMediaPath] forKey:IQMediaURL];
-            
-            [arrayImagesAttribute addObject:dict];
-        }
-        else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeAudio])
-        {
-            NSURL *mediaURL = [info objectForKey:IQMediaURL];
-            
-            NSString *nextMediaPath = [[[self class] temporaryAudioStoragePath] stringByAppendingFormat:@"audio%lu.m4a",(unsigned long)audioURLs.count];
-            
-            [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
-            
-            [audioURLs addObject:[IQFileManager URLForFilePath:nextMediaPath]];
-        }
-        
-        if (self.allowsCapturingMultipleItems == NO)
-        {
-            IQSelectedMediaViewController *controller = [[IQSelectedMediaViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-            controller.videoURLs = videoURLs;
-            controller.audioURLs = audioURLs;
-            controller.arrayImagesAttribute = arrayImagesAttribute;
-            controller.mediaCaptureController = self;
-            [self.navigationController pushViewController:controller animated:YES];
-        }
-        else
-        {
-            NSUInteger count = videoURLs.count + audioURLs.count + arrayImagesAttribute.count;
-            self.buttonSelect.hidden = count == 0;
-            if (count)
+            if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeVideo])
             {
-                [self.buttonSelect setTitle:[NSString stringWithFormat:@"%ld Selected",count] forState:UIControlStateNormal];
+                NSURL *mediaURL = [info objectForKey:IQMediaURL];
+                
+                NSString *nextMediaPath = [[[self class] temporaryVideoStoragePath] stringByAppendingFormat:@"movie%lu.mov",(unsigned long)videoURLs.count];
+                
+                [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
+                
+                [videoURLs addObject:[IQFileManager URLForFilePath:nextMediaPath]];
+            }
+            else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeImage])
+            {
+                NSURL *mediaURL = [info objectForKey:IQMediaURL];
+                
+                NSString *nextMediaPath = [[[self class] temporaryImageStoragePath] stringByAppendingFormat:@"image%lu.jpg",(unsigned long)arrayImagesAttribute.count];
+                
+                [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
+                
+                NSMutableDictionary *dict = [info mutableCopy];
+                [dict removeObjectForKey:IQMediaType];
+                [dict setObject:[IQFileManager URLForFilePath:nextMediaPath] forKey:IQMediaURL];
+                
+                [arrayImagesAttribute addObject:dict];
+            }
+            else if ([[info objectForKey:IQMediaType] isEqualToString:IQMediaTypeAudio])
+            {
+                NSURL *mediaURL = [info objectForKey:IQMediaURL];
+                
+                NSString *nextMediaPath = [[[self class] temporaryAudioStoragePath] stringByAppendingFormat:@"audio%lu.m4a",(unsigned long)audioURLs.count];
+                
+                [IQFileManager copyItemAtPath:mediaURL.relativePath toPath:nextMediaPath];
+                
+                [audioURLs addObject:[IQFileManager URLForFilePath:nextMediaPath]];
+            }
+            
+            if (self.allowsCapturingMultipleItems == NO)
+            {
+                IQSelectedMediaViewController *controller = [[IQSelectedMediaViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+                controller.videoURLs = videoURLs;
+                controller.audioURLs = audioURLs;
+                controller.arrayImagesAttribute = arrayImagesAttribute;
+                controller.mediaCaptureController = self;
+                [self.navigationController pushViewController:controller animated:YES];
             }
             else
             {
-                [self.buttonSelect setTitle:[NSString stringWithFormat:@"Select"] forState:UIControlStateNormal];
+                NSUInteger count = videoURLs.count + audioURLs.count + arrayImagesAttribute.count;
+                self.buttonSelect.hidden = count == 0;
+                if (count)
+                {
+                    [self.buttonSelect setTitle:[NSString stringWithFormat:@"%ld Selected",count] forState:UIControlStateNormal];
+                }
+                else
+                {
+                    [self.buttonSelect setTitle:[NSString stringWithFormat:@"Select"] forState:UIControlStateNormal];
+                }
             }
         }
     }

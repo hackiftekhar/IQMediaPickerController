@@ -40,6 +40,7 @@
 
 @property(nonatomic, weak, nullable) id<IQMediaPickerControllerDelegate,UINavigationControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO.
+@property NSUInteger maximumItemCount;
 
 @property(nonatomic) IQMediaPickerControllerSourceType sourceType;
 @property(nonatomic, nullable) NSArray <NSNumber * > * mediaTypes;    //You can combine multiple media types to be picked or captured. If you are capturing the media then any combinations are accepted but if you would like to pick media from library then only photo + video combinations are accepted. Combining audio picking with photo and or video isn't supported and no future plans to do it.

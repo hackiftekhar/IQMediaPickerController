@@ -108,7 +108,14 @@
     {
         [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:YES];
         [self.navigationController setToolbarHidden:NO animated:YES];
-        self.selectedMediaCountItem.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.assetController.selectedItems count]];
+        
+        NSString *finalText = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.assetController.selectedItems count]];
+        
+        if (self.assetController.maximumItemCount > 0)
+        {
+            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",self.assetController.maximumItemCount];
+        }
+        self.selectedMediaCountItem.title = finalText;
     }
     else
     {
@@ -265,7 +272,16 @@
 
              if (selected == NO)
              {
-                 [self.assetController.selectedItems addObject:result];
+                 NSUInteger count = self.assetController.selectedItems.count;
+                 
+                 if (self.assetController.maximumItemCount == 0 || self.assetController.maximumItemCount > count)
+                 {
+                     [self.assetController.selectedItems addObject:result];
+                 }
+                 else
+                 {
+                     selected = YES;
+                 }
              }
              
              if (self.assetController.allowsPickingMultipleItems == NO)

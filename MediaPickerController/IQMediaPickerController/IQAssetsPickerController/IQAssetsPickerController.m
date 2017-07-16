@@ -137,7 +137,15 @@
         [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:YES];
 
         [self.navigationController setToolbarHidden:NO animated:YES];
-        self.selectedMediaCountItem.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedItems count]];
+        
+        NSString *finalText = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedItems count]];
+        
+        if (self.maximumItemCount > 0)
+        {
+            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",self.maximumItemCount];
+        }
+
+        self.selectedMediaCountItem.title = finalText;
     }
     else
     {

@@ -83,6 +83,7 @@
                 {
                     IQAssetsPickerController *controller = [[IQAssetsPickerController alloc] init];
                     controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
+                    controller.maximumItemCount = self.maximumItemCount;
                     controller.delegate = self;
                     controller.mediaTypes = self.mediaTypes;
                     self.viewControllers = @[controller];
@@ -91,6 +92,7 @@
                 {
                     IQAudioPickerController *controller = [[IQAudioPickerController alloc] init];
                     controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
+                    controller.maximumItemCount = self.maximumItemCount;
                     controller.delegate = self;
                     self.viewControllers = @[controller];
                 }
@@ -100,6 +102,7 @@
             {
                 IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
                 controller.allowsCapturingMultipleItems = self.allowsPickingMultipleItems;
+                controller.maximumItemCount = self.maximumItemCount;
                 controller.delegate = self;
                 controller.mediaTypes = self.mediaTypes;
                 controller.captureDevice = self.captureDevice;

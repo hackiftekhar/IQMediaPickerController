@@ -34,6 +34,7 @@
 
 @property(nullable, weak) id<IQAssetsPickerControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO
+@property NSUInteger maximumItemCount;
 @property(nonatomic, nullable) NSArray <NSNumber *> * mediaTypes;
 @property(nullable) NSMutableArray<ALAsset*> *selectedItems;
 
