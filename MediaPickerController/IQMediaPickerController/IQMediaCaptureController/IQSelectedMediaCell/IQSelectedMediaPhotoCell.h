@@ -26,8 +26,8 @@
 
 @interface IQSelectedMediaPhotoCell : UICollectionViewCell
 
-@property(nonatomic, strong, readonly) UIImageView *imageViewPreview;
+@property(nonatomic, readonly) UIImageView *imageViewPreview;
 
-@property(nonatomic, strong) NSDictionary *imageAttributes;
+@property(nonatomic) NSDictionary *imageAttributes;
 
 @end

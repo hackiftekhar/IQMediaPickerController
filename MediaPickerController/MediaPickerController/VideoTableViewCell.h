@@ -9,9 +9,9 @@
 
 @interface VideoTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UIImageView *imageViewVideo;
-@property (strong, nonatomic) IBOutlet UILabel *labelTitle;
-@property (strong, nonatomic) IBOutlet UILabel *labelSubtitle;
-@property (strong, nonatomic) IBOutlet UIButton *buttonPlay;
+@property (nonatomic) IBOutlet UIImageView *imageViewVideo;
+@property (nonatomic) IBOutlet UILabel *labelTitle;
+@property (nonatomic) IBOutlet UILabel *labelSubtitle;
+@property (nonatomic) IBOutlet UIButton *buttonPlay;
 
 @end

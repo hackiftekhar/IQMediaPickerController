@@ -30,9 +30,9 @@
 
 @interface IQSettingsContainerView : UIView
 
-@property(nonatomic, strong) IQPhotoSettingsContainerView *photoSettingsView;
-@property(nonatomic, strong) IQVideoSettingsContainerView *videoSettingsView;
-@property(nonatomic, strong) IQAudioSettingsContainerView *audioSettingsView;
+@property(nonatomic) IQPhotoSettingsContainerView *photoSettingsView;
+@property(nonatomic) IQVideoSettingsContainerView *videoSettingsView;
+@property(nonatomic) IQAudioSettingsContainerView *audioSettingsView;
 
 
 @property(nonatomic) IQMediaCaptureControllerCaptureMode captureMode;

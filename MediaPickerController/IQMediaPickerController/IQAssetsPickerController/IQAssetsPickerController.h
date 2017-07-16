@@ -26,14 +26,16 @@
 #import "IQAlbumAssetsViewController.h"
 #import "IQMediaPickerControllerConstants.h"
 
+@class ALAsset;
+
 @protocol IQAssetsPickerControllerDelegate;
 
 @interface IQAssetsPickerController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property(nullable, weak) id<IQAssetsPickerControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO
-@property IQMediaPickerControllerMediaType pickerType;
-@property(nullable) NSMutableArray *selectedItems;
+@property(nonatomic, nullable) NSArray <NSNumber *> * mediaTypes;
+@property(nullable) NSMutableArray<ALAsset*> *selectedItems;
 
 //For internal use only
 -(void)sendFinalSelectedAssets;

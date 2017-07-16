@@ -9,6 +9,6 @@
 
 @interface PhotoTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UIImageView *imageViewPhoto;
+@property (nonatomic) IBOutlet UIImageView *imageViewPhoto;
 
 @end

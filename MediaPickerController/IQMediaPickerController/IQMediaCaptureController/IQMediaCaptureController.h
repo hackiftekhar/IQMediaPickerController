@@ -35,15 +35,16 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
 
 @interface IQMediaCaptureController : UIViewController
 
-@property(nonatomic, weak) id<IQMediaCaptureControllerDelegate> delegate;
+@property(nullable, nonatomic, weak) id <IQMediaCaptureControllerDelegate> delegate;
 
-@property(nonatomic, assign) IQMediaPickerControllerMediaType mediaType;
-@property(nonatomic, assign) IQMediaPickerControllerCameraDevice captureDevice;
-@property(nonatomic, assign) IQMediaPickerControllerCameraFlashMode flashMode;
+@property(nonatomic) NSArray <NSNumber *> * _Nullable mediaTypes;
+@property(nonatomic) IQMediaPickerControllerCameraDevice captureDevice;
+@property(nonatomic) IQMediaPickerControllerCameraFlashMode flashMode;
+@property(nonatomic) NSArray <NSNumber*> * _Nullable allowedVideoQualities;    //Array of IQMediaPickerControllerQualityType
 
 @property(nonatomic, readonly) IQMediaCaptureControllerCaptureMode captureMode;
 
-@property (nonatomic, assign) BOOL allowsCapturingMultipleItems; // default is NO.
+@property (nonatomic) BOOL allowsCapturingMultipleItems; // default is NO.
 
 @property(nonatomic) NSTimeInterval videoMaximumDuration;
 @property(nonatomic) NSTimeInterval audioMaximumDuration;
@@ -61,7 +62,7 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
 
 @protocol IQMediaCaptureControllerDelegate <NSObject>
 
-- (void)mediaCaptureController:(IQMediaCaptureController*)controller didFinishMediaWithInfo:(NSDictionary *)info;
-- (void)mediaCaptureControllerDidCancel:(IQMediaCaptureController *)controller;
+- (void)mediaCaptureController:(IQMediaCaptureController*_Nonnull)controller didFinishMediaWithInfo:(NSDictionary *_Nonnull)info;
+- (void)mediaCaptureControllerDidCancel:(IQMediaCaptureController *_Nonnull)controller;
 
 @end

@@ -18,14 +18,13 @@
 
 @interface ViewController ()<IQMediaPickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 
-@property (assign, nonatomic) BOOL multiPickerSwitch;
-@property (assign, nonatomic) BOOL pickingSourceCamera;
-@property (assign, nonatomic) BOOL photoPickerSwitch;
-@property (assign, nonatomic) BOOL videoPickerSwitch;
-@property (assign, nonatomic) BOOL audioPickerSwitch;
-@property (assign, nonatomic) BOOL rearCaptureSwitch;
-@property (assign, nonatomic) BOOL flashOffSwitch;
-
+@property (nonatomic) BOOL multiPickerSwitch;
+@property (nonatomic) BOOL pickingSourceCamera;
+@property (nonatomic) BOOL photoPickerSwitch;
+@property (nonatomic) BOOL videoPickerSwitch;
+@property (nonatomic) BOOL audioPickerSwitch;
+@property (nonatomic) BOOL rearCaptureSwitch;
+@property (nonatomic) BOOL flashOffSwitch;
 
 @end
 
@@ -69,29 +68,30 @@
     controller.delegate = self;
     [controller setSourceType:self.pickingSourceCamera ? IQMediaPickerControllerSourceTypeCameraMicrophone : IQMediaPickerControllerSourceTypeLibrary];
     
-    IQMediaPickerControllerMediaType mediaType = 0;
+    NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
     
-    if (self.photoPickerSwitch)
+    if (self.audioPickerSwitch)
     {
-        mediaType = mediaType | IQMediaPickerControllerMediaTypePhoto;
+        [mediaTypes addObject:@(IQMediaPickerControllerMediaTypeAudio)];
     }
     
     if (self.videoPickerSwitch)
     {
-        mediaType = mediaType | IQMediaPickerControllerMediaTypeVideo;
+        [mediaTypes addObject:@(IQMediaPickerControllerMediaTypeVideo)];
     }
     
-    if (self.audioPickerSwitch)
+    if (self.photoPickerSwitch)
     {
-        mediaType = mediaType | IQMediaPickerControllerMediaTypeAudio;
+        [mediaTypes addObject:@(IQMediaPickerControllerMediaTypePhoto)];
     }
     
-    [controller setMediaType:mediaType];
+    [controller setMediaTypes:mediaTypes];
     controller.captureDevice = self.rearCaptureSwitch ? IQMediaPickerControllerCameraDeviceRear : IQMediaPickerControllerCameraDeviceFront;
 //    controller.flashMode = self.flashOffSwitch.on ? IQMediaPickerControllerCameraFlashModeOff : IQMediaPickerControllerCameraFlashModeOn;
 //    controller.audioMaximumDuration = 10;
 //    controller.videoMaximumDuration = 10;
     controller.allowsPickingMultipleItems = self.multiPickerSwitch;
+    controller.allowedVideoQualities = @[@(IQMediaPickerControllerQualityType1920x1080),@(IQMediaPickerControllerQualityTypeHigh)];
     [self presentViewController:controller animated:YES completion:nil];
 }
 

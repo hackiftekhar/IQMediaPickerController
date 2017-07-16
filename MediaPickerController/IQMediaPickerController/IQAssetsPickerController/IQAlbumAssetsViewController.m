@@ -313,5 +313,9 @@
     }
 }
 
+-(void)setMediaTypes:(NSArray<NSNumber *> *)mediaTypes
+{
+    _mediaTypes = [[NSMutableOrderedSet orderedSetWithArray:mediaTypes] array];
+}
 
 @end

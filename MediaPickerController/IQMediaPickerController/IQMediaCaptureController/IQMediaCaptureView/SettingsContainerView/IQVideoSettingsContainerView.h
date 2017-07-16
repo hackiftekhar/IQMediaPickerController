@@ -42,6 +42,9 @@
 
 @property(nonatomic) IQCaptureSessionPreset videoPreset;
 
+@property(nonatomic) NSArray <NSNumber*>* preferredPreset;
+@property(nonatomic, readonly) NSArray <NSNumber*>* supportedPreset;
+
 @property(nonatomic) AVCaptureTorchMode torchMode;
 @property(nonatomic) BOOL hasTorch;
 

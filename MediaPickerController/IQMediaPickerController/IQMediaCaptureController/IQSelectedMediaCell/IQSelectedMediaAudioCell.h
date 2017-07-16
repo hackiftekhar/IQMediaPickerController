@@ -26,6 +26,6 @@
 
 @interface IQSelectedMediaAudioCell : UICollectionViewCell
 
-@property(nonatomic, strong) NSURL *fileURL;
+@property(nonatomic) NSURL *fileURL;
 
 @end

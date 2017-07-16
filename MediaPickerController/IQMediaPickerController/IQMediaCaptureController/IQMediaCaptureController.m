@@ -45,20 +45,21 @@
     BOOL isFirstTimeAppearing;
 }
 
-@property(nonatomic, strong, readonly) NSArray *supportedCaptureModeForSession;
+@property(nonatomic, readonly) NSArray<NSNumber*> *supportedCaptureModeForSession;
+@property(nonatomic, readonly) NSArray<NSNumber*> *allowedQualityForSession;
 
-@property(nonatomic, strong, readonly) IQMediaView *mediaView;
+@property(nonatomic, readonly) IQMediaView *mediaView;
 
-@property(nonatomic, strong, readonly) IQSettingsContainerView *settingsContainerView;
+@property(nonatomic, readonly) IQSettingsContainerView *settingsContainerView;
 
-@property(nonatomic, strong, readonly) IQBottomContainerView *bottomContainerView;
+@property(nonatomic, readonly) IQBottomContainerView *bottomContainerView;
 
-@property(nonatomic, strong, readonly) IQAKPickerView *mediaTypePickerView;
+@property(nonatomic, readonly) IQAKPickerView *mediaTypePickerView;
 
-@property(nonatomic, strong, readonly) UIButton *buttonCancel, *buttonSelect;
-@property(nonatomic, strong, readonly) IQCaptureButton *buttonCapture;
+@property(nonatomic, readonly) UIButton *buttonCancel, *buttonSelect;
+@property(nonatomic, readonly) IQCaptureButton *buttonCapture;
 
-@property(nonatomic, strong, readonly) IQCaptureSession *session;
+@property(nonatomic, readonly) IQCaptureSession *session;
 
 @end
 
@@ -124,24 +125,44 @@
     self.settingsContainerView.photoSettingsView.photoPreset = IQCaptureSessionPresetPhoto;
     self.settingsContainerView.videoSettingsView.videoPreset = IQCaptureSessionPreset1280x720;
 
-    NSMutableArray *supportedMode = [[NSMutableArray alloc] init];
-    
-    if (self.mediaType & IQMediaPickerControllerMediaTypePhoto)
     {
-        [supportedMode addObject:@(IQMediaCaptureControllerCaptureModePhoto)];
+        NSMutableArray *supportedMode = [[NSMutableArray alloc] init];
+        
+        for (NSNumber *mediaType in self.mediaTypes)
+        {
+            switch ([mediaType integerValue])
+            {
+                case IQMediaPickerControllerMediaTypePhoto: [supportedMode addObject:@(IQMediaCaptureControllerCaptureModePhoto)];  break;
+                case IQMediaPickerControllerMediaTypeVideo: [supportedMode addObject:@(IQMediaCaptureControllerCaptureModeVideo)];  break;
+                case IQMediaCaptureControllerCaptureModeAudio:  [supportedMode addObject:@(IQMediaCaptureControllerCaptureModeAudio)];  break;
+            }
+        }
+        
+        _supportedCaptureModeForSession = [supportedMode copy];
     }
     
-    if (self.mediaType & IQMediaPickerControllerMediaTypeVideo)
     {
-        [supportedMode addObject:@(IQMediaCaptureControllerCaptureModeVideo)];
+        NSMutableArray *allowedQualities = [[NSMutableArray alloc] init];
+        
+        for (NSNumber *allowedQuality in self.allowedVideoQualities)
+        {
+            switch ([allowedQuality integerValue])
+            {
+                case IQMediaPickerControllerQualityTypeLow: [allowedQualities addObject:@(IQCaptureSessionPresetLow)];  break;
+                case IQMediaPickerControllerQualityTypeHigh:    [allowedQualities addObject:@(IQCaptureSessionPresetHigh)];  break;
+                case IQMediaPickerControllerQualityTypeMedium:  [allowedQualities addObject:@(IQCaptureSessionPresetMedium)];  break;
+                case IQMediaPickerControllerQualityType352x288: [allowedQualities addObject:@(IQCaptureSessionPreset352x288)];  break;
+                case IQMediaPickerControllerQualityType640x480: [allowedQualities addObject:@(IQCaptureSessionPreset640x480)];  break;
+                case IQMediaPickerControllerQualityType1280x720:    [allowedQualities addObject:@(IQCaptureSessionPreset1280x720)];  break;
+                case IQMediaPickerControllerQualityType1920x1080:   [allowedQualities addObject:@(IQCaptureSessionPreset1920x1080)];  break;
+                case IQMediaPickerControllerQualityType3840x2160:   [allowedQualities addObject:@(IQCaptureSessionPreset3840x2160)];  break;
+                case IQMediaPickerControllerQualityTypeiFrame960x540:   [allowedQualities addObject:@(IQCaptureSessionPresetiFrame960x540)];  break;
+                case IQMediaPickerControllerQualityTypeiFrame1280x720:  [allowedQualities addObject:@(IQCaptureSessionPresetiFrame1280x720)];  break;
+            }
+        }
+        
+        _allowedQualityForSession = [allowedQualities copy];
     }
-    
-    if (self.mediaType & IQMediaPickerControllerMediaTypeAudio)
-    {
-        [supportedMode addObject:@(IQMediaCaptureControllerCaptureModeAudio)];
-    }
-
-    _supportedCaptureModeForSession = [supportedMode copy];
     
     _captureMode = [[self.supportedCaptureModeForSession firstObject] integerValue];
 
@@ -162,6 +183,11 @@
     }
 
     [self updateUI];
+}
+
+-(void)setMediaTypes:(NSArray<NSNumber *> *)mediaTypes
+{
+    _mediaTypes = [[NSMutableOrderedSet orderedSetWithArray:mediaTypes] array];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -526,6 +552,19 @@
             
             if (success)
             {
+                NSMutableOrderedSet *set = [[NSMutableOrderedSet alloc] initWithArray:weakSelf.allowedQualityForSession];
+                [set intersectSet:[NSSet setWithArray:[[weakSelf session] supportedSessionPreset]]];
+                weakSelf.settingsContainerView.photoSettingsView.preferredPreset = weakSelf.settingsContainerView.videoSettingsView.preferredPreset = [set array];
+
+                if (weakSelf.captureMode == IQMediaCaptureControllerCaptureModePhoto)
+                {
+                    [weakSelf session].captureSessionPreset = [[weakSelf.settingsContainerView.photoSettingsView.supportedPreset firstObject] integerValue];
+                }
+                else if (weakSelf.captureMode == IQMediaCaptureControllerCaptureModeVideo)
+                {
+                    [weakSelf session].captureSessionPreset = [[weakSelf.settingsContainerView.videoSettingsView.supportedPreset firstObject] integerValue];
+                }
+                
                 [UIView transitionWithView:weakSelf.mediaView duration:((animated && success)?0.5:0) options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                     
                     [weakSelf updateUI];
@@ -550,14 +589,7 @@
 
 - (void)toggleCameraAction:(UIButton *)sender
 {
-    if ([self session].cameraPosition == AVCaptureDevicePositionBack)
-    {
-        [self setCaptureDevice:IQMediaPickerControllerCameraDeviceFront animated:YES];
-    }
-    else
-    {
-        [self setCaptureDevice:IQMediaPickerControllerCameraDeviceRear animated:YES];
-    }
+    [self flipCamera];
 }
 
 - (void)whiteBalance:(UIButton *)sender

@@ -27,8 +27,8 @@
 
 @interface IQAssetsCell : UICollectionViewCell
 
-@property (strong, nonatomic) UIImageView *imageViewAsset;
-@property (strong, nonatomic) UILabel *labelDuration;
-@property (strong, nonatomic) IQCheckmarkView *checkmarkView;
+@property (nonatomic) UIImageView *imageViewAsset;
+@property (nonatomic) UILabel *labelDuration;
+@property (nonatomic) IQCheckmarkView *checkmarkView;
 
 @end

@@ -26,9 +26,9 @@
 
 @interface IQSongsAlbumViewCell : UITableViewCell
 
-@property(nonatomic, strong) UIImageView *imageViewAlbum;
-@property(nonatomic, strong) UILabel *labelTitle;
-@property(nonatomic, strong) UILabel *labelSubTitle;
-@property(nonatomic, strong) UILabel *labelSubSubTitle;
+@property(nonatomic) UIImageView *imageViewAlbum;
+@property(nonatomic) UILabel *labelTitle;
+@property(nonatomic) UILabel *labelSubTitle;
+@property(nonatomic) UILabel *labelSubSubTitle;
 
 @end

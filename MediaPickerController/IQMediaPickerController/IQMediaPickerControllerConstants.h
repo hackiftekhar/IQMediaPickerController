@@ -41,9 +41,9 @@ typedef NS_ENUM(NSInteger, IQMediaPickerControllerSourceType) {
 };
 
 typedef NS_ENUM(NSInteger, IQMediaPickerControllerMediaType) {
-    IQMediaPickerControllerMediaTypePhoto   = 1 << 0,
-    IQMediaPickerControllerMediaTypeVideo   = 1 << 1,
-    IQMediaPickerControllerMediaTypeAudio   = 1 << 2,
+    IQMediaPickerControllerMediaTypePhoto,
+    IQMediaPickerControllerMediaTypeVideo,
+    IQMediaPickerControllerMediaTypeAudio,
 };
 
 typedef NS_ENUM(NSInteger, IQMediaPickerControllerCameraDevice) {
@@ -57,3 +57,15 @@ typedef NS_ENUM(NSInteger, IQMediaPickerControllerCameraFlashMode) {
     IQMediaPickerControllerCameraFlashModeAuto,
 };
 
+typedef NS_ENUM(NSInteger, IQMediaPickerControllerQualityType) {
+    IQMediaPickerControllerQualityTypeHigh,   //High quality video and audio or photo with full resolution
+    IQMediaPickerControllerQualityTypeMedium,   //Medium quality output, suitable for sharing over Wi-Fi
+    IQMediaPickerControllerQualityTypeLow,   //Low quality output, suitable for sharing over 3G
+    IQMediaPickerControllerQualityType352x288,   //CIF quality
+    IQMediaPickerControllerQualityType640x480,   //VGA quality
+    IQMediaPickerControllerQualityType1280x720,   //
+    IQMediaPickerControllerQualityType1920x1080,   //
+    IQMediaPickerControllerQualityType3840x2160,   //  UHD 4K
+    IQMediaPickerControllerQualityTypeiFrame960x540,   //  iFrame H264 ~30 Mbits/sec, AAC audio
+    IQMediaPickerControllerQualityTypeiFrame1280x720,   //  iFrame H264 ~40 Mbits/sec AAC audio
+};

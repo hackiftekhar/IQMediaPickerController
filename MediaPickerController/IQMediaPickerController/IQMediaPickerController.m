@@ -56,6 +56,11 @@
     self.isFirstTimeAppearing = YES;
 }
 
+-(void)setMediaTypes:(NSArray<NSNumber *> *)mediaTypes
+{
+    _mediaTypes = [[NSMutableOrderedSet orderedSetWithArray:mediaTypes] array];
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -64,35 +69,30 @@
     {
         self.isFirstTimeAppearing = NO;
 
-        if (self.mediaType == 0)
+        if (self.mediaTypes.count == 0)
         {
-            self.mediaType = IQMediaPickerControllerMediaTypePhoto;
+            self.mediaTypes = @[@(IQMediaPickerControllerMediaTypePhoto)];
         }
         
         switch (self.sourceType)
         {
             case IQMediaPickerControllerSourceTypeLibrary:
             {
-                switch (self.mediaType)
+                if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypePhoto)] ||
+                    [self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypeVideo)])
                 {
-                    case IQMediaPickerControllerMediaTypeAudio:
-                    {
-                        IQAudioPickerController *controller = [[IQAudioPickerController alloc] init];
-                        controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
-                        controller.delegate = self;
-                        self.viewControllers = @[controller];
-                    }
-                        break;
-                        
-                    default:
-                    {
-                        IQAssetsPickerController *controller = [[IQAssetsPickerController alloc] init];
-                        controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
-                        controller.delegate = self;
-                        controller.pickerType = self.mediaType;
-                        self.viewControllers = @[controller];
-                    }
-                        break;
+                    IQAssetsPickerController *controller = [[IQAssetsPickerController alloc] init];
+                    controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
+                    controller.delegate = self;
+                    controller.mediaTypes = self.mediaTypes;
+                    self.viewControllers = @[controller];
+                }
+                else if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypeAudio)])
+                {
+                    IQAudioPickerController *controller = [[IQAudioPickerController alloc] init];
+                    controller.allowsPickingMultipleItems = self.allowsPickingMultipleItems;
+                    controller.delegate = self;
+                    self.viewControllers = @[controller];
                 }
             }
                 break;
@@ -101,11 +101,12 @@
                 IQMediaCaptureController *controller = [[IQMediaCaptureController alloc] init];
                 controller.allowsCapturingMultipleItems = self.allowsPickingMultipleItems;
                 controller.delegate = self;
-                controller.mediaType = self.mediaType;
+                controller.mediaTypes = self.mediaTypes;
                 controller.captureDevice = self.captureDevice;
 //                controller.flashMode = self.flashMode;
                 controller.videoMaximumDuration = self.videoMaximumDuration;
                 controller.audioMaximumDuration = self.audioMaximumDuration;
+                controller.allowedVideoQualities = self.allowedVideoQualities;
                 self.viewControllers = @[controller];
             }
                 break;
@@ -193,25 +194,25 @@
     }
 }
 
-+ (IQMediaPickerControllerMediaType)availableMediaTypesForSourceType:(IQMediaPickerControllerSourceType)sourceType
++ (NSArray <NSNumber*> *)availableMediaTypesForSourceType:(IQMediaPickerControllerSourceType)sourceType
 {
     if ([self isSourceTypeAvailable:sourceType])
     {
         switch (sourceType) {
             case IQMediaPickerControllerSourceTypeLibrary:
             {
-                return IQMediaPickerControllerMediaTypeAudio|IQMediaPickerControllerMediaTypePhoto|IQMediaPickerControllerMediaTypeVideo;
+                return @[@(IQMediaPickerControllerMediaTypeAudio),@(IQMediaPickerControllerMediaTypePhoto),@(IQMediaPickerControllerMediaTypeVideo)];
             }
                 break;
             case IQMediaPickerControllerSourceTypeCameraMicrophone:
             {
-                return IQMediaPickerControllerMediaTypeAudio|IQMediaPickerControllerMediaTypePhoto|IQMediaPickerControllerMediaTypeVideo;
+                return @[@(IQMediaPickerControllerMediaTypeAudio),@(IQMediaPickerControllerMediaTypePhoto),@(IQMediaPickerControllerMediaTypeVideo)];
             }
                 break;
         }
     }
     
-    return 0;
+    return @[];
 }
 
 + (BOOL)isCameraDeviceAvailable:(IQMediaPickerControllerCameraDevice)cameraDevice

@@ -28,9 +28,9 @@
 
 @interface IQSelectedMediaAudioCell ()
 
-@property(nonatomic, strong) UILabel *labelDuration;
-@property(nonatomic, strong) UIImageView *imageViewPreview;
-@property(nonatomic, strong) UIImageView *imageViewPlay;
+@property(nonatomic) UILabel *labelDuration;
+@property(nonatomic) UIImageView *imageViewPreview;
+@property(nonatomic) UIImageView *imageViewPlay;
 
 @end
 

@@ -50,6 +50,7 @@ typedef NS_ENUM(NSInteger, IQCaptureSessionPreset) {
 
 /*****Session*****/
 @property (nonnull, readonly) AVCaptureSession *captureSession; //An instance of AVCaptureSession to coordinate the data flow from the input to the output
+@property (nonnull, readonly) NSArray <NSNumber*> * supportedSessionPreset;
 @property IQCaptureSessionPreset captureSessionPreset;
 @property (readonly) CGSize presetSize;
 

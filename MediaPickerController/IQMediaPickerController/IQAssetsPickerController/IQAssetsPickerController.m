@@ -28,7 +28,7 @@
 
 @interface IQAssetsPickerController ()
 
-@property(nonatomic, strong) ALAssetsLibrary *assetLibrary;
+@property(nonatomic) ALAssetsLibrary *assetLibrary;
 
 @property UIBarButtonItem *cancelBarButton;
 @property UIBarButtonItem *doneBarButton;
@@ -83,15 +83,16 @@
             NSString *sGroupPropertyName = (NSString *)[group valueForProperty:ALAssetsGroupPropertyName];
             NSUInteger nType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
             
-            if ((self.pickerType & IQMediaPickerControllerMediaTypePhoto) && (self.pickerType & IQMediaPickerControllerMediaTypeVideo))
+            if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypePhoto)] &&
+                [self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypeVideo)])
             {
                 [group setAssetsFilter:[ALAssetsFilter allAssets]];
             }
-            else if (self.pickerType & IQMediaPickerControllerMediaTypePhoto)
+            else if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypePhoto)])
             {
                 [group setAssetsFilter:[ALAssetsFilter allPhotos]];
             }
-            else if (self.pickerType & IQMediaPickerControllerMediaTypeVideo)
+            else if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypeVideo)])
             {
                 [group setAssetsFilter:[ALAssetsFilter allVideos]];
             }
@@ -114,6 +115,11 @@
         
         [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:assetGroupEnumerator failureBlock:assetGroupEnumberatorFailure];
     });
+}
+
+-(void)setMediaTypes:(NSArray<NSNumber *> *)mediaTypes
+{
+    _mediaTypes = [[NSMutableOrderedSet orderedSetWithArray:mediaTypes] array];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -239,8 +245,8 @@
     NSUInteger photos = 0;
     NSUInteger videos = 0;
     
-    
-    if ((self.pickerType & IQMediaPickerControllerMediaTypePhoto) && (self.pickerType & IQMediaPickerControllerMediaTypeVideo))
+    if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypePhoto)] &&
+        [self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypeVideo)])
     {
         [group setAssetsFilter:[ALAssetsFilter allPhotos]];
         photos = [group numberOfAssets];
@@ -272,7 +278,7 @@
         
         cell.labelSubTitle.text = [stringsArray componentsJoinedByString:@", "];
     }
-    else if (self.pickerType & IQMediaPickerControllerMediaTypePhoto)
+    else if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypePhoto)])
     {
         [group setAssetsFilter:[ALAssetsFilter allPhotos]];
         photos = [group numberOfAssets];
@@ -286,7 +292,7 @@
             cell.labelSubTitle.text = @"No photos";
         }
     }
-    else if (self.pickerType & IQMediaPickerControllerMediaTypeVideo)
+    else if ([self.mediaTypes containsObject:@(IQMediaPickerControllerMediaTypeVideo)])
     {
         [group setAssetsFilter:[ALAssetsFilter allVideos]];
         videos = [group numberOfAssets];
@@ -309,7 +315,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IQAlbumAssetsViewController *assetsVC = [[IQAlbumAssetsViewController alloc] initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
-    assetsVC.pickerType = self.pickerType;
+    assetsVC.mediaTypes = self.mediaTypes;
     assetsVC.assetsGroup = [_assetGroups objectAtIndex:indexPath.row];
     assetsVC.assetController = self;
     [self.navigationController pushViewController:assetsVC animated:YES];

@@ -34,17 +34,17 @@ typedef NS_ENUM(NSUInteger, IQPhotoSettingsType) {
 @interface IQPhotoSettingsContainerView ()<IQAKPickerViewDelegate,IQAKPickerViewDataSource>
 
 @property IQPhotoSettingsType settingsShowType;
-@property (nonatomic, strong) IQAKPickerView *qualityPickerView;
+@property (nonatomic) IQAKPickerView *qualityPickerView;
 
-@property(nonatomic, strong, readonly) UIButton *buttonCamera;
-@property(nonatomic, strong, readonly) UIButton *buttonFlash;
+@property(nonatomic, readonly) UIButton *buttonCamera;
+@property(nonatomic, readonly) UIButton *buttonFlash;
 
 @property(nonatomic) UIButton *buttonFlashAuto;
 @property(nonatomic) UIButton *buttonFlashOn;
 @property(nonatomic) UIButton *buttonFlashOff;
 
-@property(nonatomic, strong, readonly) UIButton *buttonPhotoQuality;
-@property(nonatomic, strong, readonly) NSArray <NSDictionary*>* qualities;
+@property(nonatomic, readonly) UIButton *buttonPhotoQuality;
+@property(nonatomic, readonly) NSArray <NSDictionary*>* qualities;
 
 
 @end
@@ -107,35 +107,12 @@ typedef NS_ENUM(NSUInteger, IQPhotoSettingsType) {
         //Quality
         {
             _buttonPhotoQuality = [UIButton buttonWithType:UIButtonTypeSystem];
-            [_buttonPhotoQuality setTitle:@"720P" forState:UIControlStateNormal];
+            [_buttonPhotoQuality setTitle:nil forState:UIControlStateNormal];
             _buttonPhotoQuality.titleLabel.font = [UIFont boldSystemFontOfSize:12];
             [_buttonPhotoQuality addTarget:self action:@selector(photoQualityAction:) forControlEvents:UIControlEventTouchUpInside];
             _buttonPhotoQuality.tintColor = [UIColor yellowColor];
             _buttonPhotoQuality.frame = CGRectMake(CGRectGetMaxX(_buttonFlash.frame), 0, 60, 40);
             [self addSubview:_buttonPhotoQuality];
-            
-            _qualities = @[
-                           @{@"quality":@(IQCaptureSessionPresetPhoto),
-                             @"name":@"HIGH"},
-                           @{@"quality":@(IQCaptureSessionPresetMedium),
-                             @"name":@"MEDIUM"},
-                           @{@"quality":@(IQCaptureSessionPresetLow),
-                             @"name":@"LOW"},
-//                           @{@"quality":@(IQCaptureSessionPreset352x288),
-//                             @"name":@"288P"},
-                           @{@"quality":@(IQCaptureSessionPreset640x480),
-                             @"name":@"480P"},
-                           @{@"quality":@(IQCaptureSessionPreset1280x720),
-                             @"name":@"720P"},
-                           @{@"quality":@(IQCaptureSessionPreset1920x1080),
-                             @"name":@"1080P"},
-                           //                           @{@"quality":@(IQCaptureSessionPreset3840x2160),
-                           //                             @"name":@"2160P"},
-//                           @{@"quality":@(IQCaptureSessionPresetiFrame960x540),
-//                             @"name":@"i540P"},
-//                           @{@"quality":@(IQCaptureSessionPresetiFrame1280x720),
-//                             @"name":@"i720P"},
-                           ];
             
             _qualityPickerView = [[IQAKPickerView alloc] initWithFrame:CGRectMake(60, 0, CGRectGetMaxX(self.bounds)-60, 40)];
             _qualityPickerView.delegate = self;
@@ -154,6 +131,74 @@ typedef NS_ENUM(NSUInteger, IQPhotoSettingsType) {
         self.hasFlash = NO;
     }
     return self;
+}
+
+-(void)setPreferredPreset:(NSArray<NSNumber *> *)preferredPreset
+{
+    _preferredPreset = preferredPreset;
+    
+    NSMutableArray<NSDictionary*> *sessionSupportedPreset = [[NSMutableArray alloc] init];
+    NSMutableArray <NSNumber *> *supportedPreset = [[NSMutableArray alloc] init];
+    
+    for (NSNumber *preset in _preferredPreset)
+    {
+        switch ([preset integerValue])
+        {
+            case IQCaptureSessionPresetPhoto:
+            case IQCaptureSessionPresetHigh:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPresetPhoto),@"name":@"HIGH"}];
+                [supportedPreset addObject:@(IQCaptureSessionPresetPhoto)];
+                break;
+            case IQCaptureSessionPresetMedium:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPresetMedium),@"name":@"MEDIUM"}];
+                [supportedPreset addObject:@(IQCaptureSessionPresetMedium)];
+                break;
+            case IQCaptureSessionPresetLow:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPresetLow),@"name":@"LOW"}];
+                [supportedPreset addObject:@(IQCaptureSessionPresetLow)];
+                break;
+            case IQCaptureSessionPreset352x288:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPreset352x288),@"name":@"288P"}];
+                [supportedPreset addObject:@(IQCaptureSessionPreset352x288)];
+                break;
+            case IQCaptureSessionPreset640x480:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPreset640x480),@"name":@"480P"}];
+                [supportedPreset addObject:@(IQCaptureSessionPreset640x480)];
+                break;
+            case IQCaptureSessionPreset1280x720:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPreset1280x720),@"name":@"720P"}];
+                [supportedPreset addObject:@(IQCaptureSessionPreset1280x720)];
+                break;
+            case IQCaptureSessionPreset1920x1080:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPreset1920x1080),@"name":@"1080P"}];
+                [supportedPreset addObject:@(IQCaptureSessionPreset1920x1080)];
+                break;
+            case IQCaptureSessionPreset3840x2160:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPreset3840x2160),@"name":@"2160P"}];
+                [supportedPreset addObject:@(IQCaptureSessionPreset3840x2160)];
+                break;
+            case IQCaptureSessionPresetiFrame960x540:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPresetiFrame960x540),@"name":@"i540P"}];
+                [supportedPreset addObject:@(IQCaptureSessionPresetiFrame960x540)];
+                break;
+            case IQCaptureSessionPresetiFrame1280x720:
+                [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPresetiFrame1280x720),@"name":@"i720P"}];
+                [supportedPreset addObject:@(IQCaptureSessionPresetiFrame1280x720)];
+                break;
+        }
+    }
+    
+    if (sessionSupportedPreset.count == 0)
+    {
+        [sessionSupportedPreset addObject:@{@"quality":@(IQCaptureSessionPresetPhoto),@"name":@"HIGH"}];
+        [supportedPreset addObject:@(IQCaptureSessionPresetPhoto)];
+    }
+    
+    _qualities = [sessionSupportedPreset copy];
+    _supportedPreset = [supportedPreset copy];
+    
+    [self.qualityPickerView reloadData];
+    [self updateUI];
 }
 
 -(void)setHasFlash:(BOOL)hasFlash
@@ -179,6 +224,11 @@ typedef NS_ENUM(NSUInteger, IQPhotoSettingsType) {
 
 -(void)setPhotoPreset:(IQCaptureSessionPreset)photoPreset
 {
+    if (photoPreset == IQCaptureSessionPresetHigh)
+    {
+        photoPreset = IQCaptureSessionPresetPhoto;
+    }
+    
     _photoPreset = photoPreset;
     
     [self updateUI];
@@ -215,26 +265,38 @@ typedef NS_ENUM(NSUInteger, IQPhotoSettingsType) {
             break;
     }
     
-    for (NSDictionary *quality in _qualities)
+    //Quality
+    if (_qualities)
     {
-        IQCaptureSessionPreset preset = [quality[@"quality"] integerValue];
+        _buttonPhotoQuality.userInteractionEnabled = (_qualities.count > 1);
         
-        if (preset == self.photoPreset)
+        NSDictionary *selectedQuality = nil;
+        for (NSDictionary *quality in _qualities)
         {
-            [_buttonPhotoQuality setTitle:quality[@"name"] forState:UIControlStateNormal];
-
-            if (_settingsShowType == IQPhotoSettingsTypeQuality)
+            IQCaptureSessionPreset preset = [quality[@"quality"] integerValue];
+            
+            if (preset == self.photoPreset)
             {
-                _buttonPhotoQuality.frame = CGRectMake(0, 0, 60, 40);
+                selectedQuality = quality;
+                break;
             }
-            else
-            {
-                _buttonPhotoQuality.frame = CGRectMake(CGRectGetMaxX(_buttonFlash.frame), 0, 60, 40);
-            }
-
-            [_qualityPickerView selectItem:[_qualities indexOfObject:quality] animated:YES notifySelection:NO];
-            break;
         }
+        
+        if (selectedQuality == nil)
+        {
+            selectedQuality = [_qualities firstObject];
+        }
+        
+        [_buttonPhotoQuality setTitle:selectedQuality[@"name"] forState:UIControlStateNormal];
+        if (_settingsShowType == IQPhotoSettingsTypeQuality)
+        {
+            _buttonPhotoQuality.frame = CGRectMake(0, 0, 60, 40);
+        }
+        else
+        {
+            _buttonPhotoQuality.frame = CGRectMake(CGRectGetMaxX(_buttonFlash.frame), 0, 60, 40);
+        }
+        [_qualityPickerView selectItem:[_qualities indexOfObject:selectedQuality] animated:YES notifySelection:NO];
     }
 }
 

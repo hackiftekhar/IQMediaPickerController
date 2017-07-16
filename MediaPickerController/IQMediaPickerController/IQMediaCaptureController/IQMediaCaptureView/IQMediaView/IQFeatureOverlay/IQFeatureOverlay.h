@@ -34,7 +34,7 @@
 
 @interface IQFeatureOverlay : UIImageView
 
-@property(nonatomic, assign) id<IQFeatureOverlayDelegate> delegate;
+@property(nonatomic, weak) id<IQFeatureOverlayDelegate> delegate;
 
 -(void)animate;
 

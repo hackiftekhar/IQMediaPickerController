@@ -26,8 +26,8 @@
 
 @interface IQAssetsAlbumViewCell : UITableViewCell
 
-@property(nonatomic, strong) UIImageView *imageViewAlbum;
-@property(nonatomic, strong) UILabel *labelTitle;
-@property(nonatomic, strong) UILabel *labelSubTitle;
+@property(nonatomic) UIImageView *imageViewAlbum;
+@property(nonatomic) UILabel *labelTitle;
+@property(nonatomic) UILabel *labelSubTitle;
 
 @end

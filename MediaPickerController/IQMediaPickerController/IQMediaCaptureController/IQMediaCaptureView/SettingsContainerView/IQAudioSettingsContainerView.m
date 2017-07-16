@@ -27,7 +27,7 @@
 
 @interface IQAudioSettingsContainerView ()
 
-@property(nonatomic, strong) UILabel *labelDuration;
+@property(nonatomic) UILabel *labelDuration;
 
 @end
 

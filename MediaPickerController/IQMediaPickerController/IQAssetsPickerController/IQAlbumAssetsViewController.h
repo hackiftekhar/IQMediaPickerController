@@ -34,6 +34,6 @@
 
 @property (nullable, weak) ALAssetsGroup *assetsGroup;
 @property (nullable, weak) IQAssetsPickerController *assetController;
-@property IQMediaPickerControllerMediaType pickerType;
+@property(nonatomic, nullable) NSArray <NSNumber *> * mediaTypes;
 
 @end

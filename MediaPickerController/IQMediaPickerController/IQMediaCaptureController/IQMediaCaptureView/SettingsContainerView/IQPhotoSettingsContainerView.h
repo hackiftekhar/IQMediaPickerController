@@ -42,6 +42,9 @@
 
 @property(nonatomic) IQCaptureSessionPreset photoPreset;
 
+@property(nonatomic) NSArray <NSNumber*>* preferredPreset;
+@property(nonatomic, readonly) NSArray <NSNumber*>* supportedPreset;
+
 @property(nonatomic) AVCaptureFlashMode flashMode;
 @property(nonatomic) BOOL hasFlash;
 

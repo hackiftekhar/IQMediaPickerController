@@ -35,16 +35,16 @@
 @property IQMediaCaptureControllerCaptureMode internalCaptureMode;
 
 //Input
-@property(nonatomic, strong, readonly) AVCaptureDeviceInput *videoFrontCaptureDeviceInput;
-@property(nonatomic, strong, readonly) AVCaptureDeviceInput *videoBackCaptureDeviceInput;
-@property(nonatomic, strong, readonly) AVCaptureDeviceInput *videoCaptureDeviceInput;
+@property(nonatomic, readonly) AVCaptureDeviceInput *videoFrontCaptureDeviceInput;
+@property(nonatomic, readonly) AVCaptureDeviceInput *videoBackCaptureDeviceInput;
+@property(nonatomic, readonly) AVCaptureDeviceInput *videoCaptureDeviceInput;
 
-@property(nonatomic, strong, readonly) AVCaptureDeviceInput *audioCaptureDeviceInput;
+@property(nonatomic, readonly) AVCaptureDeviceInput *audioCaptureDeviceInput;
 
 //Output
-@property(nonatomic, strong, readonly) AVCaptureStillImageOutput *stillImageOutput;
-@property(nonatomic, strong, readonly) AVCaptureMovieFileOutput *movieFileOutput;
-@property(nonatomic, strong, readonly) IQAudioSession *audioSession;
+@property(nonatomic, readonly) AVCaptureStillImageOutput *stillImageOutput;
+@property(nonatomic, readonly) AVCaptureMovieFileOutput *movieFileOutput;
+@property(nonatomic, readonly) IQAudioSession *audioSession;
 
 @end
 
@@ -82,6 +82,58 @@
 -(IQCaptureSessionPreset)captureSessionPreset
 {
     return _captureSessionPreset;
+}
+
+-(NSArray<NSNumber *> *)supportedSessionPreset
+{
+    NSMutableArray *supportedSessionPreset = [[NSMutableArray alloc] init];
+    
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetPhoto])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPresetPhoto)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetHigh])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPresetHigh)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetMedium])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPresetMedium)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetLow])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPresetLow)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset352x288])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPreset352x288)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset640x480])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPreset640x480)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset1280x720])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPreset1280x720)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset1920x1080])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPreset1920x1080)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset3840x2160])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPreset3840x2160)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetiFrame960x540])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPresetiFrame960x540)];
+    }
+    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetiFrame1280x720])
+    {
+        [supportedSessionPreset addObject:@(IQCaptureSessionPresetiFrame1280x720)];
+    }
+    
+    return supportedSessionPreset;
 }
 
 -(void)setCaptureSessionPreset:(IQCaptureSessionPreset)captureSessionPreset
@@ -585,6 +637,7 @@
         
         AVCaptureDeviceInput *audioInput = [[AVCaptureDeviceInput alloc] initWithDevice:[[self class] defaultAudioDevice] error:&error];
         
+        [self setCaptureSessionPreset:IQCaptureSessionPresetHigh];
         BOOL success = [self addNewInputs:[NSArray arrayWithObjects:videoInput,audioInput, nil]];
         
         if (success)
