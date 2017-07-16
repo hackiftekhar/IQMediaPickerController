@@ -25,13 +25,15 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+@class ALAsset;
+
 @protocol IQAudioPickerControllerDelegate;
 
 @interface IQAudioPickerController : UITabBarController
 
 @property (nonatomic, nullable, weak) id<IQAudioPickerControllerDelegate,UITabBarControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO
-@property(nullable) NSMutableSet *selectedItems;
+@property(nullable) NSMutableArray<ALAsset*> *selectedItems;
 
 @end
 

@@ -33,6 +33,10 @@
 @property(nullable, weak) id<IQAssetsPickerControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO
 @property IQMediaPickerControllerMediaType pickerType;
+@property(nullable) NSMutableArray *selectedItems;
+
+//For internal use only
+-(void)sendFinalSelectedAssets;
 
 @end
 

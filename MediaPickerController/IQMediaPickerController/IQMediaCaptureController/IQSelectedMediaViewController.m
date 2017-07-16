@@ -47,7 +47,15 @@
     _flowLayout.minimumLineSpacing = _flowLayout.minimumInteritemSpacing = 1.0f;
     
     NSUInteger numberOfItemsPerRow = 3;
-    CGFloat size = (self.view.bounds.size.width - (_flowLayout.minimumLineSpacing * (numberOfItemsPerRow+1)))/numberOfItemsPerRow;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        numberOfItemsPerRow = 10;
+    }
+    
+    CGFloat minWidth = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
+    
+    CGFloat size = (minWidth - (_flowLayout.minimumLineSpacing * (numberOfItemsPerRow+1)))/numberOfItemsPerRow;
     _flowLayout.itemSize =  CGSizeMake(size, size);
 
     self.collectionView.alwaysBounceVertical = YES;

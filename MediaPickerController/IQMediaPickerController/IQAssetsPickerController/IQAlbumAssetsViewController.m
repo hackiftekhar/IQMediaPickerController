@@ -31,13 +31,13 @@
 
 @interface IQAlbumAssetsViewController () <UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 {
-    UIBarButtonItem *doneBarButton;
     
     BOOL _isPlayerPlaying;
     UIImage *_selectedImageToShare;
 }
 
-@property(nonatomic, strong) NSMutableIndexSet *selectedAssets;
+@property UIBarButtonItem *doneBarButton;
+@property UIBarButtonItem *selectedMediaCountItem;
 
 @end
 
@@ -47,12 +47,16 @@
 {
     [super viewDidLoad];
     
-    if (self.assetController.allowsPickingMultipleItems == YES)
-    {
-        doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
-        self.navigationItem.rightBarButtonItem = doneBarButton;
-        doneBarButton.enabled = NO;
-    }
+    self.doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
+    self.navigationItem.rightBarButtonItem = self.doneBarButton;
+    
+    UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    self.selectedMediaCountItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.selectedMediaCountItem.possibleTitles = [NSSet setWithObject:@"999 media selected"];
+    self.selectedMediaCountItem.enabled = NO;
+    
+    self.toolbarItems = @[flexItem,self.selectedMediaCountItem,flexItem];
     
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.alwaysBounceVertical = YES;
@@ -61,14 +65,20 @@
     _flowLayout.minimumLineSpacing = _flowLayout.minimumInteritemSpacing = 1.0f;
     
     NSUInteger numberOfItemsPerRow = 3;
-    CGFloat size = (self.view.bounds.size.width - (_flowLayout.minimumLineSpacing * (numberOfItemsPerRow+1)))/numberOfItemsPerRow;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        numberOfItemsPerRow = 10;
+    }
+    
+    CGFloat minWidth = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
+    
+    CGFloat size = (minWidth - (_flowLayout.minimumLineSpacing * (numberOfItemsPerRow+1)))/numberOfItemsPerRow;
     _flowLayout.itemSize =  CGSizeMake(size, size);
 
     [self.collectionView registerClass:[IQAssetsCell class] forCellWithReuseIdentifier:@"cell"];
 
     self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-    
-    _selectedAssets = [[NSMutableIndexSet alloc] init];
     
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressGestureRecognizer:)];
     [self.collectionView addGestureRecognizer:longPressGesture];
@@ -79,6 +89,8 @@
 {
     [super viewWillAppear:animated];
     
+    [self updateSelectedCount];
+    
     NSInteger section = [self.collectionView numberOfSections] - 1;
     NSInteger item = [self.collectionView numberOfItemsInSection:section] - 1;
     
@@ -87,6 +99,22 @@
         NSIndexPath *lastIndexPath = [NSIndexPath indexPathForItem:item inSection:section];
 
         [self.collectionView scrollToItemAtIndexPath:lastIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+    }
+}
+
+-(void)updateSelectedCount
+{
+    if ([self.assetController.selectedItems count])
+    {
+        [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:YES];
+        [self.navigationController setToolbarHidden:NO animated:YES];
+        self.selectedMediaCountItem.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.assetController.selectedItems count]];
+    }
+    else
+    {
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+        [self.navigationController setToolbarHidden:YES animated:YES];
+        self.selectedMediaCountItem.title = nil;
     }
 }
 
@@ -108,8 +136,22 @@
                      
                      if (url)
                      {
-                         MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-                         [self presentMoviePlayerViewControllerAnimated:controller];
+                         void (^threadSafeBlock)() = ^{
+                             
+                             MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+                             [self presentMoviePlayerViewControllerAnimated:controller];
+                         };
+                         
+                         if ([NSThread isMainThread])
+                         {
+                             threadSafeBlock();
+                         }
+                         else
+                         {
+                             dispatch_sync(dispatch_get_main_queue(), ^{
+                                 threadSafeBlock();
+                             });
+                         }
                      }
                  }
              }];
@@ -119,84 +161,8 @@
 
 - (void)doneAction:(UIBarButtonItem *)sender
 {
-    NSMutableArray *selectedVideo = [[NSMutableArray alloc] init];
-    NSMutableArray *selectedImages = [[NSMutableArray alloc] init];
-    
-    [self.assetsGroup enumerateAssetsAtIndexes:self.selectedAssets options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-        
-        if (result)
-        {
-            if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
-            {
-                CGImageRef imageRef = [[result defaultRepresentation] fullResolutionImage];
-                
-                UIImageOrientation orienatation;
-                
-                switch (result.defaultRepresentation.orientation)
-                {
-                    case ALAssetOrientationUp:              orienatation = UIImageOrientationUp;            break;
-                    case ALAssetOrientationDown:            orienatation = UIImageOrientationDown;          break;
-                    case ALAssetOrientationLeft:            orienatation = UIImageOrientationLeft;          break;
-                    case ALAssetOrientationRight:           orienatation = UIImageOrientationRight;         break;
-                    case ALAssetOrientationUpMirrored:      orienatation = UIImageOrientationUpMirrored;    break;
-                    case ALAssetOrientationDownMirrored:    orienatation = UIImageOrientationDownMirrored;  break;
-                    case ALAssetOrientationLeftMirrored:    orienatation = UIImageOrientationLeftMirrored;  break;
-                    case ALAssetOrientationRightMirrored:   orienatation = UIImageOrientationRightMirrored; break;
-                }
-
-                UIImage *image = [UIImage imageWithCGImage:imageRef scale:result.defaultRepresentation.scale orientation:orienatation];
-                
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
-                
-                [selectedImages addObject:dict];
-            }
-            else if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo])
-            {
-                ALAssetRepresentation *representation = [result defaultRepresentation];
-                NSURL *url = [representation url];
-
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,IQMediaAssetURL, nil];
-                
-                [selectedVideo addObject:dict];
-            }
-        }
-    }];
-    
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    
-    if ([selectedImages count]) [dict setObject:selectedImages forKey:IQMediaTypeImage];
-    if ([selectedVideo count])  [dict setObject:selectedVideo forKey:IQMediaTypeVideo];
-    
-    if ([self.assetController.delegate respondsToSelector:@selector(assetsPickerController:didFinishMediaWithInfo:)])
-    {
-        [self.assetController.delegate assetsPickerController:self.assetController didFinishMediaWithInfo:dict];
-    }
-    
-    [self.assetController dismissViewControllerAnimated:YES completion:nil];
+    [self.assetController sendFinalSelectedAssets];
 }
-
-#pragma mark - UICollectionViewFlowLayoutDelegate
-
-//- (CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    __block CGSize thumbnailSize = CGSizeMake(80, 80);
-
-//    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
-//     {
-//         if (result)
-//         {
-//             thumbnailSize = [[result defaultRepresentation] dimensions];
-//             CGFloat deviceCellSizeConstant = ((UICollectionViewFlowLayout*)collectionViewLayout).itemSize.height;
-//             thumbnailSize = CGSizeMake((thumbnailSize.width*deviceCellSizeConstant)/thumbnailSize.height, deviceCellSizeConstant);
-//         }
-//         else
-//         {
-//             *stop = YES;
-//         }
-//     }];
-
-//    return thumbnailSize;
-//}
 
 #pragma mark - UICollectionViewDataSource methods
 
@@ -208,14 +174,26 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 {
     IQAssetsCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    cell.checkmarkView.alpha = 0.0;
     
     [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
      {
          if (result)
          {
+             BOOL selected = NO;
+             NSString *durationText = nil;
+
+             for (ALAsset *selectedAsset in self.assetController.selectedItems)
+             {
+                 if ([selectedAsset.defaultRepresentation.url isEqual:result.defaultRepresentation.url])
+                 {
+                     selected = YES;
+                     break;
+                 }
+             }
+
              CGImageRef thumbnail = [result aspectRatioThumbnail];
              UIImage *imageThumbnail = [UIImage imageWithCGImage:thumbnail];
-             cell.imageViewAsset.image = imageThumbnail;
              
              if ([result valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo && ([result valueForProperty:ALAssetPropertyDuration] != ALErrorInvalidProperty))
              {
@@ -236,21 +214,30 @@
                          totalSeconds = 0;
                      }
                      
-                     cell.labelDuration.text = [NSString stringWithFormat:@"%ld:%02ld",(long)totalMinutes,(unsigned long)totalSeconds];
-                     cell.labelDuration.hidden = NO;
+                     durationText = [NSString stringWithFormat:@"%ld:%02ld",(long)totalMinutes,(unsigned long)totalSeconds];
                  }
              }
-             else if ([result valueForProperty:ALAssetPropertyType] == ALAssetTypePhoto)
+             
+             void (^threadSafeBlock)() = ^{
+                 
+                 cell.imageViewAsset.image = imageThumbnail;
+                 cell.checkmarkView.alpha = selected?1.0:0.0;
+                 cell.labelDuration.text = durationText;
+             };
+             
+             if ([NSThread isMainThread])
              {
-                 cell.labelDuration.hidden = YES;
+                 threadSafeBlock();
+             }
+             else
+             {
+                 dispatch_sync(dispatch_get_main_queue(), ^{
+                     threadSafeBlock();
+                 });
              }
          }
      }];
     
-    BOOL selected = [self.selectedAssets containsIndex:indexPath.item];
-
-    cell.checkmarkView.alpha = selected?1.0:0.0;
-
     return cell;
 }
 
@@ -260,96 +247,50 @@
 {
     IQAssetsCell *cell = (IQAssetsCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
-    BOOL previouslyContainsIndex = [self.selectedAssets containsIndex:indexPath.item];
-    
-    if (previouslyContainsIndex)
-    {
-        [self.selectedAssets removeIndex:indexPath.item];
-    }
-    else
-    {
-        [self.selectedAssets addIndex:indexPath.item];
-    }
-    
-    
-    if (self.assetController.allowsPickingMultipleItems == NO)
-    {
-        NSMutableArray *selectedVideo = [[NSMutableArray alloc] init];
-        NSMutableArray *selectedImages = [[NSMutableArray alloc] init];
-        
-        [self.assetsGroup enumerateAssetsAtIndexes:self.selectedAssets options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-            
-            if (result)
-            {
-                if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
-                {
-                    CGImageRef imageRef = [[result defaultRepresentation] fullResolutionImage];
-                    
-                    UIImageOrientation orienatation;
-                    
-                    switch (result.defaultRepresentation.orientation)
-                    {
-                        case ALAssetOrientationUp:              orienatation = UIImageOrientationUp;            break;
-                        case ALAssetOrientationDown:            orienatation = UIImageOrientationDown;          break;
-                        case ALAssetOrientationLeft:            orienatation = UIImageOrientationLeft;          break;
-                        case ALAssetOrientationRight:           orienatation = UIImageOrientationRight;         break;
-                        case ALAssetOrientationUpMirrored:      orienatation = UIImageOrientationUpMirrored;    break;
-                        case ALAssetOrientationDownMirrored:    orienatation = UIImageOrientationDownMirrored;  break;
-                        case ALAssetOrientationLeftMirrored:    orienatation = UIImageOrientationLeftMirrored;  break;
-                        case ALAssetOrientationRightMirrored:   orienatation = UIImageOrientationRightMirrored; break;
-                    }
+    [self.assetsGroup enumerateAssetsAtIndexes:[NSIndexSet indexSetWithIndex:indexPath.item] options:NSEnumerationConcurrent usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop)
+     {
+         BOOL selected = NO;
 
-                    UIImage *image = [UIImage imageWithCGImage:imageRef scale:result.defaultRepresentation.scale orientation:orienatation];
-                    
-                    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
-                    
-                    [selectedImages addObject:dict];
-                }
-                else if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo])
-                {
-                    ALAssetRepresentation *representation = [result defaultRepresentation];
-                    NSURL *url = [representation url];
-                    
-                    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,IQMediaAssetURL, nil];
-                    
-                    [selectedVideo addObject:dict];
-                }
-            }
-        }];
+         if (result)
+         {
+             for (ALAsset *selectedAsset in [self.assetController.selectedItems reverseObjectEnumerator])
+             {
+                 if ([selectedAsset.defaultRepresentation.url isEqual:result.defaultRepresentation.url])
+                 {
+                     selected = YES;
+                     [self.assetController.selectedItems removeObject:selectedAsset];
+                     break;
+                 }
+             }
 
-        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        
-        if ([selectedImages count]) [dict setObject:selectedImages forKey:IQMediaTypeImage];
-        if ([selectedVideo count])  [dict setObject:selectedVideo forKey:IQMediaTypeVideo];
-        
-        if ([self.assetController.delegate respondsToSelector:@selector(assetsPickerController:didFinishMediaWithInfo:)])
-        {
-            [self.assetController.delegate assetsPickerController:self.assetController didFinishMediaWithInfo:dict];
-        }
-        
-        [self.assetController dismissViewControllerAnimated:YES completion:nil];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            
-            if ([self.selectedAssets count])
-            {
-                doneBarButton.enabled = YES;
+             if (selected == NO)
+             {
+                 [self.assetController.selectedItems addObject:result];
+             }
+             
+             if (self.assetController.allowsPickingMultipleItems == NO)
+             {
+                 [self.assetController sendFinalSelectedAssets];
+             }
 
-                self.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedAssets count]];
-            }
-            else
-            {
-                doneBarButton.enabled = NO;
-                self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-            }
-            
-            
-            cell.checkmarkView.alpha = previouslyContainsIndex?0.0:1.0;
-            
-        } completion:NULL];
-    }
+             void (^threadSafeBlock)() = ^{
+                 
+                 [self updateSelectedCount];
+                 cell.checkmarkView.alpha = selected?0.0:1.0;
+             };
+             
+             if ([NSThread isMainThread])
+             {
+                 threadSafeBlock();
+             }
+             else
+             {
+                 dispatch_sync(dispatch_get_main_queue(), ^{
+                     threadSafeBlock();
+                 });
+             }
+         }
+     }];
 }
 
 - (void)movieFinishedCallback:(NSNotification*)aNotification

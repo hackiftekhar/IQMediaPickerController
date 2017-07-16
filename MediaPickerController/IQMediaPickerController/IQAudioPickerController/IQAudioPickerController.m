@@ -46,7 +46,7 @@
     [super viewDidLoad];
 
     [self.view setTintColor:[UIColor purpleColor]];
-    _selectedItems = [[NSMutableSet alloc] init];
+    _selectedItems = [[NSMutableArray alloc] init];
 }
 
 -(void)viewWillAppear:(BOOL)animated

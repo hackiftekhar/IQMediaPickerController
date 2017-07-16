@@ -27,11 +27,12 @@
 #import "IQAssetsAlbumViewCell.h"
 
 @interface IQAssetsPickerController ()
-{
-    UIBarButtonItem *cancelBarButton;
-}
 
 @property(nonatomic, strong) ALAssetsLibrary *assetLibrary;
+
+@property UIBarButtonItem *cancelBarButton;
+@property UIBarButtonItem *doneBarButton;
+@property UIBarButtonItem *selectedMediaCountItem;
 
 @end
 
@@ -45,71 +46,162 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	[self.navigationItem setTitle:@"Loading..."];
+    
+    _selectedItems = [[NSMutableArray alloc] init];
+
+    [self.navigationItem setTitle:@"Albums"];
+    
+    self.doneBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneAction:)];
+    
+    self.cancelBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
+    [self.navigationItem setLeftBarButtonItem:self.cancelBarButton];
+    
+    UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    self.selectedMediaCountItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.selectedMediaCountItem.possibleTitles = [NSSet setWithObject:@"999 media selected"];
+    self.selectedMediaCountItem.enabled = NO;
+    
+    self.toolbarItems = @[flexItem,self.selectedMediaCountItem,flexItem];
     
     self.tableView.rowHeight = 80;
     [self.tableView registerClass:[IQAssetsAlbumViewCell class] forCellReuseIdentifier:NSStringFromClass([IQAssetsAlbumViewCell class])];
-    
-    cancelBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction:)];
-	[self.navigationItem setRightBarButtonItem:cancelBarButton];
     
     _assetGroups = [[NSMutableArray alloc] init];
     self.assetLibrary = [[ALAssetsLibrary alloc] init];
     
     // Load Albums into assetGroups
     dispatch_async(dispatch_get_main_queue(), ^{
-                       // Group enumerator Block
-                       void (^assetGroupEnumerator)(ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop)
-                       {
-                           if (group == nil)
-                           {
-                               return;
-                           }
-                           
-                           NSString *sGroupPropertyName = (NSString *)[group valueForProperty:ALAssetsGroupPropertyName];
-                           NSUInteger nType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
-                           
-                           if ((self.pickerType & IQMediaPickerControllerMediaTypePhoto) && (self.pickerType & IQMediaPickerControllerMediaTypeVideo))
-                           {
-                               [group setAssetsFilter:[ALAssetsFilter allAssets]];
-                           }
-                           else if (self.pickerType & IQMediaPickerControllerMediaTypePhoto)
-                           {
-                               [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-                           }
-                           else if (self.pickerType & IQMediaPickerControllerMediaTypeVideo)
-                           {
-                               [group setAssetsFilter:[ALAssetsFilter allVideos]];
-                           }
-                           
-                           if ([[sGroupPropertyName lowercaseString] isEqualToString:@"camera roll"] && nType == ALAssetsGroupSavedPhotos) {
-                               [_assetGroups insertObject:group atIndex:0];
-                           }
-                           else {
-                               if (group.numberOfAssets != 0) {
-                                   [_assetGroups addObject:group];
-                               }
-                           }
-
-                           [self.tableView reloadData];
-                           [self.navigationItem setTitle:@"Albums"];
-
-                       };
+        // Group enumerator Block
+        void (^assetGroupEnumerator)(ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop)
+        {
+            if (group == nil)
+            {
+                return;
+            }
+            
+            NSString *sGroupPropertyName = (NSString *)[group valueForProperty:ALAssetsGroupPropertyName];
+            NSUInteger nType = [[group valueForProperty:ALAssetsGroupPropertyType] intValue];
+            
+            if ((self.pickerType & IQMediaPickerControllerMediaTypePhoto) && (self.pickerType & IQMediaPickerControllerMediaTypeVideo))
+            {
+                [group setAssetsFilter:[ALAssetsFilter allAssets]];
+            }
+            else if (self.pickerType & IQMediaPickerControllerMediaTypePhoto)
+            {
+                [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+            }
+            else if (self.pickerType & IQMediaPickerControllerMediaTypeVideo)
+            {
+                [group setAssetsFilter:[ALAssetsFilter allVideos]];
+            }
+            
+            if ([[sGroupPropertyName lowercaseString] isEqualToString:@"camera roll"] && nType == ALAssetsGroupSavedPhotos) {
+                [_assetGroups insertObject:group atIndex:0];
+            }
+            else {
+                [_assetGroups addObject:group];
+            }
+            
+            [self.tableView reloadData];
+        };
         
-                       // Group Enumerator Failure Block
-                       void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error) {
-                           UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-                           [alert show];
-                       };
+        // Group Enumerator Failure Block
+        void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error) {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [alert show];
+        };
         
-                       [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:assetGroupEnumerator failureBlock:assetGroupEnumberatorFailure];
-                   });
+        [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:assetGroupEnumerator failureBlock:assetGroupEnumberatorFailure];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+
+    [self updateSelectedCount];
+}
+
+-(void)updateSelectedCount
+{
+    if ([self.selectedItems count])
+    {
+        [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:YES];
+
+        [self.navigationController setToolbarHidden:NO animated:YES];
+        self.selectedMediaCountItem.title = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.selectedItems count]];
+    }
+    else
+    {
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+        [self.navigationController setToolbarHidden:YES animated:YES];
+        self.selectedMediaCountItem.title = nil;
+    }
+}
+
+-(void)sendFinalSelectedAssets
+{
+    NSMutableArray *selectedVideo = [[NSMutableArray alloc] init];
+    NSMutableArray *selectedImages = [[NSMutableArray alloc] init];
+    
+    for (ALAsset *result in self.selectedItems)
+    {
+        if (result)
+        {
+            if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypePhoto])
+            {
+                CGImageRef imageRef = [[result defaultRepresentation] fullResolutionImage];
+                
+                UIImageOrientation orienatation;
+                
+                switch (result.defaultRepresentation.orientation)
+                {
+                    case ALAssetOrientationUp:              orienatation = UIImageOrientationUp;            break;
+                    case ALAssetOrientationDown:            orienatation = UIImageOrientationDown;          break;
+                    case ALAssetOrientationLeft:            orienatation = UIImageOrientationLeft;          break;
+                    case ALAssetOrientationRight:           orienatation = UIImageOrientationRight;         break;
+                    case ALAssetOrientationUpMirrored:      orienatation = UIImageOrientationUpMirrored;    break;
+                    case ALAssetOrientationDownMirrored:    orienatation = UIImageOrientationDownMirrored;  break;
+                    case ALAssetOrientationLeftMirrored:    orienatation = UIImageOrientationLeftMirrored;  break;
+                    case ALAssetOrientationRightMirrored:   orienatation = UIImageOrientationRightMirrored; break;
+                }
+                
+                UIImage *image = [UIImage imageWithCGImage:imageRef scale:result.defaultRepresentation.scale orientation:orienatation];
+                
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage, nil];
+                
+                [selectedImages addObject:dict];
+            }
+            else if ([[result valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo])
+            {
+                ALAssetRepresentation *representation = [result defaultRepresentation];
+                NSURL *url = [representation url];
+                
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,IQMediaAssetURL, nil];
+                
+                [selectedVideo addObject:dict];
+            }
+        }
+    }
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    
+    if ([selectedImages count]) [dict setObject:selectedImages forKey:IQMediaTypeImage];
+    if ([selectedVideo count])  [dict setObject:selectedVideo forKey:IQMediaTypeVideo];
+    
+    if ([self.delegate respondsToSelector:@selector(assetsPickerController:didFinishMediaWithInfo:)])
+    {
+        [self.delegate assetsPickerController:self didFinishMediaWithInfo:dict];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)doneAction:(UIBarButtonItem *)sender
+{
+    [self sendFinalSelectedAssets];
 }
 
 -(void)cancelAction:(UIBarButtonItem*)item
