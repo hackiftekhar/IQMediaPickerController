@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Akio Yasui. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 typedef NS_ENUM(NSInteger, IQAKPickerViewStyle) {
 	IQAKPickerViewStyle3D = 1,

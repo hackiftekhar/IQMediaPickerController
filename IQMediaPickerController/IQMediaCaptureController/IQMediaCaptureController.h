@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "IQMediaPickerControllerConstants.h"
 
 typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {

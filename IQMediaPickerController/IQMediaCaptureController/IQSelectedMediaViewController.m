@@ -22,10 +22,11 @@
 //  THE SOFTWARE.
 
 
+@import AVFoundation;
+@import AVKit;
+
 #import "IQSelectedMediaViewController.h"
 #import "IQMediaCaptureController.h"
-#import <AVKit/AVKit.h>
-#import <AVFoundation/AVFoundation.h>
 #import "IQSelectedMediaAudioCell.h"
 #import "IQSelectedMediaVideoCell.h"
 #import "IQSelectedMediaPhotoCell.h"

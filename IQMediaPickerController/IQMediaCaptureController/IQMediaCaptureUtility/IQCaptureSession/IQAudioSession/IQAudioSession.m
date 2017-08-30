@@ -21,10 +21,10 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+@import AVFoundation;
 
 #import "IQAudioSession.h"
 #import "IQFileManager.h"
-#import <AVFoundation/AVFoundation.h>
 #import "IQMediaPickerControllerConstants.h"
 
 @interface IQAudioSession ()<AVAudioRecorderDelegate>

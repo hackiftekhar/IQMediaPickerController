@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 extern NSString *const IQMediaURL;          // an NSURL
 extern NSString *const IQMediaAssetURL;          // an NSURL

@@ -22,8 +22,10 @@
 //  THE SOFTWARE.
 
 
+@import AVFoundation;
+
+
 #import "IQSelectedMediaAudioCell.h"
-#import <AVFoundation/AVFoundation.h>
 #import "NSString+IQTimeIntervalFormatter.h"
 
 @interface IQSelectedMediaAudioCell ()

@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-#import <AVFoundation/AVFoundation.h>
+@import AVFoundation;
 
 #import "IQFileManager.h"
 

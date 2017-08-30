@@ -22,8 +22,9 @@
 //  THE SOFTWARE.
 
 
+@import MediaPlayer;
+
 #import "IQSongsComposersViewController.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import "IQSongsListViewController.h"
 #import "IQSongsAlbumViewCell.h"
 #import "IQAudioPickerController.h"

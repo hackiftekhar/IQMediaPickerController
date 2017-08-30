@@ -22,8 +22,9 @@
 //  THE SOFTWARE.
 
 
+@import AssetsLibrary;
+
 #import "IQAssetsPickerController.h"
-#import <AssetsLibrary/AssetsLibrary.h>
 #import "IQAssetsAlbumViewCell.h"
 
 @interface IQAssetsPickerController ()

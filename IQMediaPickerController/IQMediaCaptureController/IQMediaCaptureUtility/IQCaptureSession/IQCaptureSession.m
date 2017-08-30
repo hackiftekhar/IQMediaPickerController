@@ -22,8 +22,9 @@
 //  THE SOFTWARE.
 
 
+@import MobileCoreServices;
+
 #import "IQCaptureSession.h"
-#import <MobileCoreServices/MobileCoreServices.h>
 #import "IQFileManager.h"
 #import "IQAudioSession.h"
 #import "IQMediaPickerControllerConstants.h"

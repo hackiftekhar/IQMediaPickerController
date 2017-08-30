@@ -23,8 +23,6 @@
 
 
 #import "IQAudioPickerController.h"
-#import <MediaPlayer/MediaPlayer.h>
-
 #import "IQSongsPlaylistViewController.h"
 #import "IQSongsArtistListViewController.h"
 #import "IQSongsListViewController.h"

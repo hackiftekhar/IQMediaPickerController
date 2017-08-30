@@ -22,8 +22,8 @@
 //  THE SOFTWARE.
 
 
-#import <UIKit/UIKit.h>
-#import <MediaPlayer/MediaPlayer.h>
+@import UIKit;
+@import MediaPlayer;
 
 @protocol IQAudioPickerControllerDelegate;
 

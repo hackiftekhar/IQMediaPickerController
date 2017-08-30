@@ -22,8 +22,9 @@
 //  THE SOFTWARE.
 
 
-#import <UIKit/UIKit.h>
-#import <AVFoundation/AVFoundation.h>
+@import UIKit;
+@import AVFoundation;
+
 #import "IQCaptureSession.h"
 
 @class IQVideoSettingsContainerView;

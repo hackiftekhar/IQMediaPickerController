@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Iftekhar. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 #import "AppDelegate.h"
 

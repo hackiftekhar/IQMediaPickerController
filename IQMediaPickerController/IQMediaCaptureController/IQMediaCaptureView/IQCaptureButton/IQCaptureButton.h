@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "IQMediaCaptureController.h"
 
 @interface IQCaptureButton : UIButton

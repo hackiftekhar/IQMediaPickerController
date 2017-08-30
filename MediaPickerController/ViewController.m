@@ -5,13 +5,14 @@
 //  Copyright (c) 2013-14 Iftekhar Qurashi.
 //
 
+@import AVFoundation;
+@import AVKit;
+@import MediaPlayer;
+
 #import "ViewController.h"
 #import "IQMediaPickerController.h"
 #import "IQFileManager.h"
-#import <AVFoundation/AVFoundation.h>
-#import <MediaPlayer/MediaPlayer.h>
 #import "IQImagePreviewViewController.h"
-
 #import "AudioTableViewCell.h"
 #import "VideoTableViewCell.h"
 #import "PhotoTableViewCell.h"
@@ -284,15 +285,17 @@
             
             NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
             
-            MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-            [self presentMoviePlayerViewControllerAnimated:controller];
+            AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+            controller.player = [AVPlayer playerWithURL:url];
+            [self presentViewController:controller animated:YES completion:nil];
         }
         else if([dict objectForKey:IQMediaAssetURL])
         {
             NSURL *url = [dict objectForKey:IQMediaAssetURL];
             
-            MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-            [self presentMoviePlayerViewControllerAnimated:controller];
+            AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+            controller.player = [AVPlayer playerWithURL:url];
+            [self presentViewController:controller animated:YES completion:nil];
         }
         else if ([dict objectForKey:IQMediaImage])
         {
@@ -307,8 +310,9 @@
         {
             NSURL *url = [[[mediaInfo objectForKey:key] objectAtIndex:indexPath.row] objectForKey:IQMediaURL];
             
-            MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-            [self presentMoviePlayerViewControllerAnimated:controller];
+            AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+            controller.player = [AVPlayer playerWithURL:url];
+            [self presentViewController:controller animated:YES completion:nil];
         }
     }
 

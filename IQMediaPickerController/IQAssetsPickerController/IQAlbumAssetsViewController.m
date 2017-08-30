@@ -22,17 +22,18 @@
 //  THE SOFTWARE.
 
 
+@import AssetsLibrary;
+@import AVKit;
+@import AVFoundation;
+
 #import "IQAlbumAssetsViewController.h"
 #import "IQAssetsCell.h"
 #import "IQAssetsPickerController.h"
-#import <MediaPlayer/MediaPlayer.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 #import "IQMediaPickerControllerConstants.h"
 
 @interface IQAlbumAssetsViewController () <UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 {
     
-    BOOL _isPlayerPlaying;
     UIImage *_selectedImageToShare;
 }
 
@@ -145,8 +146,9 @@
                      {
                          void (^threadSafeBlock)() = ^{
                              
-                             MPMoviePlayerViewController *controller = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-                             [self presentMoviePlayerViewControllerAnimated:controller];
+                             AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+                             controller.player = [AVPlayer playerWithURL:url];
+                             [self presentViewController:controller animated:YES completion:nil];
                          };
                          
                          if ([NSThread isMainThread])
@@ -307,26 +309,6 @@
              }
          }
      }];
-}
-
-- (void)movieFinishedCallback:(NSNotification*)aNotification
-{
-    if ([aNotification.name isEqualToString: MPMoviePlayerPlaybackDidFinishNotification]) {
-        NSNumber *finishReason = [[aNotification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-        
-        if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded)
-        {
-            MPMoviePlayerController *moviePlayer = [aNotification object];
-            
-            
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:MPMoviePlayerPlaybackDidFinishNotification
-                                                          object:moviePlayer];
-            [self dismissViewControllerAnimated:YES completion:^{  }];
-        }
-//        self.collectionView.userInteractionEnabled = YES;
-        _isPlayerPlaying = NO;
-    }
 }
 
 -(void)setMediaTypes:(NSArray<NSNumber *> *)mediaTypes

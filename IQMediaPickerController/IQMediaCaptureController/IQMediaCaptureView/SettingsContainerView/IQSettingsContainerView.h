@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "IQVideoSettingsContainerView.h"
 #import "IQPhotoSettingsContainerView.h"
 #import "IQAudioSettingsContainerView.h"

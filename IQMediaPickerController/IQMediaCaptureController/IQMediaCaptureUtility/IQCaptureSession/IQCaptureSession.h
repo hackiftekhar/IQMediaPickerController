@@ -21,9 +21,9 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+@import AVFoundation;
+@import Foundation;
 
-#import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
 #import "IQMediaCaptureController.h"
 
 

@@ -4,7 +4,7 @@
 //
 //  Copyright (c) 2013-14 Iftekhar Qurashi.
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
