@@ -183,8 +183,11 @@
 	[self invalidateIntrinsicContentSize];
 	[self.collectionView.collectionViewLayout invalidateLayout];
 	[self.collectionView reloadData];
-	if ([self.dataSource numberOfItemsInPickerView:self]) {
-		[self selectItem:self.selectedItem animated:NO notifySelection:NO];
+    
+    NSUInteger numberOfItems = [self.dataSource numberOfItemsInPickerView:self];
+    
+	if (numberOfItems) {
+		[self selectItem:MIN(self.selectedItem, numberOfItems-1) animated:NO notifySelection:NO];
 	}
 }
 
@@ -261,7 +264,7 @@
 				for (NSUInteger i = 0; i < [self collectionView:self.collectionView numberOfItemsInSection:0]; i++) {
 					NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
 					IQAKCollectionViewCell *cell = (IQAKCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-					if ([self offsetForItem:i] + cell.bounds.size.width / 2 > self.collectionView.contentOffset.x) {
+					if (cell && [self offsetForItem:i] + cell.bounds.size.width / 2 > self.collectionView.contentOffset.x) {
 						[self selectItem:i animated:YES];
 						break;
 					}

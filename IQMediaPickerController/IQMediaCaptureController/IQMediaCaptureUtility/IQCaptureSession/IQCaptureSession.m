@@ -39,6 +39,7 @@
 @property(nonatomic, readonly) AVCaptureDeviceInput *videoBackCaptureDeviceInput;
 @property(nonatomic, readonly) AVCaptureDeviceInput *videoCaptureDeviceInput;
 
+@property(nonatomic, readonly) AVCaptureDeviceInput *audioDefaultDeviceInput;
 @property(nonatomic, readonly) AVCaptureDeviceInput *audioCaptureDeviceInput;
 
 //Output
@@ -51,9 +52,15 @@
 @implementation IQCaptureSession
 
 @synthesize captureSession = _captureSession;
+
 @synthesize internalCaptureMode = _internalCaptureMode;
+
 @synthesize videoFrontCaptureDeviceInput = _videoFrontCaptureDeviceInput;
 @synthesize videoBackCaptureDeviceInput = _videoBackCaptureDeviceInput;
+
+@synthesize audioCaptureDeviceInput = _audioCaptureDeviceInput;
+@synthesize audioDefaultDeviceInput = _audioDefaultDeviceInput;
+
 @synthesize captureSessionPreset = _captureSessionPreset;
 
 -(id)init
@@ -264,12 +271,6 @@
     return [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
 }
 
-+(AVCaptureDevice*)defaultAudioDevice
-{
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
-    return device;
-}
-
 +(NSURL*)defaultVideoRecordingURL
 {
     return [NSURL fileURLWithPath:[[IQFileManager IQTemporaryDirectory] stringByAppendingString:@"video.mov"]];
@@ -304,29 +305,25 @@
             [session removeInput:input];
         }
         
-        for (AVCaptureInput *input in inputsToAdd)
+        if (inputsToAdd.count)
         {
-            if ( [session canAddInput:input])
+            for (AVCaptureInput *input in inputsToAdd)
             {
-                //Add new output
-                [session addInput:input];
-                
-                if (success == NO)
+                if ( [session canAddInput:input])
                 {
-                    success = YES;
+                    //Add new output
+                    [session addInput:input];
+                    
+                    if (success == NO)
+                    {
+                        success = YES;
+                    }
                 }
             }
         }
-        
-        if (success == NO)
+        else
         {
-            //        NSLog(@"Can't add inputs: %@",newInputs);
-            
-            //Restoring inputs
-            for (AVCaptureInput *input in oldInputs)
-            {
-                [session addInput:input];
-            }
+            success = YES;
         }
         
         //End configuration
@@ -362,27 +359,25 @@
             [session removeOutput:output];
         }
         
-        for (AVCaptureOutput *output in outputsToAdd)
+        if (outputsToAdd.count)
         {
-            if ( [session canAddOutput:output])
+            for (AVCaptureOutput *output in outputsToAdd)
             {
-                //Add new output
-                [session addOutput:output];
-                
-                if (success == NO)
+                if ( [session canAddOutput:output])
                 {
-                    success = YES;
+                    //Add new output
+                    [session addOutput:output];
+                    
+                    if (success == NO)
+                    {
+                        success = YES;
+                    }
                 }
             }
         }
-        
-        if ( success == NO)
+        else
         {
-            //Restoring outputs
-            for (AVCaptureOutput *output in oldOutputs)
-            {
-                [session addOutput:output];
-            }
+            success = YES;
         }
         
         //End configuration
@@ -543,6 +538,10 @@
         
         if (success)
         {
+            _internalCaptureMode = captureMode;
+
+            self.cameraPosition = self.cameraPosition;  //This is to update capture session inputs
+
             if (_audioSession.isRunning)
             {
                 [_audioSession stopRunning];
@@ -552,8 +551,6 @@
             {
                 [_captureSession startRunning];
             }
-
-            _internalCaptureMode = captureMode;
         }
         
         return success;
@@ -573,6 +570,10 @@
         
         if (success)
         {
+            _internalCaptureMode = captureMode;
+
+            self.cameraPosition = self.cameraPosition;  //This is to update capture session inputs
+            
             if (_audioSession.isRunning)
             {
                 [_audioSession stopRunning];
@@ -582,8 +583,6 @@
             {
                 [_captureSession startRunning];
             }
-
-            _internalCaptureMode = captureMode;
         }
         
         return success;
@@ -633,13 +632,24 @@
 
         _videoCaptureDeviceInput = videoInput;
         
-        NSError *error;
+        NSMutableArray *newInputs = [[NSMutableArray alloc] initWithObjects:videoInput, nil];
+        AVCaptureDeviceInput *audioInput = nil;
+
+        if (self.captureMode == IQMediaCaptureControllerCaptureModeVideo)
+        {
+            audioInput = [self audioDefaultDeviceInput];
+            [newInputs addObject:audioInput];
+        }
         
-        AVCaptureDeviceInput *audioInput = [[AVCaptureDeviceInput alloc] initWithDevice:[[self class] defaultAudioDevice] error:&error];
-        
-        [self setCaptureSessionPreset:IQCaptureSessionPresetHigh];
-        BOOL success = [self addNewInputs:[NSArray arrayWithObjects:videoInput,audioInput, nil]];
-        
+        BOOL success = [self addNewInputs:newInputs];
+
+        //If no success then this might be an issue with the current preset session so resetting it to high and then again trying
+        if (success == NO)
+        {
+            [self setCaptureSessionPreset:IQCaptureSessionPresetHigh];
+            success = [self addNewInputs:newInputs];
+        }
+
         if (success)
         {
             _videoCaptureDeviceInput = videoInput;
@@ -672,6 +682,20 @@
     }
     
     return _videoBackCaptureDeviceInput;
+}
+
+-(AVCaptureDeviceInput *)audioDefaultDeviceInput
+{
+    AVCaptureDevice *defaultAudioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
+
+    if (_audioDefaultDeviceInput == nil || (_audioDefaultDeviceInput.device != defaultAudioDevice))
+    {
+        NSError *error;
+        
+        _audioDefaultDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:defaultAudioDevice error:&error];
+    }
+    
+    return _audioDefaultDeviceInput;
 }
 
 -(BOOL)setFlashMode:(AVCaptureFlashMode)flashMode

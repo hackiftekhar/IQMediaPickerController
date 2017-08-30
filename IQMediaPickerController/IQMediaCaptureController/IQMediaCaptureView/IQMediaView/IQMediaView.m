@@ -311,7 +311,7 @@
     _blur = blur;
     [self updateGesturesState];
 
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         
         if (_blur == YES)
         {
@@ -337,7 +337,7 @@
         }
     } completion:^(BOOL finished) {
 
-        if (_blur == NO)
+        if (finished && _blur == NO)
         {
             blurView.hidden = YES;
         }
