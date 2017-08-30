@@ -15,10 +15,11 @@
     "ios": "9.0"
   },
   "source_files": "IQMediaPickerController/**/*.{h,m}",
+  "public_header_files": "IQMediaPickerController/*.h",
   "resources": "IQMediaPickerController/**/*.{xcassets}",
   "dependencies": {
     "DBCameraButton": [],
-    "SCSiriWaveformView":[]
+    "SCSiriWaveformView": []
   },
   "frameworks": [
       "AssetsLibrary",
@@ -28,7 +29,7 @@
       "MediaPlayer",
       "MobileCoreServices",
       "QuartzCore",
-      "UIKit",
+      "UIKit"
   ],
   "requires_arc": true
 }
