@@ -95,7 +95,7 @@
         
         if (self.audioPickerController.maximumItemCount > 0)
         {
-            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",self.audioPickerController.maximumItemCount];
+            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",(unsigned long)self.audioPickerController.maximumItemCount];
         }
         
         self.selectedMediaCountItem.title = finalText;

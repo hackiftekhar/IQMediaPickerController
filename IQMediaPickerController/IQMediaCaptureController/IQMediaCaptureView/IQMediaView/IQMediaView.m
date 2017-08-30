@@ -24,11 +24,11 @@
 
 #import "IQMediaView.h"
 #import "IQFeatureOverlay.h"
-#import "IQ_SCSiriWaveformView.h"
+#import "SCSiriWaveformView.h"
 
 @interface IQMediaView ()<IQFeatureOverlayDelegate,UIGestureRecognizerDelegate>
 
-@property IQ_SCSiriWaveformView *levelMeter;
+@property SCSiriWaveformView *levelMeter;
 
 @property (nonatomic) BOOL blur;
 
@@ -112,7 +112,7 @@
     
     //Audio Meter View
     {
-        self.levelMeter = [[IQ_SCSiriWaveformView alloc] initWithFrame:CGRectInset(self.bounds, 0, self.bounds.size.height/4)];
+        self.levelMeter = [[SCSiriWaveformView alloc] initWithFrame:CGRectInset(self.bounds, 0, self.bounds.size.height/4)];
         self.levelMeter.backgroundColor = [UIColor clearColor];
         [self.levelMeter setWaveColor:[UIColor colorWithRed:192.0/255.0 green:1 blue:1 alpha:1]];
         [self.levelMeter setPrimaryWaveLineWidth:3.0f];

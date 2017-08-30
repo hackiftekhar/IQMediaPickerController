@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>MediaPickerController.xcscheme</key>
+		<key>MediaPickerController.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,6 +12,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>4C691B1B1F56F20500DC80FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C035C21A19A8B5BE0072C2C0</key>
 		<dict>
 			<key>primary</key>

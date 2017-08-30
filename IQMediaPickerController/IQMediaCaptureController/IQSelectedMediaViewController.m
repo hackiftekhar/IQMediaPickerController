@@ -88,7 +88,7 @@
     [self.navigationController setToolbarHidden:NO animated:animated];
 
     NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
-    self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",itemCount];
+    self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
 
     NSInteger section = [self.collectionView numberOfSections] - 1;
     NSInteger item = [self.collectionView numberOfItemsInSection:section] - 1;
@@ -173,7 +173,7 @@
         NSUInteger index = indexPath.item;
         [self.arrayImagesAttribute removeObjectAtIndex:index];
         NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
-        self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",itemCount];
+        self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
     }
     //Video
@@ -182,7 +182,7 @@
         NSUInteger index = indexPath.item - self.arrayImagesAttribute.count;
         [self.videoURLs removeObjectAtIndex:index];
         NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
-        self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",itemCount];
+        self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
     }
     //Audio
@@ -191,7 +191,7 @@
         NSUInteger index = indexPath.item - self.arrayImagesAttribute.count - self.videoURLs.count;
         [self.audioURLs removeObjectAtIndex:index];
         NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
-        self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",itemCount];
+        self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
     }
 }

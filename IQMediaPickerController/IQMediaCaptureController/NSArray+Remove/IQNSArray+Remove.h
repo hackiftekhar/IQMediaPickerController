@@ -22,6 +22,8 @@
 //  THE SOFTWARE.
 
 
+@import Foundation;
+
 @interface NSArray (iq_Remove)
 
 - (NSArray *)iq_arrayByRemovingObject:(id)object;

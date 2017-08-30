@@ -1,0 +1,22 @@
+PODS:
+  - DBCameraButton (1.0.0)
+  - IQMediaPickerController (1.0.1):
+    - DBCameraButton
+    - SCSiriWaveformView
+  - SCSiriWaveformView (1.1.1)
+
+DEPENDENCIES:
+  - IQMediaPickerController (from `.`)
+
+EXTERNAL SOURCES:
+  IQMediaPickerController:
+    :path: .
+
+SPEC CHECKSUMS:
+  DBCameraButton: 969d585df804df5b413936a7bf5d77c562ca2307
+  IQMediaPickerController: c21b8bf715dc75f62ede06e4f534b45d26d6e7cc
+  SCSiriWaveformView: 15b9dd6f94c7536e2032b34a35c6ff74d38c7411
+
+PODFILE CHECKSUM: 6f548f00a45bc289f449b5571a50b7f2418e06ee
+
+COCOAPODS: 1.2.1

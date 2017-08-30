@@ -21,8 +21,17 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-
+@import Foundation;
 @import UIKit;
+
+//! Project version number for IQMediaPickerController.
+FOUNDATION_EXPORT double IQMediaPickerControllerVersionNumber;
+
+//! Project version string for IQMediaPickerController.
+FOUNDATION_EXPORT const unsigned char IQMediaPickerControllerVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <IQMediaPickerController/PublicHeader.h>
+
 #import "IQMediaPickerControllerConstants.h"
 
 @protocol IQMediaPickerControllerDelegate;

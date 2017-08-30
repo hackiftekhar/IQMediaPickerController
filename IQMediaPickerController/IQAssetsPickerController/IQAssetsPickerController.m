@@ -143,7 +143,7 @@
         
         if (self.maximumItemCount > 0)
         {
-            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",self.maximumItemCount];
+            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",(unsigned long)self.maximumItemCount];
         }
 
         self.selectedMediaCountItem.title = finalText;

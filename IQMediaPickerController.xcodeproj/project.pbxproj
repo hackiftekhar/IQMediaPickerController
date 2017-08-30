@@ -1,0 +1,826 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4C691BB51F56F47A00DC80FD /* IQMediaPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B4B1F56F47A00DC80FD /* IQMediaPickerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C691BB61F56F47A00DC80FD /* IQMediaPickerControllerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B4C1F56F47A00DC80FD /* IQMediaPickerControllerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C691BB71F56F47A00DC80FD /* IQMediaPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B4D1F56F47A00DC80FD /* IQMediaPickerController.m */; };
+		4C691BB81F56F47A00DC80FD /* IQMediaPickerControllerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B4E1F56F47A00DC80FD /* IQMediaPickerControllerConstants.m */; };
+		4C691BB91F56F47A00DC80FD /* IQAlbumAssetsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B501F56F47A00DC80FD /* IQAlbumAssetsViewController.h */; };
+		4C691BBA1F56F47A00DC80FD /* IQAlbumAssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B511F56F47A00DC80FD /* IQAlbumAssetsViewController.m */; };
+		4C691BBB1F56F47A00DC80FD /* IQAssetsAlbumViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B531F56F47A00DC80FD /* IQAssetsAlbumViewCell.h */; };
+		4C691BBC1F56F47A00DC80FD /* IQAssetsAlbumViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B541F56F47A00DC80FD /* IQAssetsAlbumViewCell.m */; };
+		4C691BBD1F56F47A00DC80FD /* IQAssetsCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B551F56F47A00DC80FD /* IQAssetsCell.h */; };
+		4C691BBE1F56F47A00DC80FD /* IQAssetsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B561F56F47A00DC80FD /* IQAssetsCell.m */; };
+		4C691BBF1F56F47A00DC80FD /* IQAssetsPickerShadowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B581F56F47A00DC80FD /* IQAssetsPickerShadowView.h */; };
+		4C691BC01F56F47A00DC80FD /* IQAssetsPickerShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B591F56F47A00DC80FD /* IQAssetsPickerShadowView.m */; };
+		4C691BC11F56F47A00DC80FD /* IQCheckmarkView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B5A1F56F47A00DC80FD /* IQCheckmarkView.h */; };
+		4C691BC21F56F47A00DC80FD /* IQCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B5B1F56F47A00DC80FD /* IQCheckmarkView.m */; };
+		4C691BC31F56F47A00DC80FD /* IQAssetsPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B5C1F56F47A00DC80FD /* IQAssetsPickerController.h */; };
+		4C691BC41F56F47A00DC80FD /* IQAssetsPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B5D1F56F47A00DC80FD /* IQAssetsPickerController.m */; };
+		4C691BC51F56F47A00DC80FD /* IQAudioPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B5F1F56F47A00DC80FD /* IQAudioPickerController.h */; };
+		4C691BC61F56F47A00DC80FD /* IQAudioPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B601F56F47A00DC80FD /* IQAudioPickerController.m */; };
+		4C691BC71F56F47A00DC80FD /* IQAudioPickerController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C691B611F56F47A00DC80FD /* IQAudioPickerController.xcassets */; };
+		4C691BC81F56F47A00DC80FD /* IQAudioPickerUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B631F56F47A00DC80FD /* IQAudioPickerUtility.h */; };
+		4C691BC91F56F47A00DC80FD /* IQAudioPickerUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B641F56F47A00DC80FD /* IQAudioPickerUtility.m */; };
+		4C691BCA1F56F47A00DC80FD /* IQAudioPickerShadowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B671F56F47A00DC80FD /* IQAudioPickerShadowView.h */; };
+		4C691BCB1F56F47A00DC80FD /* IQAudioPickerShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B681F56F47A00DC80FD /* IQAudioPickerShadowView.m */; };
+		4C691BCC1F56F47A00DC80FD /* IQSongsAlbumViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B6A1F56F47A00DC80FD /* IQSongsAlbumViewCell.h */; };
+		4C691BCD1F56F47A00DC80FD /* IQSongsAlbumViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B6B1F56F47A00DC80FD /* IQSongsAlbumViewCell.m */; };
+		4C691BCE1F56F47A00DC80FD /* IQSongsCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B6C1F56F47A00DC80FD /* IQSongsCell.h */; };
+		4C691BCF1F56F47A00DC80FD /* IQSongsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B6D1F56F47A00DC80FD /* IQSongsCell.m */; };
+		4C691BD01F56F47A00DC80FD /* IQSongsListTableHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B6F1F56F47A00DC80FD /* IQSongsListTableHeaderView.h */; };
+		4C691BD11F56F47A00DC80FD /* IQSongsListTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B701F56F47A00DC80FD /* IQSongsListTableHeaderView.m */; };
+		4C691BD21F56F47A00DC80FD /* IQSongsAlbumListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B711F56F47A00DC80FD /* IQSongsAlbumListViewController.h */; };
+		4C691BD31F56F47A00DC80FD /* IQSongsAlbumListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B721F56F47A00DC80FD /* IQSongsAlbumListViewController.m */; };
+		4C691BD41F56F47A00DC80FD /* IQSongsArtistListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B731F56F47A00DC80FD /* IQSongsArtistListViewController.h */; };
+		4C691BD51F56F47A00DC80FD /* IQSongsArtistListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B741F56F47A00DC80FD /* IQSongsArtistListViewController.m */; };
+		4C691BD61F56F47A00DC80FD /* IQSongsCompilationsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B751F56F47A00DC80FD /* IQSongsCompilationsViewController.h */; };
+		4C691BD71F56F47A00DC80FD /* IQSongsCompilationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B761F56F47A00DC80FD /* IQSongsCompilationsViewController.m */; };
+		4C691BD81F56F47A00DC80FD /* IQSongsComposersViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B771F56F47A00DC80FD /* IQSongsComposersViewController.h */; };
+		4C691BD91F56F47A00DC80FD /* IQSongsComposersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B781F56F47A00DC80FD /* IQSongsComposersViewController.m */; };
+		4C691BDA1F56F47A00DC80FD /* IQSongsGenreViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B791F56F47A00DC80FD /* IQSongsGenreViewController.h */; };
+		4C691BDB1F56F47A00DC80FD /* IQSongsGenreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B7A1F56F47A00DC80FD /* IQSongsGenreViewController.m */; };
+		4C691BDC1F56F47A00DC80FD /* IQSongsListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B7B1F56F47A00DC80FD /* IQSongsListViewController.h */; };
+		4C691BDD1F56F47A00DC80FD /* IQSongsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B7C1F56F47A00DC80FD /* IQSongsListViewController.m */; };
+		4C691BDE1F56F47A00DC80FD /* IQSongsPlaylistViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B7D1F56F47A00DC80FD /* IQSongsPlaylistViewController.h */; };
+		4C691BDF1F56F47A00DC80FD /* IQSongsPlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B7E1F56F47A00DC80FD /* IQSongsPlaylistViewController.m */; };
+		4C691BE01F56F47A00DC80FD /* IQImagePreviewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B801F56F47A00DC80FD /* IQImagePreviewViewController.h */; };
+		4C691BE11F56F47A00DC80FD /* IQImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B811F56F47A00DC80FD /* IQImagePreviewViewController.m */; };
+		4C691BE21F56F47A00DC80FD /* IQMediaCaptureController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B821F56F47A00DC80FD /* IQMediaCaptureController.h */; };
+		4C691BE31F56F47A00DC80FD /* IQMediaCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B831F56F47A00DC80FD /* IQMediaCaptureController.m */; };
+		4C691BE41F56F47A00DC80FD /* IQMediaCaptureController.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C691B841F56F47A00DC80FD /* IQMediaCaptureController.xcassets */; };
+		4C691BE51F56F47A00DC80FD /* IQAudioSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B881F56F47A00DC80FD /* IQAudioSession.h */; };
+		4C691BE61F56F47A00DC80FD /* IQAudioSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B891F56F47A00DC80FD /* IQAudioSession.m */; };
+		4C691BE71F56F47A00DC80FD /* IQCaptureSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B8A1F56F47A00DC80FD /* IQCaptureSession.h */; };
+		4C691BE81F56F47A00DC80FD /* IQCaptureSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B8B1F56F47A00DC80FD /* IQCaptureSession.m */; };
+		4C691BE91F56F47A00DC80FD /* IQFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B8D1F56F47A00DC80FD /* IQFileManager.h */; };
+		4C691BEA1F56F47A00DC80FD /* IQFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B8E1F56F47A00DC80FD /* IQFileManager.m */; };
+		4C691BEB1F56F47A00DC80FD /* IQBottomContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B911F56F47A00DC80FD /* IQBottomContainerView.h */; };
+		4C691BEC1F56F47A00DC80FD /* IQBottomContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B921F56F47A00DC80FD /* IQBottomContainerView.m */; };
+		4C691BED1F56F47A00DC80FD /* IQFeatureOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B951F56F47A00DC80FD /* IQFeatureOverlay.h */; };
+		4C691BEE1F56F47A00DC80FD /* IQFeatureOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B961F56F47A00DC80FD /* IQFeatureOverlay.m */; };
+		4C691BEF1F56F47A00DC80FD /* IQMediaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B971F56F47A00DC80FD /* IQMediaView.h */; };
+		4C691BF01F56F47A00DC80FD /* IQMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B981F56F47A00DC80FD /* IQMediaView.m */; };
+		4C691BF11F56F47A00DC80FD /* IQAudioSettingsContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B9A1F56F47A00DC80FD /* IQAudioSettingsContainerView.h */; };
+		4C691BF21F56F47A00DC80FD /* IQAudioSettingsContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B9B1F56F47A00DC80FD /* IQAudioSettingsContainerView.m */; };
+		4C691BF31F56F47A00DC80FD /* IQPhotoSettingsContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B9C1F56F47A00DC80FD /* IQPhotoSettingsContainerView.h */; };
+		4C691BF41F56F47A00DC80FD /* IQPhotoSettingsContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B9D1F56F47A00DC80FD /* IQPhotoSettingsContainerView.m */; };
+		4C691BF51F56F47A00DC80FD /* IQSettingsContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B9E1F56F47A00DC80FD /* IQSettingsContainerView.h */; };
+		4C691BF61F56F47A00DC80FD /* IQSettingsContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B9F1F56F47A00DC80FD /* IQSettingsContainerView.m */; };
+		4C691BF71F56F47A00DC80FD /* IQVideoSettingsContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BA01F56F47A00DC80FD /* IQVideoSettingsContainerView.h */; };
+		4C691BF81F56F47A00DC80FD /* IQVideoSettingsContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BA11F56F47A00DC80FD /* IQVideoSettingsContainerView.m */; };
+		4C691BF91F56F47A00DC80FD /* IQSelectedMediaAudioCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BA31F56F47A00DC80FD /* IQSelectedMediaAudioCell.h */; };
+		4C691BFA1F56F47A00DC80FD /* IQSelectedMediaAudioCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BA41F56F47A00DC80FD /* IQSelectedMediaAudioCell.m */; };
+		4C691BFB1F56F47A00DC80FD /* IQSelectedMediaPhotoCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BA51F56F47A00DC80FD /* IQSelectedMediaPhotoCell.h */; };
+		4C691BFC1F56F47A00DC80FD /* IQSelectedMediaPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BA61F56F47A00DC80FD /* IQSelectedMediaPhotoCell.m */; };
+		4C691BFD1F56F47A00DC80FD /* IQSelectedMediaVideoCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BA71F56F47A00DC80FD /* IQSelectedMediaVideoCell.h */; };
+		4C691BFE1F56F47A00DC80FD /* IQSelectedMediaVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BA81F56F47A00DC80FD /* IQSelectedMediaVideoCell.m */; };
+		4C691BFF1F56F47A00DC80FD /* IQSelectedMediaViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BA91F56F47A00DC80FD /* IQSelectedMediaViewController.h */; };
+		4C691C001F56F47A00DC80FD /* IQSelectedMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BAA1F56F47A00DC80FD /* IQSelectedMediaViewController.m */; };
+		4C691C011F56F47A00DC80FD /* IQNSArray+Remove.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BAC1F56F47A00DC80FD /* IQNSArray+Remove.h */; };
+		4C691C021F56F47A00DC80FD /* IQNSArray+Remove.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BAD1F56F47A00DC80FD /* IQNSArray+Remove.m */; };
+		4C691C031F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BAF1F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.h */; };
+		4C691C041F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BB01F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.m */; };
+		4C691C051F56F47A00DC80FD /* IQAKPickerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691BB31F56F47A00DC80FD /* IQAKPickerView.h */; };
+		4C691C061F56F47A00DC80FD /* IQAKPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691BB41F56F47A00DC80FD /* IQAKPickerView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4C691B3D1F56F3F200DC80FD /* IQMediaPickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IQMediaPickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C691B481F56F42E00DC80FD /* IQMediaPickerController-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "IQMediaPickerController-Info.plist"; path = "MediaPickerController/IQMediaPickerController-Info.plist"; sourceTree = SOURCE_ROOT; };
+		4C691B4B1F56F47A00DC80FD /* IQMediaPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerController.h; sourceTree = "<group>"; };
+		4C691B4C1F56F47A00DC80FD /* IQMediaPickerControllerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerControllerConstants.h; sourceTree = "<group>"; };
+		4C691B4D1F56F47A00DC80FD /* IQMediaPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerController.m; sourceTree = "<group>"; };
+		4C691B4E1F56F47A00DC80FD /* IQMediaPickerControllerConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerControllerConstants.m; sourceTree = "<group>"; };
+		4C691B501F56F47A00DC80FD /* IQAlbumAssetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAlbumAssetsViewController.h; sourceTree = "<group>"; };
+		4C691B511F56F47A00DC80FD /* IQAlbumAssetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAlbumAssetsViewController.m; sourceTree = "<group>"; };
+		4C691B531F56F47A00DC80FD /* IQAssetsAlbumViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAssetsAlbumViewCell.h; sourceTree = "<group>"; };
+		4C691B541F56F47A00DC80FD /* IQAssetsAlbumViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAssetsAlbumViewCell.m; sourceTree = "<group>"; };
+		4C691B551F56F47A00DC80FD /* IQAssetsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAssetsCell.h; sourceTree = "<group>"; };
+		4C691B561F56F47A00DC80FD /* IQAssetsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAssetsCell.m; sourceTree = "<group>"; };
+		4C691B581F56F47A00DC80FD /* IQAssetsPickerShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAssetsPickerShadowView.h; sourceTree = "<group>"; };
+		4C691B591F56F47A00DC80FD /* IQAssetsPickerShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAssetsPickerShadowView.m; sourceTree = "<group>"; };
+		4C691B5A1F56F47A00DC80FD /* IQCheckmarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCheckmarkView.h; sourceTree = "<group>"; };
+		4C691B5B1F56F47A00DC80FD /* IQCheckmarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCheckmarkView.m; sourceTree = "<group>"; };
+		4C691B5C1F56F47A00DC80FD /* IQAssetsPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAssetsPickerController.h; sourceTree = "<group>"; };
+		4C691B5D1F56F47A00DC80FD /* IQAssetsPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAssetsPickerController.m; sourceTree = "<group>"; };
+		4C691B5F1F56F47A00DC80FD /* IQAudioPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioPickerController.h; sourceTree = "<group>"; };
+		4C691B601F56F47A00DC80FD /* IQAudioPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioPickerController.m; sourceTree = "<group>"; };
+		4C691B611F56F47A00DC80FD /* IQAudioPickerController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IQAudioPickerController.xcassets; sourceTree = "<group>"; };
+		4C691B631F56F47A00DC80FD /* IQAudioPickerUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioPickerUtility.h; sourceTree = "<group>"; };
+		4C691B641F56F47A00DC80FD /* IQAudioPickerUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioPickerUtility.m; sourceTree = "<group>"; };
+		4C691B671F56F47A00DC80FD /* IQAudioPickerShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioPickerShadowView.h; sourceTree = "<group>"; };
+		4C691B681F56F47A00DC80FD /* IQAudioPickerShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioPickerShadowView.m; sourceTree = "<group>"; };
+		4C691B6A1F56F47A00DC80FD /* IQSongsAlbumViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsAlbumViewCell.h; sourceTree = "<group>"; };
+		4C691B6B1F56F47A00DC80FD /* IQSongsAlbumViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsAlbumViewCell.m; sourceTree = "<group>"; };
+		4C691B6C1F56F47A00DC80FD /* IQSongsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsCell.h; sourceTree = "<group>"; };
+		4C691B6D1F56F47A00DC80FD /* IQSongsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsCell.m; sourceTree = "<group>"; };
+		4C691B6F1F56F47A00DC80FD /* IQSongsListTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsListTableHeaderView.h; sourceTree = "<group>"; };
+		4C691B701F56F47A00DC80FD /* IQSongsListTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsListTableHeaderView.m; sourceTree = "<group>"; };
+		4C691B711F56F47A00DC80FD /* IQSongsAlbumListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsAlbumListViewController.h; sourceTree = "<group>"; };
+		4C691B721F56F47A00DC80FD /* IQSongsAlbumListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsAlbumListViewController.m; sourceTree = "<group>"; };
+		4C691B731F56F47A00DC80FD /* IQSongsArtistListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsArtistListViewController.h; sourceTree = "<group>"; };
+		4C691B741F56F47A00DC80FD /* IQSongsArtistListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsArtistListViewController.m; sourceTree = "<group>"; };
+		4C691B751F56F47A00DC80FD /* IQSongsCompilationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsCompilationsViewController.h; sourceTree = "<group>"; };
+		4C691B761F56F47A00DC80FD /* IQSongsCompilationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsCompilationsViewController.m; sourceTree = "<group>"; };
+		4C691B771F56F47A00DC80FD /* IQSongsComposersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsComposersViewController.h; sourceTree = "<group>"; };
+		4C691B781F56F47A00DC80FD /* IQSongsComposersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsComposersViewController.m; sourceTree = "<group>"; };
+		4C691B791F56F47A00DC80FD /* IQSongsGenreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsGenreViewController.h; sourceTree = "<group>"; };
+		4C691B7A1F56F47A00DC80FD /* IQSongsGenreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsGenreViewController.m; sourceTree = "<group>"; };
+		4C691B7B1F56F47A00DC80FD /* IQSongsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsListViewController.h; sourceTree = "<group>"; };
+		4C691B7C1F56F47A00DC80FD /* IQSongsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsListViewController.m; sourceTree = "<group>"; };
+		4C691B7D1F56F47A00DC80FD /* IQSongsPlaylistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSongsPlaylistViewController.h; sourceTree = "<group>"; };
+		4C691B7E1F56F47A00DC80FD /* IQSongsPlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSongsPlaylistViewController.m; sourceTree = "<group>"; };
+		4C691B801F56F47A00DC80FD /* IQImagePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQImagePreviewViewController.h; sourceTree = "<group>"; };
+		4C691B811F56F47A00DC80FD /* IQImagePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQImagePreviewViewController.m; sourceTree = "<group>"; };
+		4C691B821F56F47A00DC80FD /* IQMediaCaptureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaCaptureController.h; sourceTree = "<group>"; };
+		4C691B831F56F47A00DC80FD /* IQMediaCaptureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaCaptureController.m; sourceTree = "<group>"; };
+		4C691B841F56F47A00DC80FD /* IQMediaCaptureController.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IQMediaCaptureController.xcassets; sourceTree = "<group>"; };
+		4C691B881F56F47A00DC80FD /* IQAudioSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioSession.h; sourceTree = "<group>"; };
+		4C691B891F56F47A00DC80FD /* IQAudioSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioSession.m; sourceTree = "<group>"; };
+		4C691B8A1F56F47A00DC80FD /* IQCaptureSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCaptureSession.h; sourceTree = "<group>"; };
+		4C691B8B1F56F47A00DC80FD /* IQCaptureSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCaptureSession.m; sourceTree = "<group>"; };
+		4C691B8D1F56F47A00DC80FD /* IQFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQFileManager.h; sourceTree = "<group>"; };
+		4C691B8E1F56F47A00DC80FD /* IQFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQFileManager.m; sourceTree = "<group>"; };
+		4C691B911F56F47A00DC80FD /* IQBottomContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQBottomContainerView.h; sourceTree = "<group>"; };
+		4C691B921F56F47A00DC80FD /* IQBottomContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQBottomContainerView.m; sourceTree = "<group>"; };
+		4C691B951F56F47A00DC80FD /* IQFeatureOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQFeatureOverlay.h; sourceTree = "<group>"; };
+		4C691B961F56F47A00DC80FD /* IQFeatureOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQFeatureOverlay.m; sourceTree = "<group>"; };
+		4C691B971F56F47A00DC80FD /* IQMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaView.h; sourceTree = "<group>"; };
+		4C691B981F56F47A00DC80FD /* IQMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaView.m; sourceTree = "<group>"; };
+		4C691B9A1F56F47A00DC80FD /* IQAudioSettingsContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioSettingsContainerView.h; sourceTree = "<group>"; };
+		4C691B9B1F56F47A00DC80FD /* IQAudioSettingsContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioSettingsContainerView.m; sourceTree = "<group>"; };
+		4C691B9C1F56F47A00DC80FD /* IQPhotoSettingsContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPhotoSettingsContainerView.h; sourceTree = "<group>"; };
+		4C691B9D1F56F47A00DC80FD /* IQPhotoSettingsContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPhotoSettingsContainerView.m; sourceTree = "<group>"; };
+		4C691B9E1F56F47A00DC80FD /* IQSettingsContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSettingsContainerView.h; sourceTree = "<group>"; };
+		4C691B9F1F56F47A00DC80FD /* IQSettingsContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSettingsContainerView.m; sourceTree = "<group>"; };
+		4C691BA01F56F47A00DC80FD /* IQVideoSettingsContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQVideoSettingsContainerView.h; sourceTree = "<group>"; };
+		4C691BA11F56F47A00DC80FD /* IQVideoSettingsContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQVideoSettingsContainerView.m; sourceTree = "<group>"; };
+		4C691BA31F56F47A00DC80FD /* IQSelectedMediaAudioCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSelectedMediaAudioCell.h; sourceTree = "<group>"; };
+		4C691BA41F56F47A00DC80FD /* IQSelectedMediaAudioCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSelectedMediaAudioCell.m; sourceTree = "<group>"; };
+		4C691BA51F56F47A00DC80FD /* IQSelectedMediaPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSelectedMediaPhotoCell.h; sourceTree = "<group>"; };
+		4C691BA61F56F47A00DC80FD /* IQSelectedMediaPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSelectedMediaPhotoCell.m; sourceTree = "<group>"; };
+		4C691BA71F56F47A00DC80FD /* IQSelectedMediaVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSelectedMediaVideoCell.h; sourceTree = "<group>"; };
+		4C691BA81F56F47A00DC80FD /* IQSelectedMediaVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSelectedMediaVideoCell.m; sourceTree = "<group>"; };
+		4C691BA91F56F47A00DC80FD /* IQSelectedMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSelectedMediaViewController.h; sourceTree = "<group>"; };
+		4C691BAA1F56F47A00DC80FD /* IQSelectedMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSelectedMediaViewController.m; sourceTree = "<group>"; };
+		4C691BAC1F56F47A00DC80FD /* IQNSArray+Remove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQNSArray+Remove.h"; sourceTree = "<group>"; };
+		4C691BAD1F56F47A00DC80FD /* IQNSArray+Remove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQNSArray+Remove.m"; sourceTree = "<group>"; };
+		4C691BAF1F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+IQTimeIntervalFormatter.h"; sourceTree = "<group>"; };
+		4C691BB01F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+IQTimeIntervalFormatter.m"; sourceTree = "<group>"; };
+		4C691BB31F56F47A00DC80FD /* IQAKPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAKPickerView.h; sourceTree = "<group>"; };
+		4C691BB41F56F47A00DC80FD /* IQAKPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAKPickerView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4C691B391F56F3F200DC80FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4C691B331F56F3F200DC80FD = {
+			isa = PBXGroup;
+			children = (
+				4C691B3F1F56F3F200DC80FD /* IQMediaPickerController */,
+				4C691B3E1F56F3F200DC80FD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4C691B3E1F56F3F200DC80FD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B3D1F56F3F200DC80FD /* IQMediaPickerController.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C691B3F1F56F3F200DC80FD /* IQMediaPickerController */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B4B1F56F47A00DC80FD /* IQMediaPickerController.h */,
+				4C691B4C1F56F47A00DC80FD /* IQMediaPickerControllerConstants.h */,
+				4C691B4D1F56F47A00DC80FD /* IQMediaPickerController.m */,
+				4C691B4E1F56F47A00DC80FD /* IQMediaPickerControllerConstants.m */,
+				4C691B4F1F56F47A00DC80FD /* IQAssetsPickerController */,
+				4C691B5E1F56F47A00DC80FD /* IQAudioPickerController */,
+				4C691B7F1F56F47A00DC80FD /* IQMediaCaptureController */,
+				4C691B4A1F56F46100DC80FD /* Supporting Files */,
+			);
+			path = IQMediaPickerController;
+			sourceTree = "<group>";
+		};
+		4C691B4A1F56F46100DC80FD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B481F56F42E00DC80FD /* IQMediaPickerController-Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C691B4F1F56F47A00DC80FD /* IQAssetsPickerController */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B501F56F47A00DC80FD /* IQAlbumAssetsViewController.h */,
+				4C691B511F56F47A00DC80FD /* IQAlbumAssetsViewController.m */,
+				4C691B521F56F47A00DC80FD /* IQAssetPickerCell */,
+				4C691B571F56F47A00DC80FD /* IQAssetPickerView */,
+				4C691B5C1F56F47A00DC80FD /* IQAssetsPickerController.h */,
+				4C691B5D1F56F47A00DC80FD /* IQAssetsPickerController.m */,
+			);
+			path = IQAssetsPickerController;
+			sourceTree = "<group>";
+		};
+		4C691B521F56F47A00DC80FD /* IQAssetPickerCell */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B531F56F47A00DC80FD /* IQAssetsAlbumViewCell.h */,
+				4C691B541F56F47A00DC80FD /* IQAssetsAlbumViewCell.m */,
+				4C691B551F56F47A00DC80FD /* IQAssetsCell.h */,
+				4C691B561F56F47A00DC80FD /* IQAssetsCell.m */,
+			);
+			path = IQAssetPickerCell;
+			sourceTree = "<group>";
+		};
+		4C691B571F56F47A00DC80FD /* IQAssetPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B581F56F47A00DC80FD /* IQAssetsPickerShadowView.h */,
+				4C691B591F56F47A00DC80FD /* IQAssetsPickerShadowView.m */,
+				4C691B5A1F56F47A00DC80FD /* IQCheckmarkView.h */,
+				4C691B5B1F56F47A00DC80FD /* IQCheckmarkView.m */,
+			);
+			path = IQAssetPickerView;
+			sourceTree = "<group>";
+		};
+		4C691B5E1F56F47A00DC80FD /* IQAudioPickerController */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B5F1F56F47A00DC80FD /* IQAudioPickerController.h */,
+				4C691B601F56F47A00DC80FD /* IQAudioPickerController.m */,
+				4C691B611F56F47A00DC80FD /* IQAudioPickerController.xcassets */,
+				4C691B621F56F47A00DC80FD /* IQAudioPickerUtility */,
+				4C691B651F56F47A00DC80FD /* IQAudioPIckerViewControllers */,
+			);
+			path = IQAudioPickerController;
+			sourceTree = "<group>";
+		};
+		4C691B621F56F47A00DC80FD /* IQAudioPickerUtility */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B631F56F47A00DC80FD /* IQAudioPickerUtility.h */,
+				4C691B641F56F47A00DC80FD /* IQAudioPickerUtility.m */,
+			);
+			path = IQAudioPickerUtility;
+			sourceTree = "<group>";
+		};
+		4C691B651F56F47A00DC80FD /* IQAudioPIckerViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B661F56F47A00DC80FD /* IQAudioCellShadowView */,
+				4C691B691F56F47A00DC80FD /* IQAudioPickerTableViewCell */,
+				4C691B6E1F56F47A00DC80FD /* IQAudioPickerTableViewHeader */,
+				4C691B711F56F47A00DC80FD /* IQSongsAlbumListViewController.h */,
+				4C691B721F56F47A00DC80FD /* IQSongsAlbumListViewController.m */,
+				4C691B731F56F47A00DC80FD /* IQSongsArtistListViewController.h */,
+				4C691B741F56F47A00DC80FD /* IQSongsArtistListViewController.m */,
+				4C691B751F56F47A00DC80FD /* IQSongsCompilationsViewController.h */,
+				4C691B761F56F47A00DC80FD /* IQSongsCompilationsViewController.m */,
+				4C691B771F56F47A00DC80FD /* IQSongsComposersViewController.h */,
+				4C691B781F56F47A00DC80FD /* IQSongsComposersViewController.m */,
+				4C691B791F56F47A00DC80FD /* IQSongsGenreViewController.h */,
+				4C691B7A1F56F47A00DC80FD /* IQSongsGenreViewController.m */,
+				4C691B7B1F56F47A00DC80FD /* IQSongsListViewController.h */,
+				4C691B7C1F56F47A00DC80FD /* IQSongsListViewController.m */,
+				4C691B7D1F56F47A00DC80FD /* IQSongsPlaylistViewController.h */,
+				4C691B7E1F56F47A00DC80FD /* IQSongsPlaylistViewController.m */,
+			);
+			path = IQAudioPIckerViewControllers;
+			sourceTree = "<group>";
+		};
+		4C691B661F56F47A00DC80FD /* IQAudioCellShadowView */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B671F56F47A00DC80FD /* IQAudioPickerShadowView.h */,
+				4C691B681F56F47A00DC80FD /* IQAudioPickerShadowView.m */,
+			);
+			path = IQAudioCellShadowView;
+			sourceTree = "<group>";
+		};
+		4C691B691F56F47A00DC80FD /* IQAudioPickerTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B6A1F56F47A00DC80FD /* IQSongsAlbumViewCell.h */,
+				4C691B6B1F56F47A00DC80FD /* IQSongsAlbumViewCell.m */,
+				4C691B6C1F56F47A00DC80FD /* IQSongsCell.h */,
+				4C691B6D1F56F47A00DC80FD /* IQSongsCell.m */,
+			);
+			path = IQAudioPickerTableViewCell;
+			sourceTree = "<group>";
+		};
+		4C691B6E1F56F47A00DC80FD /* IQAudioPickerTableViewHeader */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B6F1F56F47A00DC80FD /* IQSongsListTableHeaderView.h */,
+				4C691B701F56F47A00DC80FD /* IQSongsListTableHeaderView.m */,
+			);
+			path = IQAudioPickerTableViewHeader;
+			sourceTree = "<group>";
+		};
+		4C691B7F1F56F47A00DC80FD /* IQMediaCaptureController */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B801F56F47A00DC80FD /* IQImagePreviewViewController.h */,
+				4C691B811F56F47A00DC80FD /* IQImagePreviewViewController.m */,
+				4C691B821F56F47A00DC80FD /* IQMediaCaptureController.h */,
+				4C691B831F56F47A00DC80FD /* IQMediaCaptureController.m */,
+				4C691B841F56F47A00DC80FD /* IQMediaCaptureController.xcassets */,
+				4C691B851F56F47A00DC80FD /* IQMediaCaptureUtility */,
+				4C691B8F1F56F47A00DC80FD /* IQMediaCaptureView */,
+				4C691BA21F56F47A00DC80FD /* IQSelectedMediaCell */,
+				4C691BA91F56F47A00DC80FD /* IQSelectedMediaViewController.h */,
+				4C691BAA1F56F47A00DC80FD /* IQSelectedMediaViewController.m */,
+				4C691BAB1F56F47A00DC80FD /* NSArray+Remove */,
+				4C691BAE1F56F47A00DC80FD /* NSString + Time Formatter */,
+				4C691BB11F56F47A00DC80FD /* Third Party */,
+			);
+			path = IQMediaCaptureController;
+			sourceTree = "<group>";
+		};
+		4C691B851F56F47A00DC80FD /* IQMediaCaptureUtility */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B861F56F47A00DC80FD /* IQCaptureSession */,
+				4C691B8C1F56F47A00DC80FD /* IQFileManager */,
+			);
+			path = IQMediaCaptureUtility;
+			sourceTree = "<group>";
+		};
+		4C691B861F56F47A00DC80FD /* IQCaptureSession */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B871F56F47A00DC80FD /* IQAudioSession */,
+				4C691B8A1F56F47A00DC80FD /* IQCaptureSession.h */,
+				4C691B8B1F56F47A00DC80FD /* IQCaptureSession.m */,
+			);
+			path = IQCaptureSession;
+			sourceTree = "<group>";
+		};
+		4C691B871F56F47A00DC80FD /* IQAudioSession */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B881F56F47A00DC80FD /* IQAudioSession.h */,
+				4C691B891F56F47A00DC80FD /* IQAudioSession.m */,
+			);
+			path = IQAudioSession;
+			sourceTree = "<group>";
+		};
+		4C691B8C1F56F47A00DC80FD /* IQFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B8D1F56F47A00DC80FD /* IQFileManager.h */,
+				4C691B8E1F56F47A00DC80FD /* IQFileManager.m */,
+			);
+			path = IQFileManager;
+			sourceTree = "<group>";
+		};
+		4C691B8F1F56F47A00DC80FD /* IQMediaCaptureView */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B901F56F47A00DC80FD /* IQBottomContainerView */,
+				4C691B931F56F47A00DC80FD /* IQMediaView */,
+				4C691B991F56F47A00DC80FD /* SettingsContainerView */,
+			);
+			path = IQMediaCaptureView;
+			sourceTree = "<group>";
+		};
+		4C691B901F56F47A00DC80FD /* IQBottomContainerView */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B911F56F47A00DC80FD /* IQBottomContainerView.h */,
+				4C691B921F56F47A00DC80FD /* IQBottomContainerView.m */,
+			);
+			path = IQBottomContainerView;
+			sourceTree = "<group>";
+		};
+		4C691B931F56F47A00DC80FD /* IQMediaView */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B941F56F47A00DC80FD /* IQFeatureOverlay */,
+				4C691B971F56F47A00DC80FD /* IQMediaView.h */,
+				4C691B981F56F47A00DC80FD /* IQMediaView.m */,
+			);
+			path = IQMediaView;
+			sourceTree = "<group>";
+		};
+		4C691B941F56F47A00DC80FD /* IQFeatureOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B951F56F47A00DC80FD /* IQFeatureOverlay.h */,
+				4C691B961F56F47A00DC80FD /* IQFeatureOverlay.m */,
+			);
+			path = IQFeatureOverlay;
+			sourceTree = "<group>";
+		};
+		4C691B991F56F47A00DC80FD /* SettingsContainerView */ = {
+			isa = PBXGroup;
+			children = (
+				4C691B9A1F56F47A00DC80FD /* IQAudioSettingsContainerView.h */,
+				4C691B9B1F56F47A00DC80FD /* IQAudioSettingsContainerView.m */,
+				4C691B9C1F56F47A00DC80FD /* IQPhotoSettingsContainerView.h */,
+				4C691B9D1F56F47A00DC80FD /* IQPhotoSettingsContainerView.m */,
+				4C691B9E1F56F47A00DC80FD /* IQSettingsContainerView.h */,
+				4C691B9F1F56F47A00DC80FD /* IQSettingsContainerView.m */,
+				4C691BA01F56F47A00DC80FD /* IQVideoSettingsContainerView.h */,
+				4C691BA11F56F47A00DC80FD /* IQVideoSettingsContainerView.m */,
+			);
+			path = SettingsContainerView;
+			sourceTree = "<group>";
+		};
+		4C691BA21F56F47A00DC80FD /* IQSelectedMediaCell */ = {
+			isa = PBXGroup;
+			children = (
+				4C691BA31F56F47A00DC80FD /* IQSelectedMediaAudioCell.h */,
+				4C691BA41F56F47A00DC80FD /* IQSelectedMediaAudioCell.m */,
+				4C691BA51F56F47A00DC80FD /* IQSelectedMediaPhotoCell.h */,
+				4C691BA61F56F47A00DC80FD /* IQSelectedMediaPhotoCell.m */,
+				4C691BA71F56F47A00DC80FD /* IQSelectedMediaVideoCell.h */,
+				4C691BA81F56F47A00DC80FD /* IQSelectedMediaVideoCell.m */,
+			);
+			path = IQSelectedMediaCell;
+			sourceTree = "<group>";
+		};
+		4C691BAB1F56F47A00DC80FD /* NSArray+Remove */ = {
+			isa = PBXGroup;
+			children = (
+				4C691BAC1F56F47A00DC80FD /* IQNSArray+Remove.h */,
+				4C691BAD1F56F47A00DC80FD /* IQNSArray+Remove.m */,
+			);
+			path = "NSArray+Remove";
+			sourceTree = "<group>";
+		};
+		4C691BAE1F56F47A00DC80FD /* NSString + Time Formatter */ = {
+			isa = PBXGroup;
+			children = (
+				4C691BAF1F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.h */,
+				4C691BB01F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.m */,
+			);
+			path = "NSString + Time Formatter";
+			sourceTree = "<group>";
+		};
+		4C691BB11F56F47A00DC80FD /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				4C691BB21F56F47A00DC80FD /* AKPickerView */,
+			);
+			path = "Third Party";
+			sourceTree = "<group>";
+		};
+		4C691BB21F56F47A00DC80FD /* AKPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				4C691BB31F56F47A00DC80FD /* IQAKPickerView.h */,
+				4C691BB41F56F47A00DC80FD /* IQAKPickerView.m */,
+			);
+			path = AKPickerView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4C691B3A1F56F3F200DC80FD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C691BB61F56F47A00DC80FD /* IQMediaPickerControllerConstants.h in Headers */,
+				4C691BB51F56F47A00DC80FD /* IQMediaPickerController.h in Headers */,
+				4C691BDA1F56F47A00DC80FD /* IQSongsGenreViewController.h in Headers */,
+				4C691BF31F56F47A00DC80FD /* IQPhotoSettingsContainerView.h in Headers */,
+				4C691BB91F56F47A00DC80FD /* IQAlbumAssetsViewController.h in Headers */,
+				4C691BE01F56F47A00DC80FD /* IQImagePreviewViewController.h in Headers */,
+				4C691BD21F56F47A00DC80FD /* IQSongsAlbumListViewController.h in Headers */,
+				4C691BF91F56F47A00DC80FD /* IQSelectedMediaAudioCell.h in Headers */,
+				4C691BFD1F56F47A00DC80FD /* IQSelectedMediaVideoCell.h in Headers */,
+				4C691BDC1F56F47A00DC80FD /* IQSongsListViewController.h in Headers */,
+				4C691BE51F56F47A00DC80FD /* IQAudioSession.h in Headers */,
+				4C691BBF1F56F47A00DC80FD /* IQAssetsPickerShadowView.h in Headers */,
+				4C691BED1F56F47A00DC80FD /* IQFeatureOverlay.h in Headers */,
+				4C691BE71F56F47A00DC80FD /* IQCaptureSession.h in Headers */,
+				4C691BBB1F56F47A00DC80FD /* IQAssetsAlbumViewCell.h in Headers */,
+				4C691BC11F56F47A00DC80FD /* IQCheckmarkView.h in Headers */,
+				4C691BEF1F56F47A00DC80FD /* IQMediaView.h in Headers */,
+				4C691BFB1F56F47A00DC80FD /* IQSelectedMediaPhotoCell.h in Headers */,
+				4C691BD61F56F47A00DC80FD /* IQSongsCompilationsViewController.h in Headers */,
+				4C691BD81F56F47A00DC80FD /* IQSongsComposersViewController.h in Headers */,
+				4C691BD41F56F47A00DC80FD /* IQSongsArtistListViewController.h in Headers */,
+				4C691BBD1F56F47A00DC80FD /* IQAssetsCell.h in Headers */,
+				4C691C031F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.h in Headers */,
+				4C691BF71F56F47A00DC80FD /* IQVideoSettingsContainerView.h in Headers */,
+				4C691BFF1F56F47A00DC80FD /* IQSelectedMediaViewController.h in Headers */,
+				4C691BC51F56F47A00DC80FD /* IQAudioPickerController.h in Headers */,
+				4C691BCE1F56F47A00DC80FD /* IQSongsCell.h in Headers */,
+				4C691BE21F56F47A00DC80FD /* IQMediaCaptureController.h in Headers */,
+				4C691C011F56F47A00DC80FD /* IQNSArray+Remove.h in Headers */,
+				4C691C051F56F47A00DC80FD /* IQAKPickerView.h in Headers */,
+				4C691BF11F56F47A00DC80FD /* IQAudioSettingsContainerView.h in Headers */,
+				4C691BCC1F56F47A00DC80FD /* IQSongsAlbumViewCell.h in Headers */,
+				4C691BF51F56F47A00DC80FD /* IQSettingsContainerView.h in Headers */,
+				4C691BDE1F56F47A00DC80FD /* IQSongsPlaylistViewController.h in Headers */,
+				4C691BD01F56F47A00DC80FD /* IQSongsListTableHeaderView.h in Headers */,
+				4C691BE91F56F47A00DC80FD /* IQFileManager.h in Headers */,
+				4C691BC81F56F47A00DC80FD /* IQAudioPickerUtility.h in Headers */,
+				4C691BC31F56F47A00DC80FD /* IQAssetsPickerController.h in Headers */,
+				4C691BEB1F56F47A00DC80FD /* IQBottomContainerView.h in Headers */,
+				4C691BCA1F56F47A00DC80FD /* IQAudioPickerShadowView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4C691B3C1F56F3F200DC80FD /* IQMediaPickerController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C691B451F56F3F200DC80FD /* Build configuration list for PBXNativeTarget "IQMediaPickerController" */;
+			buildPhases = (
+				4C691B381F56F3F200DC80FD /* Sources */,
+				4C691B391F56F3F200DC80FD /* Frameworks */,
+				4C691B3A1F56F3F200DC80FD /* Headers */,
+				4C691B3B1F56F3F200DC80FD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IQMediaPickerController;
+			productName = IQMediaPickerController;
+			productReference = 4C691B3D1F56F3F200DC80FD /* IQMediaPickerController.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4C691B341F56F3F200DC80FD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = Iftekhar;
+				TargetAttributes = {
+					4C691B3C1F56F3F200DC80FD = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 4C691B371F56F3F200DC80FD /* Build configuration list for PBXProject "IQMediaPickerController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4C691B331F56F3F200DC80FD;
+			productRefGroup = 4C691B3E1F56F3F200DC80FD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4C691B3C1F56F3F200DC80FD /* IQMediaPickerController */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4C691B3B1F56F3F200DC80FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C691BE41F56F47A00DC80FD /* IQMediaCaptureController.xcassets in Resources */,
+				4C691BC71F56F47A00DC80FD /* IQAudioPickerController.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C691B381F56F3F200DC80FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C691BF01F56F47A00DC80FD /* IQMediaView.m in Sources */,
+				4C691BD91F56F47A00DC80FD /* IQSongsComposersViewController.m in Sources */,
+				4C691BEC1F56F47A00DC80FD /* IQBottomContainerView.m in Sources */,
+				4C691BE11F56F47A00DC80FD /* IQImagePreviewViewController.m in Sources */,
+				4C691BD71F56F47A00DC80FD /* IQSongsCompilationsViewController.m in Sources */,
+				4C691BFC1F56F47A00DC80FD /* IQSelectedMediaPhotoCell.m in Sources */,
+				4C691BBA1F56F47A00DC80FD /* IQAlbumAssetsViewController.m in Sources */,
+				4C691BC21F56F47A00DC80FD /* IQCheckmarkView.m in Sources */,
+				4C691C041F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.m in Sources */,
+				4C691BB81F56F47A00DC80FD /* IQMediaPickerControllerConstants.m in Sources */,
+				4C691BC91F56F47A00DC80FD /* IQAudioPickerUtility.m in Sources */,
+				4C691BB71F56F47A00DC80FD /* IQMediaPickerController.m in Sources */,
+				4C691BE81F56F47A00DC80FD /* IQCaptureSession.m in Sources */,
+				4C691BF41F56F47A00DC80FD /* IQPhotoSettingsContainerView.m in Sources */,
+				4C691BC61F56F47A00DC80FD /* IQAudioPickerController.m in Sources */,
+				4C691BE31F56F47A00DC80FD /* IQMediaCaptureController.m in Sources */,
+				4C691BD51F56F47A00DC80FD /* IQSongsArtistListViewController.m in Sources */,
+				4C691BDD1F56F47A00DC80FD /* IQSongsListViewController.m in Sources */,
+				4C691BDF1F56F47A00DC80FD /* IQSongsPlaylistViewController.m in Sources */,
+				4C691C021F56F47A00DC80FD /* IQNSArray+Remove.m in Sources */,
+				4C691BF21F56F47A00DC80FD /* IQAudioSettingsContainerView.m in Sources */,
+				4C691BC41F56F47A00DC80FD /* IQAssetsPickerController.m in Sources */,
+				4C691BEA1F56F47A00DC80FD /* IQFileManager.m in Sources */,
+				4C691BC01F56F47A00DC80FD /* IQAssetsPickerShadowView.m in Sources */,
+				4C691BBC1F56F47A00DC80FD /* IQAssetsAlbumViewCell.m in Sources */,
+				4C691BCD1F56F47A00DC80FD /* IQSongsAlbumViewCell.m in Sources */,
+				4C691BCF1F56F47A00DC80FD /* IQSongsCell.m in Sources */,
+				4C691BDB1F56F47A00DC80FD /* IQSongsGenreViewController.m in Sources */,
+				4C691BE61F56F47A00DC80FD /* IQAudioSession.m in Sources */,
+				4C691C001F56F47A00DC80FD /* IQSelectedMediaViewController.m in Sources */,
+				4C691BD31F56F47A00DC80FD /* IQSongsAlbumListViewController.m in Sources */,
+				4C691BD11F56F47A00DC80FD /* IQSongsListTableHeaderView.m in Sources */,
+				4C691BEE1F56F47A00DC80FD /* IQFeatureOverlay.m in Sources */,
+				4C691BF81F56F47A00DC80FD /* IQVideoSettingsContainerView.m in Sources */,
+				4C691C061F56F47A00DC80FD /* IQAKPickerView.m in Sources */,
+				4C691BFE1F56F47A00DC80FD /* IQSelectedMediaVideoCell.m in Sources */,
+				4C691BFA1F56F47A00DC80FD /* IQSelectedMediaAudioCell.m in Sources */,
+				4C691BF61F56F47A00DC80FD /* IQSettingsContainerView.m in Sources */,
+				4C691BBE1F56F47A00DC80FD /* IQAssetsCell.m in Sources */,
+				4C691BCB1F56F47A00DC80FD /* IQAudioPickerShadowView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4C691B431F56F3F200DC80FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4C691B441F56F3F200DC80FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4C691B461F56F3F200DC80FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "MediaPickerController/IQMediaPickerController-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iftekhar.IQMediaPickerController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4C691B471F56F3F200DC80FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "MediaPickerController/IQMediaPickerController-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iftekhar.IQMediaPickerController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C691B371F56F3F200DC80FD /* Build configuration list for PBXProject "IQMediaPickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C691B431F56F3F200DC80FD /* Debug */,
+				4C691B441F56F3F200DC80FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C691B451F56F3F200DC80FD /* Build configuration list for PBXNativeTarget "IQMediaPickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C691B461F56F3F200DC80FD /* Debug */,
+				4C691B471F56F3F200DC80FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4C691B341F56F3F200DC80FD /* Project object */;
+}

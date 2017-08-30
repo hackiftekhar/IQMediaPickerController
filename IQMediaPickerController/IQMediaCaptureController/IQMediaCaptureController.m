@@ -29,7 +29,7 @@
 #import "IQAKPickerView.h"
 #import "IQBottomContainerView.h"
 #import "IQMediaPickerControllerConstants.h"
-#import "IQCaptureButton.h"
+#import "DBCameraButton.h"
 #import "IQSettingsContainerView.h"
 #import "IQSelectedMediaViewController.h"
 
@@ -57,7 +57,7 @@
 @property(nonatomic, readonly) IQAKPickerView *mediaTypePickerView;
 
 @property(nonatomic, readonly) UIButton *buttonCancel, *buttonSelect;
-@property(nonatomic, readonly) IQCaptureButton *buttonCapture;
+@property(nonatomic, readonly) DBCameraButton *buttonCapture;
 
 @property(nonatomic, readonly) IQCaptureSession *session;
 
@@ -390,7 +390,29 @@
         }
         
         {
-            self.buttonCapture.captureMode = self.captureMode;
+            switch (self.captureMode)
+            {
+                default:
+                case IQMediaCaptureControllerCaptureModePhoto:
+                {
+                    self.buttonCapture.circleColor = [UIColor whiteColor];
+                    self.buttonCapture.squareColor = [UIColor whiteColor];
+                }
+                    break;
+                case IQMediaCaptureControllerCaptureModeVideo:
+                {
+                    self.buttonCapture.circleColor = [UIColor redColor];
+                    self.buttonCapture.squareColor = [UIColor redColor];
+                }
+                    break;
+                case IQMediaCaptureControllerCaptureModeAudio:
+                {
+                    self.buttonCapture.circleColor = [UIColor cyanColor];
+                    self.buttonCapture.squareColor = [UIColor cyanColor];
+                }
+                    break;
+            }
+            self.buttonCapture.enabled = YES;
             self.buttonCapture.isRecording = [[self session] isRecording];
         }
         
@@ -447,8 +469,30 @@
         [self.mediaTypePickerView selectItem:index animated:YES notifySelection:NO];
     }
     
-    self.buttonCapture.captureMode = captureMode;
-    
+    switch (self.captureMode)
+    {
+        default:
+        case IQMediaCaptureControllerCaptureModePhoto:
+        {
+            self.buttonCapture.circleColor = [UIColor whiteColor];
+            self.buttonCapture.squareColor = [UIColor whiteColor];
+        }
+            break;
+        case IQMediaCaptureControllerCaptureModeVideo:
+        {
+            self.buttonCapture.circleColor = [UIColor redColor];
+            self.buttonCapture.squareColor = [UIColor redColor];
+        }
+            break;
+        case IQMediaCaptureControllerCaptureModeAudio:
+        {
+            self.buttonCapture.circleColor = [UIColor cyanColor];
+            self.buttonCapture.squareColor = [UIColor cyanColor];
+        }
+            break;
+    }
+    self.buttonCapture.enabled = YES;
+
     self.mediaTypePickerView.userInteractionEnabled = NO;
     
     __weak typeof(self) weakSelf = self;
@@ -688,7 +732,30 @@
 {
     if ([[self session] isSessionRunning] == NO)
     {
-        self.buttonCapture.captureMode = self.captureMode;
+        switch (self.captureMode)
+        {
+            default:
+            case IQMediaCaptureControllerCaptureModePhoto:
+            {
+                self.buttonCapture.circleColor = [UIColor whiteColor];
+                self.buttonCapture.squareColor = [UIColor whiteColor];
+            }
+                break;
+            case IQMediaCaptureControllerCaptureModeVideo:
+            {
+                self.buttonCapture.circleColor = [UIColor redColor];
+                self.buttonCapture.squareColor = [UIColor redColor];
+            }
+                break;
+            case IQMediaCaptureControllerCaptureModeAudio:
+            {
+                self.buttonCapture.circleColor = [UIColor cyanColor];
+                self.buttonCapture.squareColor = [UIColor cyanColor];
+            }
+                break;
+        }
+        self.buttonCapture.enabled = YES;
+
         [[self session] startRunning];
         
         //Resetting
@@ -1214,11 +1281,13 @@
     return _buttonCancel;
 }
 
--(UIButton *)buttonCapture
+-(DBCameraButton *)buttonCapture
 {
     if (_buttonCapture == nil)
     {
-        _buttonCapture = [IQCaptureButton buttonWithType:UIButtonTypeCustom];
+        _buttonCapture = [[DBCameraButton alloc] initWithFrame:CGRectMake(0, 0, 66, 66)];
+        _buttonCapture.autoStateChange = NO;
+        _buttonCapture.margin = 0;
         [_buttonCapture addTarget:self action:@selector(captureAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     

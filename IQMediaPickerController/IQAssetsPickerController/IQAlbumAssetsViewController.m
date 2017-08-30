@@ -114,7 +114,7 @@
         
         if (self.assetController.maximumItemCount > 0)
         {
-            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",self.assetController.maximumItemCount];
+            finalText = [finalText stringByAppendingFormat:@" (%lu maximum) ",(unsigned long)self.assetController.maximumItemCount];
         }
         self.selectedMediaCountItem.title = finalText;
     }
