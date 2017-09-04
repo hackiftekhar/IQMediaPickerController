@@ -43,6 +43,7 @@
     NSMutableArray *arrayImagesAttribute;
     
     BOOL isFirstTimeAppearing;
+    BOOL _wasIdleTimerDisabled;
 }
 
 @property(nonatomic, readonly) NSArray<NSNumber*> *supportedCaptureModeForSession;
@@ -996,6 +997,9 @@
 
 -(void)captureSessionDidStartRecording:(IQCaptureSession *)captureSession
 {
+    _wasIdleTimerDisabled = [[UIApplication sharedApplication] isIdleTimerDisabled];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState) animations:^{
         
         switch (captureSession.captureMode)
@@ -1026,6 +1030,8 @@
 
 -(void)captureSessionDidPauseRecording:(IQCaptureSession *)captureSession
 {
+    [[UIApplication sharedApplication] setIdleTimerDisabled:_wasIdleTimerDisabled];
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState) animations:^{
         
         self.buttonCapture.isRecording = NO;
