@@ -1,9 +1,9 @@
 {
   "name": "IQMediaPickerController",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "source": {
     "git": "https://github.com/hackiftekhar/IQMediaPickerController.git",
-    "tag": "v1.0.1"
+    "tag": "v1.0.2"
   },
   "summary": "Audio Video and Image Picker Controller",
   "homepage": "https://github.com/hackiftekhar/IQMediaPickerController",
@@ -15,7 +15,10 @@
     "ios": "9.0"
   },
   "source_files": "IQMediaPickerController/**/*.{h,m}",
-  "public_header_files": "IQMediaPickerController/*.h",
+  "public_header_files": [
+    "IQMediaPickerController/IQMediaPickerController.h",
+    "IQMediaPickerController/IQMediaPickerControllerConstants.h"
+  ],
   "resources": "IQMediaPickerController/**/*.{xcassets}",
   "dependencies": {
     "DBCameraButton": [],

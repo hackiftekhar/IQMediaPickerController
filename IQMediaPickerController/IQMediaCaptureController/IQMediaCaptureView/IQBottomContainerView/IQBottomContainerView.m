@@ -37,12 +37,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         topContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 30)];
-        topContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
         topContainerView.backgroundColor = [UIColor clearColor];
         [self addSubview:topContainerView];
         
         leftContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 100, 66)];
-        leftContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
         CGPoint center = leftContainerView.center;
         center.x = CGRectGetMidX(frame)/3;
         leftContainerView.center = center;
@@ -50,7 +48,6 @@
         [self addSubview:leftContainerView];
         
         middleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 66, 66)];
-        middleContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
         center = middleContainerView.center;
         center.x = CGRectGetMidX(frame);
         middleContainerView.center = center;
@@ -58,12 +55,29 @@
         [self addSubview:middleContainerView];
         
         rightContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 100, 66)];
-        rightContainerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
         center = rightContainerView.center;
         center.x = CGRectGetMidX(frame)+CGRectGetMidX(frame)*2/3;
         rightContainerView.center = center;
         rightContainerView.backgroundColor = [UIColor clearColor];
         [self addSubview:rightContainerView];
+        
+        //Constraints
+        {
+            topContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+            leftContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+            rightContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+            middleContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+
+            NSDictionary *views = @{@"topContainerView":topContainerView,@"leftContainerView":leftContainerView,@"middleContainerView":middleContainerView,@"rightContainerView":rightContainerView};
+            
+            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[leftContainerView]-[middleContainerView(==66)]-[rightContainerView]-|" options:NSLayoutFormatAlignAllTop|NSLayoutFormatAlignAllBottom metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[topContainerView]-|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[topContainerView(==30)]-[middleContainerView(==66)]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
+
+            [self addConstraints:constraints];
+        }
     }
     return self;
 }
@@ -72,8 +86,24 @@
 {
     _leftContentView = leftContentView;
 
-    leftContentView.frame = leftContainerView.bounds;
-    [leftContainerView addSubview:leftContentView];
+    if (leftContentView)
+    {
+        [leftContainerView addSubview:leftContentView];
+
+        //Constraints
+        {
+            leftContentView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSDictionary *views = @{@"contentView":leftContentView};
+            
+            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
+            
+            [leftContainerView addConstraints:constraints];
+        }
+    }
     
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
 
@@ -83,16 +113,39 @@
         }
         leftContentView.alpha = 1.0;
         
-    } completion:NULL];
+    } completion:^(BOOL finished) {
+
+        NSArray *subviews = leftContainerView.subviews;
+        for (UIView *view in subviews)
+        {
+            if (view.alpha == 0)    [view removeFromSuperview];
+        }
+    }];
 }
 
 -(void)setTopContentView:(UIView *)topContentView
 {
     _topContentView = topContentView;
     
-    topContentView.frame = topContainerView.bounds;
-    [topContainerView addSubview:topContentView];
-    
+    if (topContentView)
+    {
+        [topContainerView addSubview:topContentView];
+
+        //Constraints
+        {
+            topContentView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSDictionary *views = @{@"contentView":topContentView};
+            
+            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
+            
+            [topContainerView addConstraints:constraints];
+        }
+    }
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         
         for (UIView *view in topContainerView.subviews)
@@ -102,15 +155,38 @@
         
         topContentView.alpha = 1.0;
         
-    } completion:NULL];
+    } completion:^(BOOL finished) {
+        
+        NSArray *subviews = topContainerView.subviews;
+        for (UIView *view in subviews)
+        {
+            if (view.alpha == 0)    [view removeFromSuperview];
+        }
+    }];
 }
 
 -(void)setMiddleContentView:(UIView *)middleContentView
 {
     _middleContentView = middleContentView;
 
-    middleContentView.frame = middleContainerView.bounds;
-    [middleContainerView addSubview:middleContentView];
+    if (middleContentView)
+    {
+        [middleContainerView addSubview:middleContentView];
+
+        //Constraints
+        {
+            middleContentView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSDictionary *views = @{@"contentView":middleContentView};
+            
+            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
+            
+            [middleContainerView addConstraints:constraints];
+        }
+    }
 
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         
@@ -121,16 +197,39 @@
 
         middleContentView.alpha = 1.0;
         
-    } completion:NULL];
+    } completion:^(BOOL finished) {
+        
+        NSArray *subviews = middleContainerView.subviews;
+        for (UIView *view in subviews)
+        {
+            if (view.alpha == 0)    [view removeFromSuperview];
+        }
+    }];
 }
 
 -(void)setRightContentView:(UIView *)rightContentView
 {
     _rightContentView = rightContentView;
     
-    rightContentView.frame = rightContainerView.bounds;
-    [rightContainerView addSubview:rightContentView];
-    
+    if (rightContentView)
+    {
+        [rightContainerView addSubview:rightContentView];
+
+        //Constraints
+        {
+            rightContentView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSDictionary *views = @{@"contentView":rightContentView};
+            
+            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
+            
+            [rightContainerView addConstraints:constraints];
+        }
+    }
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         
         for (UIView *view in rightContainerView.subviews)
@@ -140,7 +239,14 @@
         
         rightContentView.alpha = 1.0;
         
-    } completion:NULL];
+    } completion:^(BOOL finished) {
+        
+        NSArray *subviews = rightContainerView.subviews;
+        for (UIView *view in subviews)
+        {
+            if (view.alpha == 0)    [view removeFromSuperview];
+        }
+    }];
 }
 
 @end

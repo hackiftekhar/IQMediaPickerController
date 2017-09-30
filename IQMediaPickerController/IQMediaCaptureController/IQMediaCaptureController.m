@@ -107,10 +107,6 @@
 {
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.view.backgroundColor = [UIColor blackColor];
-    
-    [self.view addSubview:self.mediaView];
-    [self.view addSubview:self.settingsContainerView];
-    [self.view addSubview:self.bottomContainerView];
 }
 
 - (void)viewDidLoad
@@ -118,6 +114,37 @@
     [super viewDidLoad];
     
     isFirstTimeAppearing = YES;
+    
+    [self.view addSubview:self.mediaView];
+    [self.view addSubview:self.settingsContainerView];
+
+    [self.view addSubview:self.bottomContainerView];
+    [self.bottomContainerView setTopContentView:self.mediaTypePickerView];
+    [self.bottomContainerView setLeftContentView:self.buttonCancel];
+    [self.bottomContainerView setMiddleContentView:self.buttonCapture];
+    [self.bottomContainerView setRightContentView:self.buttonSelect];
+
+    //Constraints
+    {
+        self.mediaView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.settingsContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.bottomContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+
+        NSDictionary *views = @{@"bottomContainerView":self.bottomContainerView,@"mediaView":self.mediaView,@"settingsContainerView":self.settingsContainerView};
+        
+        NSMutableArray *constraints = [[NSMutableArray alloc] init];
+        
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[settingsContainerView]|" options:0 metrics:nil views:views]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[settingsContainerView]" options:0 metrics:nil views:views]];
+        
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mediaView]|" options:0 metrics:nil views:views]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mediaView]|" options:0 metrics:nil views:views]];
+        
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bottomContainerView]|" options:0 metrics:nil views:views]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomContainerView]|" options:0 metrics:nil views:views]];
+
+        [self.view addConstraints:constraints];
+    }
     
     [IQFileManager removeItemsAtPath:[[self class] temporaryAudioStoragePath]];
     [IQFileManager removeItemsAtPath:[[self class] temporaryVideoStoragePath]];
@@ -1217,7 +1244,6 @@
     {
         CGRect rect = self.view.bounds;
         _mediaView = [[IQMediaView alloc] initWithFrame:rect];
-        _mediaView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _mediaView.delegate = self;
     }
     
@@ -1245,11 +1271,6 @@
         CGFloat height = 100;
         _bottomContainerView = [[IQBottomContainerView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds)-height, CGRectGetWidth(self.view.bounds), height)];
         _bottomContainerView.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-        
-        [_bottomContainerView setTopContentView:self.mediaTypePickerView];
-        [_bottomContainerView setLeftContentView:self.buttonCancel];
-        [_bottomContainerView setMiddleContentView:self.buttonCapture];
-        [_bottomContainerView setRightContentView:self.buttonSelect];
     }
     return _bottomContainerView;
 }

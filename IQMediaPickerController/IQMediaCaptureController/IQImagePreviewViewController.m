@@ -58,7 +58,16 @@
     self.view = self.visualEffectView;
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.visualEffectView.contentView.bounds];
-//    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectInset(self.visualEffectView.contentView.bounds, 10, 10)];
+    
+#ifdef __IPHONE_11_0
+    if (@available(iOS 11.0, *)) {
+        if ([self.scrollView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)])
+        {
+            self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
+    }
+#endif
+
     self.scrollView.delegate = self;
     self.scrollView.autoresizingMask = self.visualEffectView.autoresizingMask;
     [self.visualEffectView.contentView addSubview:self.scrollView];
@@ -244,6 +253,16 @@
 
 - (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.containerView;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+-(BOOL)shouldAutorotate
+{
+    return YES;
 }
 
 @end

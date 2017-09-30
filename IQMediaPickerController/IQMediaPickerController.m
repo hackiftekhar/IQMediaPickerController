@@ -287,7 +287,7 @@
     }
     else
     {
-        return UIInterfaceOrientationMaskPortrait;
+        return UIInterfaceOrientationMaskAllButUpsideDown;
     }
 }
 

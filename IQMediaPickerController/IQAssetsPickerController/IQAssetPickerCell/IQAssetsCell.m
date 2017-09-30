@@ -28,7 +28,7 @@
 
 -(void)initialize
 {
-    self.checkmarkView.alpha = 0,0;
+    self.checkmarkView.alpha = 0.0;
 }
 
 - (id)initWithFrame:(CGRect)frame

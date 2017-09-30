@@ -11,8 +11,7 @@
 
 #import "ViewController.h"
 #import "IQMediaPickerController.h"
-#import "IQFileManager.h"
-#import "IQImagePreviewViewController.h"
+//#import "IQImagePreviewViewController.h"
 #import "AudioTableViewCell.h"
 #import "VideoTableViewCell.h"
 #import "PhotoTableViewCell.h"
@@ -299,12 +298,11 @@
         }
         else if ([dict objectForKey:IQMediaImage])
         {
-            PhotoTableViewCell *cell = (PhotoTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-            
-            IQImagePreviewViewController *previewController = [[IQImagePreviewViewController alloc] init];
-            previewController.liftedImageView = cell.imageViewPhoto;
-            [previewController showOverController:self.navigationController];
-
+//            PhotoTableViewCell *cell = (PhotoTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+//
+//            IQImagePreviewViewController *previewController = [[IQImagePreviewViewController alloc] init];
+//            previewController.liftedImageView = cell.imageViewPhoto;
+//            [previewController showOverController:self.navigationController];
         }
         else if ([dict objectForKey:IQMediaURL])
         {

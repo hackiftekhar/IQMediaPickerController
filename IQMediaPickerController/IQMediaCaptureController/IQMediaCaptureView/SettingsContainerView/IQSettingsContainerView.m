@@ -41,6 +41,28 @@
         self.audioSettingsView = [[IQAudioSettingsContainerView alloc] initWithFrame:self.bounds];
         self.audioSettingsView.alpha = 0;
         [self addSubview:self.audioSettingsView];
+        
+        //Constraints
+        {
+            self.photoSettingsView.translatesAutoresizingMaskIntoConstraints = NO;
+            self.videoSettingsView.translatesAutoresizingMaskIntoConstraints = NO;
+            self.audioSettingsView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSDictionary *views = @{@"photoSettingsView":self.photoSettingsView,@"videoSettingsView":self.videoSettingsView,@"audioSettingsView":self.audioSettingsView};
+            
+            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[photoSettingsView]|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[photoSettingsView(==40)]|" options:0 metrics:nil views:views]];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[videoSettingsView]|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[videoSettingsView]|" options:0 metrics:nil views:views]];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[audioSettingsView]|" options:0 metrics:nil views:views]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[audioSettingsView]|" options:0 metrics:nil views:views]];
+            
+            [self addConstraints:constraints];
+        }
     }
     return self;
 }

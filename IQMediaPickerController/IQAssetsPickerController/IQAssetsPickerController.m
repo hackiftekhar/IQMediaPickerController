@@ -110,8 +110,10 @@
         
         // Group Enumerator Failure Block
         void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            [alert show];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error!" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            [self presentViewController:alertController animated:YES completion:nil];
         };
         
         [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:assetGroupEnumerator failureBlock:assetGroupEnumberatorFailure];

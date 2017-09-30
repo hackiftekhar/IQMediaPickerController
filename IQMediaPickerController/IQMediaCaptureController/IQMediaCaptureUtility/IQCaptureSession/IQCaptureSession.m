@@ -639,7 +639,11 @@
         if (self.captureMode == IQMediaCaptureControllerCaptureModeVideo)
         {
             audioInput = [self audioDefaultDeviceInput];
-            [newInputs addObject:audioInput];
+
+            if (audioInput)
+            {
+                [newInputs addObject:audioInput];
+            }
         }
         
         BOOL success = [self addNewInputs:newInputs];
