@@ -33,6 +33,10 @@
     UIPanGestureRecognizer *_panRecognizer;
 }
 
+-(void)dealloc
+{
+    
+}
 
 - (id)initWithFrame:(CGRect)frame
 {

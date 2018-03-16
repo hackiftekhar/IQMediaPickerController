@@ -11,7 +11,7 @@
 		4C8EA1BD1F1A8C7B00026A35 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1B91F1A8C7B00026A35 /* PhotoTableViewCell.m */; };
 		4C8EA1BE1F1A8C7B00026A35 /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1BB1F1A8C7B00026A35 /* VideoTableViewCell.m */; };
 		4C99E3181F13F75300CE757D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C99E3171F13F75300CE757D /* Launch Screen.storyboard */; };
-		606825498733666BAD657B81 /* libPods-MediaPickerController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D8CA32B3AA45CC402FFD61C /* libPods-MediaPickerController.a */; };
+		B2581E502BC3BCAA8A65AD07 /* Pods_MediaPickerController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E67E610E47B1FE4FA6B4C5 /* Pods_MediaPickerController.framework */; };
 		C035C21F19A8B5BE0072C2C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C035C21E19A8B5BE0072C2C0 /* Foundation.framework */; };
 		C035C22119A8B5BE0072C2C0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C035C22019A8B5BE0072C2C0 /* CoreGraphics.framework */; };
 		C035C22319A8B5BE0072C2C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C035C22219A8B5BE0072C2C0 /* UIKit.framework */; };
@@ -37,7 +37,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1D8CA32B3AA45CC402FFD61C /* libPods-MediaPickerController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPickerController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		20E67E610E47B1FE4FA6B4C5 /* Pods_MediaPickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaPickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C8EA1B61F1A8C7B00026A35 /* AudioTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTableViewCell.h; sourceTree = "<group>"; };
 		4C8EA1B71F1A8C7B00026A35 /* AudioTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTableViewCell.m; sourceTree = "<group>"; };
 		4C8EA1B81F1A8C7B00026A35 /* PhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTableViewCell.h; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 				C035C22119A8B5BE0072C2C0 /* CoreGraphics.framework in Frameworks */,
 				C035C22319A8B5BE0072C2C0 /* UIKit.framework in Frameworks */,
 				C035C21F19A8B5BE0072C2C0 /* Foundation.framework in Frameworks */,
-				606825498733666BAD657B81 /* libPods-MediaPickerController.a in Frameworks */,
+				B2581E502BC3BCAA8A65AD07 /* Pods_MediaPickerController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +113,7 @@
 				C035C22019A8B5BE0072C2C0 /* CoreGraphics.framework */,
 				C035C22219A8B5BE0072C2C0 /* UIKit.framework */,
 				C035C24019A8B5BE0072C2C0 /* XCTest.framework */,
-				1D8CA32B3AA45CC402FFD61C /* libPods-MediaPickerController.a */,
+				20E67E610E47B1FE4FA6B4C5 /* Pods_MediaPickerController.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -227,9 +227,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MediaPickerController/Pods-MediaPickerController-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DBCameraButton/DBCameraButton.framework",
+				"${BUILT_PRODUCTS_DIR}/IQMediaPickerController/IQMediaPickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/SCSiriWaveformView/SCSiriWaveformView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DBCameraButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQMediaPickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSiriWaveformView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

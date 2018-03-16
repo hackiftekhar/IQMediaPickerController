@@ -32,6 +32,11 @@
     UIView *rightContainerView;
 }
 
+-(void)dealloc
+{
+    
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

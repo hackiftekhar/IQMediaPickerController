@@ -50,6 +50,11 @@
     UISwipeGestureRecognizer *_swipeLeftRecognizer;
 }
 
+-(void)dealloc
+{
+    
+}
+
 -(void)initialize
 {
     self.backgroundColor = [UIColor clearColor];

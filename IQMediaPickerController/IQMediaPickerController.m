@@ -39,6 +39,11 @@
 
 @dynamic delegate;
 
+-(void)dealloc
+{
+    
+}
+
 - (instancetype)init
 {
     self = [super init];

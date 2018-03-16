@@ -1217,7 +1217,10 @@
         [_captureSession commitConfiguration];
     }
     
-    [self stopRunning];
+    if ([self isSessionRunning])
+    {
+        [self stopRunning];
+    }
 
     _captureSession = nil;
     _videoCaptureDeviceInput = nil;

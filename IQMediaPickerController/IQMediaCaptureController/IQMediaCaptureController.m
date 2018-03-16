@@ -86,8 +86,20 @@
 
 -(void)dealloc
 {
-    [[self session] stopRunning];
+    if ([[self session] isSessionRunning])
+    {
+        [[self session] stopRunning];
+    }
     _session = nil;
+    _mediaView = nil;
+    _mediaTypePickerView = nil;
+    _settingsContainerView = nil;
+
+    _bottomContainerView = nil;
+    _mediaTypePickerView = nil;
+    _buttonCancel = nil;
+    _buttonSelect = nil;
+    _buttonCapture = nil;
 }
 
 - (instancetype)init
@@ -341,7 +353,10 @@
         self.mediaView.previewSession = [self session].captureSession;
     }
 
-    [[self session] startRunning];
+    if ([[self session] isSessionRunning] == NO)
+    {
+        [[self session] startRunning];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -355,7 +370,10 @@
     
     _session.delegate = nil;
     
-    [[self session] stopRunning];
+    if ([[self session] isSessionRunning])
+    {
+        [[self session] stopRunning];
+    }
     
     [displayDuratioUpdate removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [displayDuratioUpdate invalidate];
@@ -784,7 +802,10 @@
         }
         self.buttonCapture.enabled = YES;
 
-        [[self session] startRunning];
+        if ([[self session] isSessionRunning] == NO)
+        {
+            [[self session] startRunning];
+        }
         
         //Resetting
         if (self.allowsCapturingMultipleItems == NO)

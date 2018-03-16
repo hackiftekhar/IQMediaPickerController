@@ -38,6 +38,11 @@
 
 @implementation IQSelectedMediaViewController
 
+-(void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

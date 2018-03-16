@@ -39,6 +39,11 @@
 
 @implementation IQImagePreviewViewController
 
+-(void)dealloc
+{
+    
+}
+
 - (id) init {
     self = [super init];
     if (self) {

@@ -26,6 +26,13 @@
 
 @implementation IQSettingsContainerView
 
+-(void)dealloc
+{
+    _photoSettingsView = nil;
+    _videoSettingsView = nil;
+    _audioSettingsView = nil;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
