@@ -17,7 +17,7 @@
   "source_files": "IQMediaPickerController/**/*.{h,m}",
   "public_header_files": [
     "IQMediaPickerController/IQMediaPickerController.h",
-    "IQMediaPickerController/IQMediaPickerControllerConstants.h"
+    "IQMediaPickerController/IQMediaPickerSelection.h"
   ],
   "resources": "IQMediaPickerController/**/*.{xcassets}",
   "dependencies": {

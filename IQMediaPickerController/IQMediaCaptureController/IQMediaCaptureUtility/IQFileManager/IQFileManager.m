@@ -67,7 +67,7 @@
     
     for (NSString *path in items)
     {
-        [durations addObject:[NSNumber numberWithFloat:[[self class] durationOfFileAtPath:path]]];
+        [durations addObject:[NSNumber numberWithDouble:[[self class] durationOfFileAtPath:path]]];
     }
     
     return durations;
@@ -79,7 +79,7 @@
     
     for (NSURL *url in URLs)
     {
-        [durations addObject:[NSNumber numberWithFloat:[[self class] durationOfFileAtPath:url.relativePath]]];
+        [durations addObject:[NSNumber numberWithDouble:[[self class] durationOfFileAtPath:url.relativePath]]];
     }
     
     return durations;

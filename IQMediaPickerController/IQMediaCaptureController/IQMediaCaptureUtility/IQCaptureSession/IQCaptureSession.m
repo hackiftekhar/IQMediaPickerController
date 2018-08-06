@@ -990,7 +990,7 @@ NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";
             }
         }
         
-        _movieFileOutput.maxRecordedDuration = (videoMaximumDuration > 0) ? CMTimeMake(videoMaximumDuration, 1) : kCMTimeInvalid;
+        _movieFileOutput.maxRecordedDuration = (videoMaximumDuration > 0) ? CMTimeMake((int64_t)videoMaximumDuration, 1) : kCMTimeInvalid;
 
         [_movieFileOutput stopRecording];
         [_movieFileOutput startRecordingToOutputFileURL:fileURL recordingDelegate:self];

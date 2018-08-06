@@ -177,7 +177,7 @@
     size = [string sizeWithFont:self.font];
     highlightedSize = [string sizeWithFont:self.highlightedFont];
 #endif
-	return CGSizeMake(ceilf(MAX(size.width, highlightedSize.width)), ceilf(MAX(size.height, highlightedSize.height)));
+	return CGSizeMake(ceil(MAX(size.width, highlightedSize.width)), ceil(MAX(size.height, highlightedSize.height)));
 }
 
 #pragma mark -

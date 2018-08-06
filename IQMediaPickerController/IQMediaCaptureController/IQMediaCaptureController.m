@@ -204,7 +204,7 @@
     self.buttonSelect.hidden = count == 0;
     if (count)
     {
-        [self.buttonSelect setTitle:[NSString stringWithFormat:@"%ld Selected",count] forState:UIControlStateNormal];
+        [self.buttonSelect setTitle:[NSString stringWithFormat:@"%ld Selected",(unsigned long)count] forState:UIControlStateNormal];
     }
     else
     {
@@ -917,14 +917,14 @@
         CGSize destSize = self.view.bounds.size;
         
         CGSize aspectFitSize = CGSizeMake(destSize.width, destSize.height);
-        float mW = destSize.width / sourceSize.width;
-        float mH = destSize.height / sourceSize.height;
+        CGFloat mW = destSize.width / sourceSize.width;
+        CGFloat mH = destSize.height / sourceSize.height;
         if( mH < mW )
             aspectFitSize.width = mH * sourceSize.width;
         else if( mW < mH )
             aspectFitSize.height = mW * sourceSize.height;
 
-        aspectFitSize.width = floorf(aspectFitSize.width);
+        aspectFitSize.width = floor(aspectFitSize.width);
         aspectFitSize.height = floor(aspectFitSize.height);
         
         CGFloat unusedHeight = destSize.height - aspectFitSize.height;
@@ -1091,7 +1091,7 @@
                 self.buttonSelect.hidden = count == 0;
                 if (count)
                 {
-                    [self.buttonSelect setTitle:[NSString stringWithFormat:@"%ld Selected",count] forState:UIControlStateNormal];
+                    [self.buttonSelect setTitle:[NSString stringWithFormat:@"%ld Selected",(unsigned long)count] forState:UIControlStateNormal];
                 }
                 else
                 {

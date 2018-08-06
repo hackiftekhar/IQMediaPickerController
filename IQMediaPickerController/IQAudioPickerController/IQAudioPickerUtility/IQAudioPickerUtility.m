@@ -30,12 +30,12 @@
 
 +(NSString*)secondsToTimeString:(NSTimeInterval)seconds
 {
-    NSUInteger totalMinutes = seconds/60;
+    NSUInteger totalMinutes = (NSUInteger)seconds/60;
     NSUInteger totalSeconds = ((NSUInteger)seconds)%60;
     
     CGFloat reminder = seconds-(totalMinutes*60)-totalSeconds;
     
-    totalSeconds+=roundf(reminder);
+    totalSeconds+=round(reminder);
     
     if (totalSeconds>= 60)
     {
@@ -43,12 +43,12 @@
         totalSeconds = 0;
     }
     
-    return [NSString stringWithFormat:@"%ld:%02ld",(long)totalMinutes,(unsigned long)totalSeconds];
+    return [NSString stringWithFormat:@"%ld:%02ld",(unsigned long)totalMinutes,(unsigned long)totalSeconds];
 }
 
 +(NSUInteger)secondsToMins:(NSTimeInterval)seconds
 {
-    NSUInteger totalMinutes = seconds/60;
+    NSUInteger totalMinutes = (NSUInteger)seconds/60;
     NSUInteger totalSeconds = ((NSUInteger)seconds)%60;
     
     if (totalSeconds>= 30)
