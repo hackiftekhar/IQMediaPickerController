@@ -22,27 +22,24 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
-#import "IQMediaPickerControllerConstants.h"
-
-typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
-    IQMediaCaptureControllerCaptureModePhoto,
-    IQMediaCaptureControllerCaptureModeVideo,
-    IQMediaCaptureControllerCaptureModeAudio,
-};
+#import <UIKit/UIViewController.h>
+#import <Photos/PhotosTypes.h>
+#import <AVFoundation/AVCaptureDevice.h>
 
 @protocol IQMediaCaptureControllerDelegate;
+
+@class IQMediaPickerSelection;
 
 @interface IQMediaCaptureController : UIViewController
 
 @property(nullable, nonatomic, weak) id <IQMediaCaptureControllerDelegate> delegate;
 
 @property(nonatomic) NSArray <NSNumber *> * _Nullable mediaTypes;
-@property(nonatomic) IQMediaPickerControllerCameraDevice captureDevice;
-@property(nonatomic) IQMediaPickerControllerCameraFlashMode flashMode;
-@property(nonatomic) NSArray <NSNumber*> * _Nullable allowedVideoQualities;    //Array of IQMediaPickerControllerQualityType
+@property(nonatomic) AVCaptureDevicePosition captureDevice;
+@property(nonatomic) AVCaptureFlashMode flashMode;
+@property(nonatomic) NSArray <AVCaptureSessionPreset> * _Nullable allowedVideoQualities;
 
-@property(nonatomic, readonly) IQMediaCaptureControllerCaptureMode captureMode;
+@property(nonatomic, readonly) PHAssetMediaType captureMode;
 
 @property (nonatomic) BOOL allowsCapturingMultipleItems; // default is NO.
 @property NSUInteger maximumItemCount;
@@ -63,7 +60,7 @@ typedef NS_ENUM(NSInteger, IQMediaCaptureControllerCaptureMode) {
 
 @protocol IQMediaCaptureControllerDelegate <NSObject>
 
-- (void)mediaCaptureController:(IQMediaCaptureController*_Nonnull)controller didFinishMediaWithInfo:(NSDictionary *_Nonnull)info;
+- (void)mediaCaptureController:(IQMediaCaptureController*_Nonnull)controller didFinishMedias:(IQMediaPickerSelection *_Nonnull)selection;
 - (void)mediaCaptureControllerDidCancel:(IQMediaCaptureController *_Nonnull)controller;
 
 @end

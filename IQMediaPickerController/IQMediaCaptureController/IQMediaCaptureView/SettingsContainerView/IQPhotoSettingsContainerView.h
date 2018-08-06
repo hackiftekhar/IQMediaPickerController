@@ -22,8 +22,8 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
-@import AVFoundation;
+#import <UIKit/UIView.h>
+#import <AVFoundation/AVCaptureDevice.h>
 
 #import "IQCaptureSession.h"
 
@@ -33,7 +33,7 @@
 
 -(void)photoSettingsView:(IQPhotoSettingsContainerView*)settingsView didChangeFlashMode:(AVCaptureFlashMode)flashMode;
 -(void)photoSettingsViewFlippedCamera:(IQPhotoSettingsContainerView*)settingsView;
--(void)photoSettingsView:(IQPhotoSettingsContainerView*)settingsView didChangePhotoPreset:(IQCaptureSessionPreset)photoPreset;
+-(void)photoSettingsView:(IQPhotoSettingsContainerView*)settingsView didChangePhotoPreset:(AVCaptureSessionPreset)photoPreset;
 
 @end
 
@@ -41,10 +41,10 @@
 
 @property(nonatomic, weak) id<IQPhotoSettingsContainerViewDelegate> delegate;
 
-@property(nonatomic) IQCaptureSessionPreset photoPreset;
+@property(nonatomic) AVCaptureSessionPreset photoPreset;
 
-@property(nonatomic) NSArray <NSNumber*>* preferredPreset;
-@property(nonatomic, readonly) NSArray <NSNumber*>* supportedPreset;
+@property(nonatomic) NSArray <AVCaptureSessionPreset>* preferredPreset;
+@property(nonatomic, readonly) NSArray <AVCaptureSessionPreset>* supportedPreset;
 
 @property(nonatomic) AVCaptureFlashMode flashMode;
 @property(nonatomic) BOOL hasFlash;

@@ -22,8 +22,9 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
-@import MediaPlayer;
+#import <UIKit/UITabBarController.h>
+
+@class MPMediaItem;
 
 @protocol IQAudioPickerControllerDelegate;
 
@@ -38,7 +39,7 @@
 
 @protocol IQAudioPickerControllerDelegate <NSObject>
 
-- (void)audioPickerController:(IQAudioPickerController *_Nonnull)mediaPicker didPickMediaItems:(NSArray*_Nonnull)mediaItems;
+- (void)audioPickerController:(IQAudioPickerController *_Nonnull)mediaPicker didPickMediaItems:(NSArray<MPMediaItem*>*_Nonnull)mediaItems;
 - (void)audioPickerControllerDidCancel:(IQAudioPickerController *_Nonnull)mediaPicker;
 
 @end

@@ -22,6 +22,10 @@
 //  THE SOFTWARE.
 
 
+#import <UIKit/UINibLoading.h>
+#import <UIKit/UIImageView.h>
+#import <UIKit/UILabel.h>
+
 #import "IQSongsCell.h"
 
 @implementation IQSongsCell

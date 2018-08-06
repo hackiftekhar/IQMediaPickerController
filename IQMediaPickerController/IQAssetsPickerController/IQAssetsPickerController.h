@@ -22,21 +22,23 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
-#import "IQAlbumAssetsViewController.h"
-#import "IQMediaPickerControllerConstants.h"
+#import <UIKit/UITableViewController.h>
 
-@class ALAsset;
+#import "IQAlbumAssetsViewController.h"
+
+@class PHAsset, PHCollectionList;
 
 @protocol IQAssetsPickerControllerDelegate;
 
 @interface IQAssetsPickerController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property(nonatomic, strong, nullable) PHCollectionList *collectionList;
+
 @property(nullable, weak) id<IQAssetsPickerControllerDelegate> delegate;
 @property BOOL allowsPickingMultipleItems; // default is NO
 @property NSUInteger maximumItemCount;
 @property(nonatomic, nullable) NSArray <NSNumber *> * mediaTypes;
-@property(nullable) NSMutableArray<ALAsset*> *selectedItems;
+@property(nullable) NSMutableArray<PHAsset*> *selectedItems;
 
 //For internal use only
 -(void)sendFinalSelectedAssets;
@@ -46,7 +48,7 @@
 
 @protocol IQAssetsPickerControllerDelegate <NSObject>
 
-- (void)assetsPickerController:(IQAssetsPickerController*_Nonnull)controller didFinishMediaWithInfo:(NSDictionary *_Nonnull)info;
+- (void)assetsPickerController:(IQAssetsPickerController*_Nonnull)controller didPickAssets:(NSArray<PHAsset*> *_Nonnull)assets;
 - (void)assetsPickerControllerDidCancel:(IQAssetsPickerController *_Nonnull)controller;
 
 @end

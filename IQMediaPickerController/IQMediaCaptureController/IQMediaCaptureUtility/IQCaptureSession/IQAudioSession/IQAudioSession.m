@@ -21,11 +21,10 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-@import AVFoundation;
+#import <AVFoundation/AVFAudio.h>
 
 #import "IQAudioSession.h"
 #import "IQFileManager.h"
-#import "IQMediaPickerControllerConstants.h"
 
 @interface IQAudioSession ()<AVAudioRecorderDelegate>
 
@@ -174,29 +173,27 @@
 
     if (successful)
     {
-        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:recorder.url,IQMediaURL,IQMediaTypeAudio,IQMediaType, nil];
-
-        if ([self.delegate respondsToSelector:@selector(audioSession:didFinishMediaWithInfo:error:)])
+        if ([self.delegate respondsToSelector:@selector(audioSession:didFinishRecordingAtURL:error:)])
         {
-            [self.delegate audioSession:self didFinishMediaWithInfo:dict error:nil];
+            [self.delegate audioSession:self didFinishRecordingAtURL:recorder.url error:nil];
         }
     }
     else
     {
         NSError *error = [NSError errorWithDomain:NSStringFromClass([self class]) code:1 userInfo:nil];
         
-        if ([self.delegate respondsToSelector:@selector(audioSession:didFinishMediaWithInfo:error:)])
+        if ([self.delegate respondsToSelector:@selector(audioSession:didFinishRecordingAtURL:error:)])
         {
-            [self.delegate audioSession:self didFinishMediaWithInfo:nil error:error];
+            [self.delegate audioSession:self didFinishRecordingAtURL:nil error:error];
         }
     }
 }
 
 - (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error
 {
-    if ([self.delegate respondsToSelector:@selector(audioSession:didFinishMediaWithInfo:error:)])
+    if ([self.delegate respondsToSelector:@selector(audioSession:didFinishRecordingAtURL:error:)])
     {
-        [self.delegate audioSession:self didFinishMediaWithInfo:nil error:error];
+        [self.delegate audioSession:self didFinishRecordingAtURL:nil error:error];
     }
 }
 

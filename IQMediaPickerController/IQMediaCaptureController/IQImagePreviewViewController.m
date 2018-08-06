@@ -22,6 +22,12 @@
 //  THE SOFTWARE.
 
 
+#import <UIKit/UITapGestureRecognizer.h>
+#import <UIKit/UIScrollView.h>
+#import <UIKit/UIVisualEffectView.h>
+#import <UIKit/UIScreen.h>
+#import <UIKit/UIImageView.h>
+#import <UIKit/UIImage.h>
 #import "IQImagePreviewViewController.h"
 
 @interface IQImagePreviewViewController ()<UIScrollViewDelegate>

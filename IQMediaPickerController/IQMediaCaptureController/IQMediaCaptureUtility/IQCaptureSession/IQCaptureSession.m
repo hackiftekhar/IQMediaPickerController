@@ -22,18 +22,33 @@
 //  THE SOFTWARE.
 
 
-@import MobileCoreServices;
+#import <UIKit/UIImage.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <AVFoundation/AVCaptureInput.h>
+#import <AVFoundation/AVCaptureStillImageOutput.h>
+#import <AVFoundation/AVCaptureFileOutput.h>
+#import <AVFoundation/AVError.h>
+#import <CoreMedia/CMTime.h>
+
+
 
 #import "IQCaptureSession.h"
 #import "IQFileManager.h"
 #import "IQAudioSession.h"
-#import "IQMediaPickerControllerConstants.h"
 #import "IQNSArray+Remove.h"
 
 
+NSString *const IQMediaURL          =   @"IQMediaURL";
+NSString *const IQMediaImage        =   @"IQMediaImage";
+NSString *const IQMediaType         =   @"IQMediaType";
+
+NSString *const IQMediaTypeAudio    =   @"IQMediaTypeAudio";
+NSString *const IQMediaTypeVideo    =   @"IQMediaTypeVideo";
+NSString *const IQMediaTypeImage    =   @"IQMediaTypeImage";
+
 @interface IQCaptureSession ()<AVCaptureFileOutputRecordingDelegate,IQAudioSessionDelegate>
 
-@property IQMediaCaptureControllerCaptureMode internalCaptureMode;
+@property PHAssetMediaType internalCaptureMode;
 
 //Input
 @property(nonatomic, readonly) AVCaptureDeviceInput *videoFrontCaptureDeviceInput;
@@ -87,148 +102,39 @@
     return _captureSession;
 }
 
--(IQCaptureSessionPreset)captureSessionPreset
+-(AVCaptureSessionPreset)captureSessionPreset
 {
     return _captureSessionPreset;
 }
 
--(NSArray<NSNumber *> *)supportedSessionPreset
+-(NSArray<AVCaptureSessionPreset> *)supportedSessionPreset
 {
-    NSMutableArray *supportedSessionPreset = [[NSMutableArray alloc] init];
-    
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetPhoto])
+    NSArray<AVCaptureSessionPreset> *allSessionPreset = @[AVCaptureSessionPresetPhoto,AVCaptureSessionPresetHigh,AVCaptureSessionPresetMedium,AVCaptureSessionPresetLow,AVCaptureSessionPreset352x288,AVCaptureSessionPreset640x480,AVCaptureSessionPreset1280x720,AVCaptureSessionPreset1920x1080,AVCaptureSessionPreset3840x2160,AVCaptureSessionPresetiFrame960x540,AVCaptureSessionPresetiFrame1280x720];
+
+    NSMutableArray<AVCaptureSessionPreset> *supportedSessionPreset = [[NSMutableArray alloc] init];
+
+    for (AVCaptureSessionPreset preset in allSessionPreset)
     {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPresetPhoto)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetHigh])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPresetHigh)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetMedium])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPresetMedium)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetLow])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPresetLow)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset352x288])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPreset352x288)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset640x480])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPreset640x480)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset1280x720])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPreset1280x720)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset1920x1080])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPreset1920x1080)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset3840x2160])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPreset3840x2160)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetiFrame960x540])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPresetiFrame960x540)];
-    }
-    if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetiFrame1280x720])
-    {
-        [supportedSessionPreset addObject:@(IQCaptureSessionPresetiFrame1280x720)];
+        if ([self.captureSession canSetSessionPreset:preset])
+        {
+            [supportedSessionPreset addObject:preset];
+        }
     }
     
     return supportedSessionPreset;
 }
 
--(void)setCaptureSessionPreset:(IQCaptureSessionPreset)captureSessionPreset
+-(void)setCaptureSessionPreset:(AVCaptureSessionPreset)captureSessionPreset
 {
     [CATransaction begin];
     [CATransaction setValue: (id) kCFBooleanTrue forKey: kCATransactionDisableActions];
 
-    switch (captureSessionPreset)
+    if ([self.captureSession canSetSessionPreset:captureSessionPreset])
     {
-        case IQCaptureSessionPresetPhoto:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetPhoto])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPresetHigh:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetHigh])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPresetMedium:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetMedium])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPresetMedium;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPresetLow:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetLow])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPresetLow;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPreset352x288:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset352x288])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPreset352x288;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPreset640x480:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset640x480])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPreset640x480;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPreset1280x720:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset1280x720])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPreset1920x1080:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset1920x1080])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPreset1920x1080;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPreset3840x2160:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPreset3840x2160])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPreset3840x2160;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPresetiFrame960x540:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetiFrame960x540])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPresetiFrame960x540;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
-        case IQCaptureSessionPresetiFrame1280x720:
-            if ([self.captureSession canSetSessionPreset:AVCaptureSessionPresetiFrame1280x720])
-            {
-                self.captureSession.sessionPreset = AVCaptureSessionPresetiFrame1280x720;
-                _captureSessionPreset = captureSessionPreset;
-            }
-            break;
+        self.captureSession.sessionPreset = captureSessionPreset;
+        _captureSessionPreset = captureSessionPreset;
     }
+
     [CATransaction commit];
     
     if ([self.delegate respondsToSelector:@selector(captureSessionDidUpdateSessionPreset:)])
@@ -254,7 +160,7 @@
 
 +(AVCaptureDevice*)captureDeviceForPosition:(AVCaptureDevicePosition)position
 {
-    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    NSArray<AVCaptureDevice*> *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     
     for (AVCaptureDevice *device in devices)
     {
@@ -277,21 +183,16 @@
     return [NSURL fileURLWithPath:[[IQFileManager IQTemporaryDirectory] stringByAppendingString:@"video.mov"]];
 }
 
-+(NSURL*)defaultImageStorageURL
-{
-    return [NSURL fileURLWithPath:[[IQFileManager IQTemporaryDirectory] stringByAppendingString:@"image.jpg"]];
-}
-
 #pragma mark - Methods
 
--(BOOL)addNewInputs:(NSArray*)newInputs
+-(BOOL)addNewInputs:(NSArray<__kindof AVCaptureInput *>*)newInputs
 {
     AVCaptureSession *session = self.captureSession;
 
-    NSArray *oldInputs = [session inputs];
+    NSArray<__kindof AVCaptureInput *> *oldInputs = [session inputs];
     
-    NSArray *inputsToRemove = [oldInputs iq_arrayByRemovingObjectsInArray:newInputs];
-    NSArray *inputsToAdd = [newInputs iq_arrayByRemovingObjectsInArray:oldInputs];
+    NSArray<__kindof AVCaptureInput *> *inputsToRemove = [oldInputs iq_arrayByRemovingObjectsInArray:newInputs];
+    NSArray<__kindof AVCaptureInput *> *inputsToAdd = [newInputs iq_arrayByRemovingObjectsInArray:oldInputs];
     
     if (inputsToRemove.count || inputsToAdd.count)
     {
@@ -338,14 +239,14 @@
     }
 }
 
--(BOOL)addNewOutputs:(NSArray*)newOutputs
+-(BOOL)addNewOutputs:(NSArray<__kindof AVCaptureOutput *>*)newOutputs
 {
     AVCaptureSession *session = self.captureSession;
     
-    NSArray<AVCaptureOutput*> *oldOutputs = [session outputs];
+    NSArray<__kindof AVCaptureOutput *> *oldOutputs = [session outputs];
 
-    NSArray *outputsToRemove = [oldOutputs iq_arrayByRemovingObjectsInArray:newOutputs];
-    NSArray *outputsToAdd = [newOutputs iq_arrayByRemovingObjectsInArray:oldOutputs];
+    NSArray<__kindof AVCaptureOutput *> *outputsToRemove = [oldOutputs iq_arrayByRemovingObjectsInArray:newOutputs];
+    NSArray<__kindof AVCaptureOutput *> *outputsToAdd = [newOutputs iq_arrayByRemovingObjectsInArray:oldOutputs];
     
     if (outputsToRemove.count || outputsToAdd.count)
     {
@@ -466,7 +367,7 @@
     return [_videoCaptureDeviceInput.device isWhiteBalanceModeSupported:whiteBalanceMode];
 }
 
--(IQMediaCaptureControllerCaptureMode)captureMode
+-(PHAssetMediaType)captureMode
 {
     return _internalCaptureMode;
 }
@@ -511,11 +412,11 @@
     return _videoCaptureDeviceInput.device.exposurePointOfInterest;
 }
 
--(BOOL)setCaptureMode:(IQMediaCaptureControllerCaptureMode)captureMode
+-(BOOL)setCaptureMode:(PHAssetMediaType)captureMode
 {
     BOOL isSessionRunning = [self isSessionRunning];
 
-    if (captureMode == IQMediaCaptureControllerCaptureModePhoto)
+    if (captureMode == PHAssetMediaTypeImage)
     {
         if (_stillImageOutput == nil)
         {
@@ -531,7 +432,7 @@
             //        [_stillImageOutput setOutputSettings:videoSettings];
         }
         
-        NSMutableArray *outputs = [[NSMutableArray alloc] init];
+        NSMutableArray<__kindof AVCaptureOutput*> *outputs = [[NSMutableArray alloc] init];
         if (_movieFileOutput)   [outputs addObject:_movieFileOutput];
         if (_stillImageOutput)  [outputs addObject:_stillImageOutput];
         
@@ -556,14 +457,14 @@
         
         return success;
     }
-    else if (captureMode == IQMediaCaptureControllerCaptureModeVideo)
+    else if (captureMode == PHAssetMediaTypeVideo)
     {
         if (_movieFileOutput == nil)
         {
             _movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
         }
         
-        NSMutableArray *outputs = [[NSMutableArray alloc] init];
+        NSMutableArray<__kindof AVCaptureOutput*> *outputs = [[NSMutableArray alloc] init];
         if (_movieFileOutput)   [outputs addObject:_movieFileOutput];
         if (_stillImageOutput)  [outputs addObject:_stillImageOutput];
         
@@ -588,7 +489,7 @@
         
         return success;
     }
-    else if (captureMode == IQMediaCaptureControllerCaptureModeAudio)
+    else if (captureMode == PHAssetMediaTypeAudio)
     {
         _audioSession = [[IQAudioSession alloc] init];
         _audioSession.delegate = self;
@@ -633,10 +534,10 @@
 
         _videoCaptureDeviceInput = videoInput;
         
-        NSMutableArray *newInputs = [[NSMutableArray alloc] initWithObjects:videoInput, nil];
+        NSMutableArray<__kindof AVCaptureInput*> *newInputs = [[NSMutableArray alloc] initWithObjects:videoInput, nil];
         AVCaptureDeviceInput *audioInput = nil;
 
-        if (self.captureMode == IQMediaCaptureControllerCaptureModeVideo)
+        if (self.captureMode == PHAssetMediaTypeVideo)
         {
             audioInput = [self audioDefaultDeviceInput];
 
@@ -651,7 +552,7 @@
         //If no success then this might be an issue with the current preset session so resetting it to high and then again trying
         if (success == NO)
         {
-            [self setCaptureSessionPreset:IQCaptureSessionPresetHigh];
+            [self setCaptureSessionPreset:AVCaptureSessionPresetHigh];
             success = [self addNewInputs:newInputs];
         }
 
@@ -892,7 +793,7 @@
 
 -(BOOL)isSessionRunning
 {
-    if (self.captureMode == IQMediaCaptureControllerCaptureModeAudio)
+    if (self.captureMode == PHAssetMediaTypeAudio)
     {
         return [_audioSession isRunning];
     }
@@ -904,7 +805,7 @@
 
 -(void)startRunning
 {
-    if (self.captureMode == IQMediaCaptureControllerCaptureModeAudio)
+    if (self.captureMode == PHAssetMediaTypeAudio)
     {
         [_audioSession startRunning];
     }
@@ -969,21 +870,14 @@
             {
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                 
-                NSURL *outputImageURL = [[self class] defaultImageStorageURL];
-                
-                [imageData writeToURL:outputImageURL.filePathURL atomically:YES];
-                
                 UIImage *image = [[UIImage alloc] initWithData:imageData];
                 
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:outputImageURL,IQMediaURL,image,IQMediaImage,IQMediaTypeImage,IQMediaType, nil];
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:image,IQMediaImage,IQMediaTypeImage,IQMediaType, nil];
 
                 if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
                 {
                     [self.delegate captureSession:self didFinishMediaWithInfo:dict error:nil];
                 }
-                
-                //            CFDictionaryRef metadata = CMCopyDictionaryOfAttachments(NULL, imageDataSampleBuffer, kCMAttachmentMode_ShouldPropagate);
-                //            NSDictionary *meta = (__bridge NSDictionary *)(metadata);
             }
             else
             {
@@ -1000,11 +894,11 @@
 
 -(BOOL)isRecording
 {
-    if (self.captureMode == IQMediaCaptureControllerCaptureModeVideo)
+    if (self.captureMode == PHAssetMediaTypeVideo)
     {
         return _movieFileOutput.isRecording;
     }
-    else if (self.captureMode == IQMediaCaptureControllerCaptureModeAudio)
+    else if (self.captureMode == PHAssetMediaTypeAudio)
     {
         return _audioSession.isRecording;
     }
@@ -1016,7 +910,7 @@
 
 - (CGFloat)recordingDuration
 {
-    if (self.captureMode == IQMediaCaptureControllerCaptureModeVideo)
+    if (self.captureMode == PHAssetMediaTypeVideo)
     {
         CMTime time = [_movieFileOutput recordedDuration];
         
@@ -1029,7 +923,7 @@
             return CMTimeGetSeconds([_movieFileOutput recordedDuration]);
         }
     }
-    else if (self.captureMode == IQMediaCaptureControllerCaptureModeAudio)
+    else if (self.captureMode == PHAssetMediaTypeAudio)
     {
         return [_audioSession recordingDuration];
     }
@@ -1041,11 +935,11 @@
 
 -(long long)recordingSize
 {
-    if (self.captureMode == IQMediaCaptureControllerCaptureModeVideo)
+    if (self.captureMode == PHAssetMediaTypeVideo)
     {
         return [_movieFileOutput recordedFileSize];
     }
-    else if (self.captureMode == IQMediaCaptureControllerCaptureModeAudio)
+    else if (self.captureMode == PHAssetMediaTypeAudio)
     {
         return [_audioSession recordingSize];
     }
@@ -1113,7 +1007,7 @@
     [_movieFileOutput stopRecording];
 }
 
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray<AVCaptureConnection *> *)connections
 {
     if ([self.delegate respondsToSelector:@selector(captureSessionDidStartRecording:)])
     {
@@ -1121,7 +1015,7 @@
     }
 }
 
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray<AVCaptureConnection *> *)connections error:(NSError *)error
 {
     if ([self.delegate respondsToSelector:@selector(captureSessionDidPauseRecording:)])
     {
@@ -1173,16 +1067,18 @@
     [_audioSession stopAudioRecording];
 }
 
-- (void)audioSession:(IQAudioSession*)audioSession didFinishMediaWithInfo:(NSDictionary *)info error:(NSError *)error
+-(void)audioSession:(IQAudioSession *)audioSession didFinishRecordingAtURL:(NSURL *)audioURL error:(NSError *)error
 {
     if ([self.delegate respondsToSelector:@selector(captureSessionDidPauseRecording:)])
     {
         [self.delegate captureSessionDidPauseRecording:self];
     }
 
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:audioURL,IQMediaURL,IQMediaTypeAudio,IQMediaType, nil];
+
     if ([self.delegate respondsToSelector:@selector(captureSession:didFinishMediaWithInfo:error:)])
     {
-        [self.delegate captureSession:self didFinishMediaWithInfo:info error:error];
+        [self.delegate captureSession:self didFinishMediaWithInfo:dict error:error];
     }
 }
 
@@ -1201,13 +1097,13 @@
         //Begin configuration
         [_captureSession beginConfiguration];
 
-        NSArray *outputs = [_captureSession outputs];
+        NSArray<AVCaptureOutput*> *outputs = [_captureSession outputs];
         for (AVCaptureOutput *output in outputs)
         {
             [_captureSession removeOutput:output];
         }
 
-        NSArray *inputs = [_captureSession inputs];
+        NSArray<AVCaptureInput*> *inputs = [_captureSession inputs];
         for (AVCaptureInput *input in inputs)
         {
             [_captureSession removeInput:input];

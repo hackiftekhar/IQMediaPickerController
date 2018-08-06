@@ -11,6 +11,10 @@
 		4C8EA1BD1F1A8C7B00026A35 /* PhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1B91F1A8C7B00026A35 /* PhotoTableViewCell.m */; };
 		4C8EA1BE1F1A8C7B00026A35 /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EA1BB1F1A8C7B00026A35 /* VideoTableViewCell.m */; };
 		4C99E3181F13F75300CE757D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C99E3171F13F75300CE757D /* Launch Screen.storyboard */; };
+		4CF11B6F2105E08300BA4896 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF11B6E2105E08300BA4896 /* MediaPlayer.framework */; };
+		4CF11B712105E08F00BA4896 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF11B702105E08F00BA4896 /* AVFoundation.framework */; };
+		4CF11B732105E09900BA4896 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF11B722105E09900BA4896 /* AVKit.framework */; };
+		4CF11B752105EB1600BA4896 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF11B742105EB1600BA4896 /* Photos.framework */; };
 		B2581E502BC3BCAA8A65AD07 /* Pods_MediaPickerController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E67E610E47B1FE4FA6B4C5 /* Pods_MediaPickerController.framework */; };
 		C035C21F19A8B5BE0072C2C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C035C21E19A8B5BE0072C2C0 /* Foundation.framework */; };
 		C035C22119A8B5BE0072C2C0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C035C22019A8B5BE0072C2C0 /* CoreGraphics.framework */; };
@@ -45,6 +49,10 @@
 		4C8EA1BA1F1A8C7B00026A35 /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
 		4C8EA1BB1F1A8C7B00026A35 /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
 		4C99E3171F13F75300CE757D /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		4CF11B6E2105E08300BA4896 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		4CF11B702105E08F00BA4896 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4CF11B722105E09900BA4896 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		4CF11B742105EB1600BA4896 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		58ECD05A51500ACC7B77A440 /* Pods-MediaPickerController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerController.release.xcconfig"; path = "Pods/Target Support Files/Pods-MediaPickerController/Pods-MediaPickerController.release.xcconfig"; sourceTree = "<group>"; };
 		B425FEFB6305D1DCA05474C9 /* Pods-MediaPickerController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MediaPickerController/Pods-MediaPickerController.debug.xcconfig"; sourceTree = "<group>"; };
 		C035C21B19A8B5BE0072C2C0 /* MediaPickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaPickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +77,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CF11B752105EB1600BA4896 /* Photos.framework in Frameworks */,
+				4CF11B732105E09900BA4896 /* AVKit.framework in Frameworks */,
+				4CF11B712105E08F00BA4896 /* AVFoundation.framework in Frameworks */,
+				4CF11B6F2105E08300BA4896 /* MediaPlayer.framework in Frameworks */,
 				C035C22119A8B5BE0072C2C0 /* CoreGraphics.framework in Frameworks */,
 				C035C22319A8B5BE0072C2C0 /* UIKit.framework in Frameworks */,
 				C035C21F19A8B5BE0072C2C0 /* Foundation.framework in Frameworks */,
@@ -109,6 +121,10 @@
 		C035C21D19A8B5BE0072C2C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CF11B742105EB1600BA4896 /* Photos.framework */,
+				4CF11B722105E09900BA4896 /* AVKit.framework */,
+				4CF11B702105E08F00BA4896 /* AVFoundation.framework */,
+				4CF11B6E2105E08300BA4896 /* MediaPlayer.framework */,
 				C035C21E19A8B5BE0072C2C0 /* Foundation.framework */,
 				C035C22019A8B5BE0072C2C0 /* CoreGraphics.framework */,
 				C035C22219A8B5BE0072C2C0 /* UIKit.framework */,
@@ -162,7 +178,6 @@
 				C035C21819A8B5BE0072C2C0 /* Frameworks */,
 				C035C21919A8B5BE0072C2C0 /* Resources */,
 				01E39DE55CC2DB09ACC3338F /* [CP] Embed Pods Frameworks */,
-				2AB543DDEA56BD29EDE56A2E /* [CP] Copy Pods Resources */,
 				4C691B281F56F20500DC80FD /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -180,7 +195,7 @@
 		C035C21319A8B5BE0072C2C0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Iftekhar;
 				TargetAttributes = {
 					C035C21A19A8B5BE0072C2C0 = {
@@ -261,25 +276,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2AB543DDEA56BD29EDE56A2E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MediaPickerController/Pods-MediaPickerController-resources.sh",
-				"${PODS_ROOT}/../IQMediaPickerController/IQAudioPickerController/IQAudioPickerController.xcassets",
-				"${PODS_ROOT}/../IQMediaPickerController/IQMediaCaptureController/IQMediaCaptureController.xcassets",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MediaPickerController/Pods-MediaPickerController-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -330,12 +326,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -381,12 +379,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -418,6 +418,7 @@
 			baseConfigurationReference = B425FEFB6305D1DCA05474C9 /* Pods-MediaPickerController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_MODULES_AUTOLINK = NO;
 				DEVELOPMENT_TEAM = 7UUTF6T5P9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MediaPickerController/MediaPickerController-Prefix.pch";
@@ -436,6 +437,7 @@
 			baseConfigurationReference = 58ECD05A51500ACC7B77A440 /* Pods-MediaPickerController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_MODULES_AUTOLINK = NO;
 				DEVELOPMENT_TEAM = 7UUTF6T5P9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MediaPickerController/MediaPickerController-Prefix.pch";

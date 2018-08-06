@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
+#import <UIKit/UITableViewHeaderFooterView.h>
 
 @interface IQSongsListTableHeaderView : UITableViewHeaderFooterView
 

@@ -22,14 +22,21 @@
 //  THE SOFTWARE.
 
 
-@import MediaPlayer;
+#import <UIKit/UINavigationController.h>
+#import <UIKit/UINavigationItem.h>
+#import <UIKit/UIBarButtonItem.h>
+#import <UIKit/UITabBarItem.h>
+#import <UIKit/UILabel.h>
+#import <UIKit/UIImageView.h>
+#import <MediaPlayer/MPMediaItemCollection.h>
+#import <MediaPlayer/MPMediaQuery.h>
 
 #import "IQSongsAlbumListViewController.h"
 #import "IQAudioPickerUtility.h"
 #import "IQSongsListViewController.h"
 #import "IQSongsAlbumViewCell.h"
 #import "IQAudioPickerController.h"
-#import "IQMediaPickerControllerConstants.h"
+#import "UIImage+IQMediaPickerController.h"
 
 @interface IQSongsAlbumListViewController ()
 
@@ -40,7 +47,7 @@
 
 @implementation IQSongsAlbumListViewController
 {
-    NSArray *collections;
+    NSArray<MPMediaItemCollection *> *collections;
 }
 
 - (instancetype)init
@@ -48,7 +55,7 @@
     self = [super init];
     if (self) {
         self.title = @"Albums";
-        self.tabBarItem.image = [UIImage imageNamed:@"albums"];
+        self.tabBarItem.image = [UIImage imageInsideMediaPickerBundleNamed:@"albums"];
     }
     return self;
 }
@@ -81,16 +88,15 @@
 {
     [super viewWillAppear:animated];
 
-    [self updateSelectedCount];
+    [self updateSelectedCountAnimated:animated];
 }
 
--(void)updateSelectedCount
+-(void)updateSelectedCountAnimated:(BOOL)animated
 {
     if ([self.audioPickerController.selectedItems count])
     {
-        [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:YES];
-        
-        [self.navigationController setToolbarHidden:NO animated:YES];
+        [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:animated];
+        [self.navigationController setToolbarHidden:NO animated:animated];
         
         NSString *finalText = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.audioPickerController.selectedItems count]];
         
@@ -103,8 +109,8 @@
     }
     else
     {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-        [self.navigationController setToolbarHidden:YES animated:YES];
+        [self.navigationItem setRightBarButtonItem:nil animated:animated];
+        [self.navigationController setToolbarHidden:YES animated:animated];
         self.selectedMediaCountItem.title = nil;
     }
 }
@@ -113,16 +119,7 @@
 {
     if ([self.audioPickerController.delegate respondsToSelector:@selector(audioPickerController:didPickMediaItems:)])
     {
-        NSMutableArray *items = [[NSMutableArray alloc] init];
-        
-        for (MPMediaItem *item in self.audioPickerController.selectedItems)
-        {
-            NSDictionary *dict = [NSDictionary dictionaryWithObject:item forKey:IQMediaItem];
-            
-            [items addObject:dict];
-        }
-        
-        [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:items];
+        [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:self.audioPickerController.selectedItems];
     }
     
     [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];
@@ -171,6 +168,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     IQSongsListViewController *controller = [[IQSongsListViewController alloc] init];
     controller.audioPickerController = self.audioPickerController;
     controller.collections = @[[collections objectAtIndex:indexPath.row]];

@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C641347211809280013D934 /* IQMediaPickerSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C641343211809270013D934 /* IQMediaPickerSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C641348211809280013D934 /* UIImage+IQMediaPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C641344211809280013D934 /* UIImage+IQMediaPickerController.m */; };
+		4C641349211809280013D934 /* UIImage+IQMediaPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C641345211809280013D934 /* UIImage+IQMediaPickerController.h */; };
+		4C64134A211809280013D934 /* IQMediaPickerSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C641346211809280013D934 /* IQMediaPickerSelection.m */; };
 		4C691BB51F56F47A00DC80FD /* IQMediaPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B4B1F56F47A00DC80FD /* IQMediaPickerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4C691BB61F56F47A00DC80FD /* IQMediaPickerControllerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B4C1F56F47A00DC80FD /* IQMediaPickerControllerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C691BB71F56F47A00DC80FD /* IQMediaPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B4D1F56F47A00DC80FD /* IQMediaPickerController.m */; };
-		4C691BB81F56F47A00DC80FD /* IQMediaPickerControllerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B4E1F56F47A00DC80FD /* IQMediaPickerControllerConstants.m */; };
 		4C691BB91F56F47A00DC80FD /* IQAlbumAssetsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B501F56F47A00DC80FD /* IQAlbumAssetsViewController.h */; };
 		4C691BBA1F56F47A00DC80FD /* IQAlbumAssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C691B511F56F47A00DC80FD /* IQAlbumAssetsViewController.m */; };
 		4C691BBB1F56F47A00DC80FD /* IQAssetsAlbumViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C691B531F56F47A00DC80FD /* IQAssetsAlbumViewCell.h */; };
@@ -92,12 +94,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C641343211809270013D934 /* IQMediaPickerSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerSelection.h; sourceTree = "<group>"; };
+		4C641344211809280013D934 /* UIImage+IQMediaPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IQMediaPickerController.m"; sourceTree = "<group>"; };
+		4C641345211809280013D934 /* UIImage+IQMediaPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IQMediaPickerController.h"; sourceTree = "<group>"; };
+		4C641346211809280013D934 /* IQMediaPickerSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerSelection.m; sourceTree = "<group>"; };
 		4C691B3D1F56F3F200DC80FD /* IQMediaPickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IQMediaPickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C691B481F56F42E00DC80FD /* IQMediaPickerController-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "IQMediaPickerController-Info.plist"; path = "MediaPickerController/IQMediaPickerController-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4C691B4B1F56F47A00DC80FD /* IQMediaPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerController.h; sourceTree = "<group>"; };
-		4C691B4C1F56F47A00DC80FD /* IQMediaPickerControllerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMediaPickerControllerConstants.h; sourceTree = "<group>"; };
 		4C691B4D1F56F47A00DC80FD /* IQMediaPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerController.m; sourceTree = "<group>"; };
-		4C691B4E1F56F47A00DC80FD /* IQMediaPickerControllerConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMediaPickerControllerConstants.m; sourceTree = "<group>"; };
 		4C691B501F56F47A00DC80FD /* IQAlbumAssetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAlbumAssetsViewController.h; sourceTree = "<group>"; };
 		4C691B511F56F47A00DC80FD /* IQAlbumAssetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAlbumAssetsViewController.m; sourceTree = "<group>"; };
 		4C691B531F56F47A00DC80FD /* IQAssetsAlbumViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAssetsAlbumViewCell.h; sourceTree = "<group>"; };
@@ -209,9 +213,11 @@
 			isa = PBXGroup;
 			children = (
 				4C691B4B1F56F47A00DC80FD /* IQMediaPickerController.h */,
-				4C691B4C1F56F47A00DC80FD /* IQMediaPickerControllerConstants.h */,
 				4C691B4D1F56F47A00DC80FD /* IQMediaPickerController.m */,
-				4C691B4E1F56F47A00DC80FD /* IQMediaPickerControllerConstants.m */,
+				4C641343211809270013D934 /* IQMediaPickerSelection.h */,
+				4C641346211809280013D934 /* IQMediaPickerSelection.m */,
+				4C641345211809280013D934 /* UIImage+IQMediaPickerController.h */,
+				4C641344211809280013D934 /* UIImage+IQMediaPickerController.m */,
 				4C691B4F1F56F47A00DC80FD /* IQAssetsPickerController */,
 				4C691B5E1F56F47A00DC80FD /* IQAudioPickerController */,
 				4C691B7F1F56F47A00DC80FD /* IQMediaCaptureController */,
@@ -502,8 +508,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C691BB61F56F47A00DC80FD /* IQMediaPickerControllerConstants.h in Headers */,
 				4C691BB51F56F47A00DC80FD /* IQMediaPickerController.h in Headers */,
+				4C641347211809280013D934 /* IQMediaPickerSelection.h in Headers */,
 				4C691BDA1F56F47A00DC80FD /* IQSongsGenreViewController.h in Headers */,
 				4C691BF31F56F47A00DC80FD /* IQPhotoSettingsContainerView.h in Headers */,
 				4C691BB91F56F47A00DC80FD /* IQAlbumAssetsViewController.h in Headers */,
@@ -512,6 +518,7 @@
 				4C691BF91F56F47A00DC80FD /* IQSelectedMediaAudioCell.h in Headers */,
 				4C691BFD1F56F47A00DC80FD /* IQSelectedMediaVideoCell.h in Headers */,
 				4C691BDC1F56F47A00DC80FD /* IQSongsListViewController.h in Headers */,
+				4C641349211809280013D934 /* UIImage+IQMediaPickerController.h in Headers */,
 				4C691BE51F56F47A00DC80FD /* IQAudioSession.h in Headers */,
 				4C691BBF1F56F47A00DC80FD /* IQAssetsPickerShadowView.h in Headers */,
 				4C691BED1F56F47A00DC80FD /* IQFeatureOverlay.h in Headers */,
@@ -572,7 +579,7 @@
 		4C691B341F56F3F200DC80FD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Iftekhar;
 				TargetAttributes = {
 					4C691B3C1F56F3F200DC80FD = {
@@ -624,7 +631,6 @@
 				4C691BBA1F56F47A00DC80FD /* IQAlbumAssetsViewController.m in Sources */,
 				4C691BC21F56F47A00DC80FD /* IQCheckmarkView.m in Sources */,
 				4C691C041F56F47A00DC80FD /* NSString+IQTimeIntervalFormatter.m in Sources */,
-				4C691BB81F56F47A00DC80FD /* IQMediaPickerControllerConstants.m in Sources */,
 				4C691BC91F56F47A00DC80FD /* IQAudioPickerUtility.m in Sources */,
 				4C691BB71F56F47A00DC80FD /* IQMediaPickerController.m in Sources */,
 				4C691BE81F56F47A00DC80FD /* IQCaptureSession.m in Sources */,
@@ -637,6 +643,7 @@
 				4C691C021F56F47A00DC80FD /* IQNSArray+Remove.m in Sources */,
 				4C691BF21F56F47A00DC80FD /* IQAudioSettingsContainerView.m in Sources */,
 				4C691BC41F56F47A00DC80FD /* IQAssetsPickerController.m in Sources */,
+				4C641348211809280013D934 /* UIImage+IQMediaPickerController.m in Sources */,
 				4C691BEA1F56F47A00DC80FD /* IQFileManager.m in Sources */,
 				4C691BC01F56F47A00DC80FD /* IQAssetsPickerShadowView.m in Sources */,
 				4C691BBC1F56F47A00DC80FD /* IQAssetsAlbumViewCell.m in Sources */,
@@ -647,6 +654,7 @@
 				4C691C001F56F47A00DC80FD /* IQSelectedMediaViewController.m in Sources */,
 				4C691BD31F56F47A00DC80FD /* IQSongsAlbumListViewController.m in Sources */,
 				4C691BD11F56F47A00DC80FD /* IQSongsListTableHeaderView.m in Sources */,
+				4C64134A211809280013D934 /* IQMediaPickerSelection.m in Sources */,
 				4C691BEE1F56F47A00DC80FD /* IQFeatureOverlay.m in Sources */,
 				4C691BF81F56F47A00DC80FD /* IQVideoSettingsContainerView.m in Sources */,
 				4C691C061F56F47A00DC80FD /* IQAKPickerView.m in Sources */,
@@ -675,6 +683,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -682,6 +691,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -709,7 +719,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -733,6 +743,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -740,6 +751,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -761,7 +773,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

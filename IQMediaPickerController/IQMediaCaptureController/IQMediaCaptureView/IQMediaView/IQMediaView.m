@@ -22,6 +22,8 @@
 //  THE SOFTWARE.
 
 
+#import <AVFoundation/AVCaptureVideoPreviewLayer.h>
+
 #import "IQMediaView.h"
 #import "IQFeatureOverlay.h"
 #import "SCSiriWaveformView.h"
@@ -29,6 +31,8 @@
 @interface IQMediaView ()<IQFeatureOverlayDelegate,UIGestureRecognizerDelegate>
 
 @property SCSiriWaveformView *levelMeter;
+@property UIVisualEffectView *blurView;
+@property UIView *overlayView;
 
 @property (nonatomic) BOOL blur;
 
@@ -39,10 +43,10 @@
 //    IQFeatureOverlay *focusView;
 //    IQFeatureOverlay *exposureView;
     
-    UIVisualEffectView *blurView;
+    
     NSTimer *updateTimer;
     
-    UIView *overlayView;
+    
 //    UIPanGestureRecognizer *_panRecognizer;
 //    UITapGestureRecognizer *_tapRecognizer;
 //    UILongPressGestureRecognizer *_longPressRecognizer;
@@ -69,7 +73,7 @@
 //    focusView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
 //    focusView.center = self.center;
 //    focusView.delegate = self;
-//    focusView.image = [UIImage imageNamed:@"IQ_focus"];
+//    focusView.image = [UIImage imageInsideMediaPickerBundleNamed:@"IQ_focus"];
 //    [self addSubview:focusView];
 //    
 //    exposureView = [[IQFeatureOverlay alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
@@ -77,7 +81,7 @@
 //    exposureView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
 //    exposureView.center = self.center;
 //    exposureView.delegate = self;
-//    exposureView.image = [UIImage imageNamed:@"IQ_exposure"];
+//    exposureView.image = [UIImage imageInsideMediaPickerBundleNamed:@"IQ_exposure"];
 //    [self addSubview:exposureView];
     
     
@@ -109,11 +113,11 @@
 //    _tapRecognizer.delegate = self;
 //    [self addGestureRecognizer:_tapRecognizer];
     
-    overlayView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, -CGRectGetMidX(self.bounds), -CGRectGetMidY(self.bounds))];
-    overlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    overlayView.userInteractionEnabled = NO;
-    overlayView.backgroundColor = [UIColor clearColor];
-    [self addSubview:overlayView];
+    _overlayView = [[UIView alloc] initWithFrame:CGRectInset(self.bounds, -CGRectGetMidX(self.bounds), -CGRectGetMidY(self.bounds))];
+    _overlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    _overlayView.userInteractionEnabled = NO;
+    _overlayView.backgroundColor = [UIColor clearColor];
+    [self addSubview:_overlayView];
     
     //Audio Meter View
     {
@@ -125,15 +129,15 @@
         self.levelMeter.phaseShift = -0.5;
         self.levelMeter.alpha = 0.0;
         self.levelMeter.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        self.levelMeter.center = CGPointMake(CGRectGetMidX(overlayView.bounds), CGRectGetMidY(overlayView.bounds));
-        [overlayView addSubview:self.levelMeter];
+        self.levelMeter.center = CGPointMake(CGRectGetMidX(_overlayView.bounds), CGRectGetMidY(_overlayView.bounds));
+        [_overlayView addSubview:self.levelMeter];
     }
     
-    blurView = [[UIVisualEffectView alloc] initWithEffect:nil];
-    blurView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    blurView.hidden = YES;
-    blurView.frame = self.bounds;
-    [self addSubview:blurView];
+    _blurView = [[UIVisualEffectView alloc] initWithEffect:nil];
+    _blurView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    _blurView.hidden = YES;
+    _blurView.frame = self.bounds;
+    [self addSubview:_blurView];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -232,7 +236,7 @@
     [CATransaction commit];
 }
 
--(void)setCaptureMode:(IQMediaCaptureControllerCaptureMode)captureMode
+-(void)setCaptureMode:(PHAssetMediaType)captureMode
 {
     _captureMode = captureMode;
     
@@ -265,8 +269,8 @@
 
         switch (self.captureMode)
         {
-            case IQMediaCaptureControllerCaptureModePhoto:
-            case IQMediaCaptureControllerCaptureModeVideo:
+            case PHAssetMediaTypeImage:
+            case PHAssetMediaTypeVideo:
             {
 //                _tapRecognizer.enabled = YES;
 //                _panRecognizer.enabled = YES;
@@ -277,7 +281,7 @@
                 self.levelMeter.alpha = 0.0;
             }
                 break;
-            case IQMediaCaptureControllerCaptureModeAudio:
+            case PHAssetMediaTypeAudio:
             {
 //                _tapRecognizer.enabled = NO;
 //                _panRecognizer.enabled = NO;
@@ -316,35 +320,38 @@
     _blur = blur;
     [self updateGesturesState];
 
+    __weak typeof(self) weakSelf = self;
+
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         
-        if (_blur == YES)
+        if (weakSelf.blur == YES)
         {
-            blurView.hidden = NO;
+            weakSelf.blurView.hidden = NO;
         }
         
-        blurView.effect = _blur?[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]:nil;
+        weakSelf.blurView.effect = weakSelf.blur?[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]:nil;
         
-        switch (_captureMode)
+        switch (weakSelf.captureMode)
         {
-            case IQMediaCaptureControllerCaptureModePhoto:
-            case IQMediaCaptureControllerCaptureModeVideo:
+            case PHAssetMediaTypeImage:
+            case PHAssetMediaTypeVideo:
             {
-                overlayView.backgroundColor = [UIColor clearColor];
+                weakSelf.overlayView.backgroundColor = [UIColor clearColor];
             }
                 break;
-            case IQMediaCaptureControllerCaptureModeAudio:
+            case PHAssetMediaTypeAudio:
             {
-//                overlayView.backgroundColor = [UIColor colorWithRed:0 green:64.0/255.0 blue:0 alpha:1];
-                overlayView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1];
+                weakSelf.overlayView.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1];
             }
+                break;
+            case PHAssetMediaTypeUnknown:
                 break;
         }
     } completion:^(BOOL finished) {
 
-        if (finished && _blur == NO)
+        if (finished && weakSelf.blur == NO)
         {
-            blurView.hidden = YES;
+            weakSelf.blurView.hidden = YES;
         }
         
         if (completion)

@@ -22,8 +22,8 @@
 //  THE SOFTWARE.
 
 
-@import AVFoundation;
-@import AVKit;
+#import <AVFoundation/AVPlayer.h>
+#import <AVKit/AVPlayerViewController.h>
 
 #import "IQSelectedMediaViewController.h"
 #import "IQMediaCaptureController.h"
@@ -31,6 +31,8 @@
 #import "IQSelectedMediaVideoCell.h"
 #import "IQSelectedMediaPhotoCell.h"
 #import "IQImagePreviewViewController.h"
+
+#import "IQMediaPickerSelection.h"
 
 @interface IQSelectedMediaViewController ()
 
@@ -92,7 +94,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.navigationController setToolbarHidden:NO animated:animated];
 
-    NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
+    NSUInteger itemCount = self.arrayImages.count + self.videoURLs.count + self.audioURLs.count;
     self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
 
     NSInteger section = [self.collectionView numberOfSections] - 1;
@@ -118,25 +120,25 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
+    return self.arrayImages.count + self.videoURLs.count + self.audioURLs.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //Photo
-    if (indexPath.item < self.arrayImagesAttribute.count)
+    if (indexPath.item < self.arrayImages.count)
     {
         NSUInteger index = indexPath.item;
 
         IQSelectedMediaPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([IQSelectedMediaPhotoCell class]) forIndexPath:indexPath];
-        cell.imageAttributes = self.arrayImagesAttribute[index];
+        cell.imageViewPreview.image = self.arrayImages[index];
         
         return cell;
     }
     //Video
-    else if (indexPath.item < (self.arrayImagesAttribute.count + self.videoURLs.count))
+    else if (indexPath.item < (self.arrayImages.count + self.videoURLs.count))
     {
-        NSUInteger index = indexPath.item - self.arrayImagesAttribute.count;
+        NSUInteger index = indexPath.item - self.arrayImages.count;
 
         IQSelectedMediaVideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([IQSelectedMediaVideoCell class]) forIndexPath:indexPath];
         cell.fileURL = self.videoURLs[index];
@@ -144,9 +146,9 @@
         return cell;
     }
     //Audio
-    else if (indexPath.item < (self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count))
+    else if (indexPath.item < (self.arrayImages.count + self.videoURLs.count + self.audioURLs.count))
     {
-        NSUInteger index = indexPath.item - self.arrayImagesAttribute.count - self.videoURLs.count;
+        NSUInteger index = indexPath.item - self.arrayImages.count - self.videoURLs.count;
     
         IQSelectedMediaAudioCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([IQSelectedMediaAudioCell class]) forIndexPath:indexPath];
         cell.fileURL = self.audioURLs[index];
@@ -173,29 +175,29 @@
 -(void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
 {
     //Photo
-    if (indexPath.item < self.arrayImagesAttribute.count)
+    if (indexPath.item < self.arrayImages.count)
     {
         NSUInteger index = indexPath.item;
-        [self.arrayImagesAttribute removeObjectAtIndex:index];
-        NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
+        [self.arrayImages removeObjectAtIndex:index];
+        NSUInteger itemCount = self.arrayImages.count + self.videoURLs.count + self.audioURLs.count;
         self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
     }
     //Video
-    else if (indexPath.item < (self.arrayImagesAttribute.count + self.videoURLs.count))
+    else if (indexPath.item < (self.arrayImages.count + self.videoURLs.count))
     {
-        NSUInteger index = indexPath.item - self.arrayImagesAttribute.count;
+        NSUInteger index = indexPath.item - self.arrayImages.count;
         [self.videoURLs removeObjectAtIndex:index];
-        NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
+        NSUInteger itemCount = self.arrayImages.count + self.videoURLs.count + self.audioURLs.count;
         self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
     }
     //Audio
-    else if (indexPath.item < (self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count))
+    else if (indexPath.item < (self.arrayImages.count + self.videoURLs.count + self.audioURLs.count))
     {
-        NSUInteger index = indexPath.item - self.arrayImagesAttribute.count - self.videoURLs.count;
+        NSUInteger index = indexPath.item - self.arrayImages.count - self.videoURLs.count;
         [self.audioURLs removeObjectAtIndex:index];
-        NSUInteger itemCount = self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count;
+        NSUInteger itemCount = self.arrayImages.count + self.videoURLs.count + self.audioURLs.count;
         self.navigationItem.title = [NSString stringWithFormat:@"%lu selected",(unsigned long)itemCount];
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
     }
@@ -204,7 +206,7 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //Photo
-    if (indexPath.item < self.arrayImagesAttribute.count)
+    if (indexPath.item < self.arrayImages.count)
     {
         IQSelectedMediaPhotoCell *cell = (IQSelectedMediaPhotoCell*)[collectionView cellForItemAtIndexPath:indexPath];
 
@@ -213,9 +215,9 @@
         [previewController showOverController:self.navigationController];
     }
     //Video
-    else if (indexPath.item < (self.arrayImagesAttribute.count + self.videoURLs.count))
+    else if (indexPath.item < (self.arrayImages.count + self.videoURLs.count))
     {
-        NSUInteger index = indexPath.item - self.arrayImagesAttribute.count;
+        NSUInteger index = indexPath.item - self.arrayImages.count;
         
         AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
         AVPlayer *player = [AVPlayer playerWithURL:_videoURLs[index]];
@@ -225,9 +227,9 @@
         }];
     }
     //Audio
-    else if (indexPath.item < (self.arrayImagesAttribute.count + self.videoURLs.count + self.audioURLs.count))
+    else if (indexPath.item < (self.arrayImages.count + self.videoURLs.count + self.audioURLs.count))
     {
-        NSUInteger index = indexPath.item - self.arrayImagesAttribute.count - self.videoURLs.count;
+        NSUInteger index = indexPath.item - self.arrayImages.count - self.videoURLs.count;
 
         AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
         AVPlayer *player = [AVPlayer playerWithURL:_audioURLs[index]];
@@ -249,49 +251,21 @@
 {
     [_videoURLs removeAllObjects];
     [_audioURLs removeAllObjects];
-    [_arrayImagesAttribute removeAllObjects];
+    [_arrayImages removeAllObjects];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)doneAction:(UIBarButtonItem*)sender
 {
-    if ([self.mediaCaptureController.delegate respondsToSelector:@selector(mediaCaptureController:didFinishMediaWithInfo:)])
+    if ([self.mediaCaptureController.delegate respondsToSelector:@selector(mediaCaptureController:didFinishMedias:)])
     {
-        NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
-        
-        if ([self.arrayImagesAttribute count])
-        {
-            [info setObject:self.arrayImagesAttribute forKey:IQMediaTypeImage];
-        }
-        
-        if ([self.videoURLs count])
-        {
-            NSMutableArray *videoMedias = [[NSMutableArray alloc] init];
-            
-            for (NSURL *videoURL in self.videoURLs)
-            {
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:videoURL forKey:IQMediaURL];
-                [videoMedias addObject:dict];
-            }
-            
-            [info setObject:videoMedias forKey:IQMediaTypeVideo];
-        }
-        
-        if ([self.audioURLs count])
-        {
-            NSMutableArray *audioMedias = [[NSMutableArray alloc] init];
-            
-            for (NSURL *audioURL in self.audioURLs)
-            {
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:audioURL forKey:IQMediaURL];
-                [audioMedias addObject:dict];
-            }
-            
-            [info setObject:audioMedias forKey:IQMediaTypeAudio];
-        }
-        
-        [self.mediaCaptureController.delegate mediaCaptureController:self.mediaCaptureController didFinishMediaWithInfo:info];
+        IQMediaPickerSelection *selection = [[IQMediaPickerSelection alloc] init];
+        [selection addImages:self.arrayImages];
+        [selection addAssetsURL:self.videoURLs];
+        [selection addAssetsURL:self.audioURLs];
+
+        [self.mediaCaptureController.delegate mediaCaptureController:self.mediaCaptureController didFinishMedias:selection];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];

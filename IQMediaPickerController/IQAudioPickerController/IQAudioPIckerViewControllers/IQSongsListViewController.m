@@ -22,14 +22,21 @@
 //  THE SOFTWARE.
 
 
-@import MediaPlayer;
+#import <UIKit/UINavigationController.h>
+#import <UIKit/UINavigationItem.h>
+#import <UIKit/UIBarButtonItem.h>
+#import <UIKit/UITabBarItem.h>
+#import <UIKit/UILabel.h>
+#import <UIKit/UIImageView.h>
+#import <MediaPlayer/MPMediaItemCollection.h>
+#import <MediaPlayer/MPMediaQuery.h>
 
 #import "IQSongsListViewController.h"
 #import "IQSongsListTableHeaderView.h"
 #import "IQAudioPickerUtility.h"
 #import "IQSongsCell.h"
 #import "IQAudioPickerController.h"
-#import "IQMediaPickerControllerConstants.h"
+#import "UIImage+IQMediaPickerController.h"
 
 @interface IQSongsListViewController ()
 
@@ -45,7 +52,7 @@
     self = [super init];
     if (self) {
         self.title = @"Songs";
-        self.tabBarItem.image = [UIImage imageNamed:@"songs"];
+        self.tabBarItem.image = [UIImage imageInsideMediaPickerBundleNamed:@"songs"];
     }
     return self;
 }
@@ -84,16 +91,15 @@
         [self.navigationItem setLeftBarButtonItem:cancelItem animated:animated];
     }
 
-    [self updateSelectedCount];
+    [self updateSelectedCountAnimated:animated];
 }
 
--(void)updateSelectedCount
+-(void)updateSelectedCountAnimated:(BOOL)animated
 {
     if ([self.audioPickerController.selectedItems count])
     {
-        [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:YES];
-        
-        [self.navigationController setToolbarHidden:NO animated:YES];
+        [self.navigationItem setRightBarButtonItem:self.doneBarButton animated:animated];
+        [self.navigationController setToolbarHidden:NO animated:animated];
         
         NSString *finalText = [NSString stringWithFormat:@"%lu Media selected",(unsigned long)[self.audioPickerController.selectedItems count]];
         
@@ -106,8 +112,8 @@
     }
     else
     {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-        [self.navigationController setToolbarHidden:YES animated:YES];
+        [self.navigationItem setRightBarButtonItem:nil animated:animated];
+        [self.navigationController setToolbarHidden:YES animated:animated];
         self.selectedMediaCountItem.title = nil;
     }
 }
@@ -116,16 +122,7 @@
 {
     if ([self.audioPickerController.delegate respondsToSelector:@selector(audioPickerController:didPickMediaItems:)])
     {
-        NSMutableArray *items = [[NSMutableArray alloc] init];
-        
-        for (MPMediaItem *item in self.audioPickerController.selectedItems)
-        {
-            NSDictionary *dict = [NSDictionary dictionaryWithObject:item forKey:IQMediaItem];
-            
-            [items addObject:dict];
-        }
-        
-        [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:items];
+        [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:self.audioPickerController.selectedItems];
     }
     
     [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];
@@ -217,16 +214,7 @@
 
         if ([self.audioPickerController.delegate respondsToSelector:@selector(audioPickerController:didPickMediaItems:)])
         {
-            NSMutableArray *items = [[NSMutableArray alloc] init];
-            
-            for (MPMediaItem *item in self.audioPickerController.selectedItems)
-            {
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:item forKey:IQMediaItem];
-                
-                [items addObject:dict];
-            }
-            
-            [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:items];
+            [self.audioPickerController.delegate audioPickerController:self.audioPickerController didPickMediaItems:self.audioPickerController.selectedItems];
         }
         
         [self.audioPickerController dismissViewControllerAnimated:YES completion:nil];
@@ -247,7 +235,7 @@
             }
         }
         
-        [self updateSelectedCount];
+        [self updateSelectedCountAnimated:YES];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -258,7 +246,7 @@
     
     if (items.count)
     {
-        return 100;
+        return 80;
     }
     else
     {

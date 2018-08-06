@@ -22,6 +22,10 @@
 //  THE SOFTWARE.
 
 
+#import <UIKit/UITableViewCell.h>
+#import <UIKit/UIImageView.h>
+#import <UIKit/UILabel.h>
+
 #import "IQAudioSettingsContainerView.h"
 #import "NSString+IQTimeIntervalFormatter.h"
 

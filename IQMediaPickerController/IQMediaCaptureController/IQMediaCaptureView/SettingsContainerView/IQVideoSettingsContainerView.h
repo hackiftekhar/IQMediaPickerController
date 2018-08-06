@@ -22,8 +22,7 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
-@import AVFoundation;
+#import <UIKit/UIView.h>
 
 #import "IQCaptureSession.h"
 
@@ -33,7 +32,7 @@
 
 -(void)videoSettingsView:(IQVideoSettingsContainerView*)settingsView didChangeTorchMode:(AVCaptureTorchMode)torchMode;
 -(void)videoSettingsViewFlippedCamera:(IQVideoSettingsContainerView*)settingsView;
--(void)videoSettingsView:(IQVideoSettingsContainerView*)settingsView didChangeVideoPreset:(IQCaptureSessionPreset)videoPreset;
+-(void)videoSettingsView:(IQVideoSettingsContainerView*)settingsView didChangeVideoPreset:(AVCaptureSessionPreset)videoPreset;
 
 @end
 
@@ -41,10 +40,10 @@
 
 @property(nonatomic, weak) id<IQVideoSettingsContainerViewDelegate> delegate;
 
-@property(nonatomic) IQCaptureSessionPreset videoPreset;
+@property(nonatomic) AVCaptureSessionPreset videoPreset;
 
-@property(nonatomic) NSArray <NSNumber*>* preferredPreset;
-@property(nonatomic, readonly) NSArray <NSNumber*>* supportedPreset;
+@property(nonatomic) NSArray <AVCaptureSessionPreset>* preferredPreset;
+@property(nonatomic, readonly) NSArray <AVCaptureSessionPreset>* supportedPreset;
 
 @property(nonatomic) AVCaptureTorchMode torchMode;
 @property(nonatomic) BOOL hasTorch;

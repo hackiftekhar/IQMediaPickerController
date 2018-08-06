@@ -22,7 +22,8 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
+#import <UIKit/UIView.h>
+
 #import "IQVideoSettingsContainerView.h"
 #import "IQPhotoSettingsContainerView.h"
 #import "IQAudioSettingsContainerView.h"
@@ -35,6 +36,6 @@
 @property(nonatomic) IQAudioSettingsContainerView *audioSettingsView;
 
 
-@property(nonatomic) IQMediaCaptureControllerCaptureMode captureMode;
+@property(nonatomic) PHAssetMediaType captureMode;
 
 @end

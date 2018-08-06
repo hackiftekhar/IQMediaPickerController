@@ -22,6 +22,9 @@
 //  THE SOFTWARE.
 
 
+#import <UIKit/UINibLoading.h>
+#import <UIKit/UIBezierPath.h>
+
 #import "IQAssetsPickerShadowView.h"
 
 @implementation IQAssetsPickerShadowView

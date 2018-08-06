@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-@import Foundation;
+#import <Foundation/NSObject.h>
 
 @protocol IQAudioSessionDelegate;
 
@@ -50,7 +50,7 @@
 @protocol IQAudioSessionDelegate <NSObject>
 
 @optional
-- (void)audioSession:(IQAudioSession*_Nonnull)audioSession didFinishMediaWithInfo:(NSDictionary *_Nullable)info error:(NSError *_Nullable)error;
+- (void)audioSession:(IQAudioSession*_Nonnull)audioSession didFinishRecordingAtURL:(NSURL*_Nullable)audioURL error:(NSError *_Nullable)error;
 - (void)audioSession:(IQAudioSession *_Nonnull)audioSession didUpdateMeterLevel:(CGFloat)meterLevel;
 @end
 

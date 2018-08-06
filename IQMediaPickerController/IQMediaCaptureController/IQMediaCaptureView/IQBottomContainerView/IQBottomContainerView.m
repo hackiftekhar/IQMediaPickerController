@@ -24,13 +24,16 @@
 
 #import "IQBottomContainerView.h"
 
+@interface IQBottomContainerView()
+
+@property UIView *topContainerView;
+@property UIView *leftContainerView;
+@property UIView *middleContainerView;
+@property UIView *rightContainerView;
+
+@end
+
 @implementation IQBottomContainerView
-{
-    UIView *topContainerView;
-    UIView *leftContainerView;
-    UIView *middleContainerView;
-    UIView *rightContainerView;
-}
 
 -(void)dealloc
 {
@@ -41,41 +44,41 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        topContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 30)];
-        topContainerView.backgroundColor = [UIColor clearColor];
-        [self addSubview:topContainerView];
+        _topContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), 30)];
+        _topContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_topContainerView];
         
-        leftContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 100, 66)];
-        CGPoint center = leftContainerView.center;
+        _leftContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topContainerView.frame), 100, 66)];
+        CGPoint center = _leftContainerView.center;
         center.x = CGRectGetMidX(frame)/3;
-        leftContainerView.center = center;
-        leftContainerView.backgroundColor = [UIColor clearColor];
-        [self addSubview:leftContainerView];
+        _leftContainerView.center = center;
+        _leftContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_leftContainerView];
         
-        middleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 66, 66)];
-        center = middleContainerView.center;
+        _middleContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topContainerView.frame), 66, 66)];
+        center = _middleContainerView.center;
         center.x = CGRectGetMidX(frame);
-        middleContainerView.center = center;
-        middleContainerView.backgroundColor = [UIColor clearColor];
-        [self addSubview:middleContainerView];
+        _middleContainerView.center = center;
+        _middleContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_middleContainerView];
         
-        rightContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topContainerView.frame), 100, 66)];
-        center = rightContainerView.center;
+        _rightContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topContainerView.frame), 100, 66)];
+        center = _rightContainerView.center;
         center.x = CGRectGetMidX(frame)+CGRectGetMidX(frame)*2/3;
-        rightContainerView.center = center;
-        rightContainerView.backgroundColor = [UIColor clearColor];
-        [self addSubview:rightContainerView];
+        _rightContainerView.center = center;
+        _rightContainerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_rightContainerView];
         
         //Constraints
         {
-            topContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-            leftContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-            rightContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-            middleContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+            _topContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+            _leftContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+            _rightContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+            _middleContainerView.translatesAutoresizingMaskIntoConstraints = NO;
 
-            NSDictionary *views = @{@"topContainerView":topContainerView,@"leftContainerView":leftContainerView,@"middleContainerView":middleContainerView,@"rightContainerView":rightContainerView};
+            NSDictionary *views = @{@"topContainerView":_topContainerView,@"leftContainerView":_leftContainerView,@"middleContainerView":_middleContainerView,@"rightContainerView":_rightContainerView};
             
-            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            NSMutableArray<NSLayoutConstraint*> *constraints = [[NSMutableArray alloc] init];
             
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[leftContainerView]-[middleContainerView(==66)]-[rightContainerView]-|" options:NSLayoutFormatAlignAllTop|NSLayoutFormatAlignAllBottom metrics:nil views:views]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[topContainerView]-|" options:0 metrics:nil views:views]];
@@ -93,7 +96,7 @@
 
     if (leftContentView)
     {
-        [leftContainerView addSubview:leftContentView];
+        [_leftContainerView addSubview:leftContentView];
 
         //Constraints
         {
@@ -101,18 +104,20 @@
             
             NSDictionary *views = @{@"contentView":leftContentView};
             
-            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            NSMutableArray<NSLayoutConstraint*> *constraints = [[NSMutableArray alloc] init];
             
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
             
-            [leftContainerView addConstraints:constraints];
+            [_leftContainerView addConstraints:constraints];
         }
     }
     
+    __weak typeof(self) weakSelf = self;
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
 
-        for (UIView *view in leftContainerView.subviews)
+        for (UIView *view in weakSelf.leftContainerView.subviews)
         {
             view.alpha = 0.0;
         }
@@ -120,7 +125,7 @@
         
     } completion:^(BOOL finished) {
 
-        NSArray *subviews = leftContainerView.subviews;
+        NSArray<UIView*> *subviews = weakSelf.leftContainerView.subviews;
         for (UIView *view in subviews)
         {
             if (view.alpha == 0)    [view removeFromSuperview];
@@ -134,7 +139,7 @@
     
     if (topContentView)
     {
-        [topContainerView addSubview:topContentView];
+        [_topContainerView addSubview:topContentView];
 
         //Constraints
         {
@@ -142,18 +147,20 @@
             
             NSDictionary *views = @{@"contentView":topContentView};
             
-            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            NSMutableArray<NSLayoutConstraint*> *constraints = [[NSMutableArray alloc] init];
             
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
             
-            [topContainerView addConstraints:constraints];
+            [_topContainerView addConstraints:constraints];
         }
     }
 
+    __weak typeof(self) weakSelf = self;
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         
-        for (UIView *view in topContainerView.subviews)
+        for (UIView *view in weakSelf.topContainerView.subviews)
         {
             view.alpha = 0.0;
         }
@@ -162,7 +169,7 @@
         
     } completion:^(BOOL finished) {
         
-        NSArray *subviews = topContainerView.subviews;
+        NSArray<UIView*> *subviews = weakSelf.topContainerView.subviews;
         for (UIView *view in subviews)
         {
             if (view.alpha == 0)    [view removeFromSuperview];
@@ -176,7 +183,7 @@
 
     if (middleContentView)
     {
-        [middleContainerView addSubview:middleContentView];
+        [_middleContainerView addSubview:middleContentView];
 
         //Constraints
         {
@@ -184,18 +191,20 @@
             
             NSDictionary *views = @{@"contentView":middleContentView};
             
-            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            NSMutableArray<NSLayoutConstraint*> *constraints = [[NSMutableArray alloc] init];
             
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
             
-            [middleContainerView addConstraints:constraints];
+            [_middleContainerView addConstraints:constraints];
         }
     }
 
+    __weak typeof(self) weakSelf = self;
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         
-        for (UIView *view in middleContainerView.subviews)
+        for (UIView *view in weakSelf.middleContainerView.subviews)
         {
             view.alpha = 0.0;
         }
@@ -204,7 +213,7 @@
         
     } completion:^(BOOL finished) {
         
-        NSArray *subviews = middleContainerView.subviews;
+        NSArray<UIView*> *subviews = weakSelf.middleContainerView.subviews;
         for (UIView *view in subviews)
         {
             if (view.alpha == 0)    [view removeFromSuperview];
@@ -218,7 +227,7 @@
     
     if (rightContentView)
     {
-        [rightContainerView addSubview:rightContentView];
+        [_rightContainerView addSubview:rightContentView];
 
         //Constraints
         {
@@ -226,18 +235,20 @@
             
             NSDictionary *views = @{@"contentView":rightContentView};
             
-            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            NSMutableArray<NSLayoutConstraint*> *constraints = [[NSMutableArray alloc] init];
             
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:views]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:views]];
             
-            [rightContainerView addConstraints:constraints];
+            [_rightContainerView addConstraints:constraints];
         }
     }
 
+    __weak typeof(self) weakSelf = self;
+
     [UIView animateWithDuration:0.2 delay:0 options:(UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut) animations:^{
         
-        for (UIView *view in rightContainerView.subviews)
+        for (UIView *view in weakSelf.rightContainerView.subviews)
         {
             view.alpha = 0.0;
         }
@@ -246,7 +257,7 @@
         
     } completion:^(BOOL finished) {
         
-        NSArray *subviews = rightContainerView.subviews;
+        NSArray<UIView*> *subviews = weakSelf.rightContainerView.subviews;
         for (UIView *view in subviews)
         {
             if (view.alpha == 0)    [view removeFromSuperview];

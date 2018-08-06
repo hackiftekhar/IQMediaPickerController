@@ -22,8 +22,9 @@
 //  THE SOFTWARE.
 
 
+#import <UIKit/UIImageView.h>
+
 #import "IQSelectedMediaPhotoCell.h"
-#import "IQMediaPickerControllerConstants.h"
 
 @interface IQSelectedMediaPhotoCell ()
 
@@ -88,13 +89,6 @@
             [collectionView.delegate collectionView:collectionView performAction:_cmd forItemAtIndexPath:indexPath withSender:sender];
         }
     }
-}
-
--(void)setImageAttributes:(NSDictionary *)imageAttributes
-{
-    _imageAttributes = imageAttributes;
-    
-    self.imageViewPreview.image = imageAttributes[IQMediaImage];
 }
 
 @end

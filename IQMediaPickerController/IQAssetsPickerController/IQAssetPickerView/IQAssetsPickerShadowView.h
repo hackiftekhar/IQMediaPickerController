@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
+#import <UIKit/UIView.h>
 
 @interface IQAssetsPickerShadowView : UIView
 

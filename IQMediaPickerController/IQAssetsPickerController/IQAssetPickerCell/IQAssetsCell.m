@@ -23,6 +23,17 @@
 
 
 #import "IQAssetsCell.h"
+#import <Photos/PHImageManager.h>
+#import <Photos/PHAsset.h>
+#import "NSString+IQTimeIntervalFormatter.h"
+
+@interface IQAssetsCell()
+
+@property(nonatomic, assign) __block PHImageRequestID imageRequestID;
+@property (nonatomic) UIImageView *imageViewAsset;
+@property (nonatomic) UILabel *labelDuration;
+
+@end
 
 @implementation IQAssetsCell
 
@@ -46,12 +57,12 @@
         self.imageViewAsset.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:self.imageViewAsset];
     
-        self.labelDuration = [[UILabel alloc] initWithFrame:CGRectMake(3, self.imageViewAsset.bounds.size.height-15, self.bounds.size.width-6, 15)];
+        self.labelDuration = [[UILabel alloc] initWithFrame:CGRectMake(0, self.imageViewAsset.bounds.size.height-15, self.bounds.size.width, 15)];
         self.labelDuration.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
 //        self.labelDuration.textAlignment = NSTextAlignmentCenter;
         self.labelDuration.textColor = [UIColor whiteColor];
         self.labelDuration.font = [UIFont boldSystemFontOfSize:12];
-        self.labelDuration.backgroundColor = [UIColor clearColor];
+        self.labelDuration.backgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
         [self.contentView addSubview:self.labelDuration];
 
         self.checkmarkView = [[IQCheckmarkView alloc] init];
@@ -68,6 +79,50 @@
 {
     [super awakeFromNib];
     [self initialize];
+}
+
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    self.imageViewAsset.image = nil;
+    _labelDuration.text =  nil;
+
+    if (self.imageRequestID != PHInvalidImageRequestID)
+    {
+        [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
+    }
+}
+
+-(void)setAsset:(PHAsset *)asset
+{
+    _asset = asset;
+    
+    __weak typeof(self) weakSelf = self;
+    
+    self.imageRequestID = PHInvalidImageRequestID;
+
+    PHImageRequestOptions * options = [PHImageRequestOptions new];
+    options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    options.synchronous = NO;
+    
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    CGSize targetSize = CGSizeMake(self.imageViewAsset.frame.size.width*scale, self.imageViewAsset.frame.size.height*scale);
+    
+    if (asset.mediaType == PHAssetMediaTypeVideo || asset.mediaType == PHAssetMediaTypeAudio)
+    {
+        self.labelDuration.text = [NSString stringWithFormat:@" %@ ",[NSString timeStringForTimeInterval:asset.duration forceIncludeHours:NO]];
+    }
+    
+    self.imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        
+        NSInteger resultImageRequestID = [info[PHImageResultRequestIDKey] integerValue];
+        
+        if ((weakSelf.imageRequestID == PHInvalidImageRequestID || weakSelf.imageRequestID == resultImageRequestID) && result)
+        {
+            weakSelf.imageViewAsset.image = result;
+        }
+    }];
 }
 
 @end

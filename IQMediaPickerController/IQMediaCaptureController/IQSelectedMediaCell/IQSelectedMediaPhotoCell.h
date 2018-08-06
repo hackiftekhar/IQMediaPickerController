@@ -21,13 +21,10 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-
-@import UIKit;
+#import <UIKit/UICollectionViewCell.h>
 
 @interface IQSelectedMediaPhotoCell : UICollectionViewCell
 
 @property(nonatomic, readonly) UIImageView *imageViewPreview;
-
-@property(nonatomic) NSDictionary *imageAttributes;
 
 @end

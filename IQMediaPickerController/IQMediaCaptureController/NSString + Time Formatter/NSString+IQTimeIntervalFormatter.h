@@ -22,7 +22,8 @@
 //  THE SOFTWARE.
 
 
-@import Foundation;
+#import <Foundation/NSString.h>
+#import <Foundation/NSDate.h>
 
 @interface NSString (IQTimeIntervalFormatter)
 

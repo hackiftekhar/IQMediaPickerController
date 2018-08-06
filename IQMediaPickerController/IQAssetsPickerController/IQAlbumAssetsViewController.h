@@ -22,17 +22,16 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
-#import "IQMediaPickerControllerConstants.h"
+#import <UIKit/UICollectionViewController.h>
 
 @protocol IQAssetsPickerControllerDelegate;
 @class IQAssetsPickerController;
 
-@class ALAssetsGroup;
+@class PHAssetCollection;
 
 @interface IQAlbumAssetsViewController : UICollectionViewController
 
-@property (nullable, weak) ALAssetsGroup *assetsGroup;
+@property (nullable, weak) PHAssetCollection *collection;
 @property (nullable, weak) IQAssetsPickerController *assetController;
 @property(nonatomic, nullable) NSArray <NSNumber *> * mediaTypes;
 

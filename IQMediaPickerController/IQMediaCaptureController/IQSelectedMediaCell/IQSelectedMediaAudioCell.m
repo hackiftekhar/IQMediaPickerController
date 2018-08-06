@@ -22,11 +22,13 @@
 //  THE SOFTWARE.
 
 
-@import AVFoundation;
-
+#import <UIKit/UILabel.h>
+#import <UIKit/UIImageView.h>
+#import <AVFoundation/AVAsset.h>
 
 #import "IQSelectedMediaAudioCell.h"
 #import "NSString+IQTimeIntervalFormatter.h"
+#import "UIImage+IQMediaPickerController.h"
 
 @interface IQSelectedMediaAudioCell ()
 
@@ -50,7 +52,7 @@
         self.imageViewPreview.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:self.imageViewPreview];
 
-        self.imageViewPlay = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"IQ_control_audio_play"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+        self.imageViewPlay = [[UIImageView alloc] initWithImage:[[UIImage imageInsideMediaPickerBundleNamed:@"IQ_control_audio_play"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
         self.imageViewPlay.tintColor = [UIColor whiteColor];
         self.imageViewPlay.layer.shadowColor = [UIColor blackColor].CGColor;
         self.imageViewPlay.layer.shadowOffset = CGSizeZero;

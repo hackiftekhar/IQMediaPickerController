@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-@import Foundation;
+#import <Foundation/NSArray.h>
 
 @interface NSArray (iq_Remove)
 

@@ -57,7 +57,7 @@
             
             NSDictionary *views = @{@"photoSettingsView":self.photoSettingsView,@"videoSettingsView":self.videoSettingsView,@"audioSettingsView":self.audioSettingsView};
             
-            NSMutableArray *constraints = [[NSMutableArray alloc] init];
+            NSMutableArray<NSLayoutConstraint*> *constraints = [[NSMutableArray alloc] init];
             
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[photoSettingsView]|" options:0 metrics:nil views:views]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[photoSettingsView(==40)]|" options:0 metrics:nil views:views]];
@@ -74,16 +74,16 @@
     return self;
 }
 
--(void)setCaptureMode:(IQMediaCaptureControllerCaptureMode)captureMode
+-(void)setCaptureMode:(PHAssetMediaType)captureMode
 {
     _captureMode = captureMode;
     [self.photoSettingsView resetUI];
     [self.videoSettingsView resetUI];
     [self.audioSettingsView resetUI];
     
-    self.photoSettingsView.alpha = (captureMode == IQMediaCaptureControllerCaptureModePhoto);
-    self.videoSettingsView.alpha = (captureMode == IQMediaCaptureControllerCaptureModeVideo);
-    self.audioSettingsView.alpha = (captureMode == IQMediaCaptureControllerCaptureModeAudio);
+    self.photoSettingsView.alpha = (captureMode == PHAssetMediaTypeImage);
+    self.videoSettingsView.alpha = (captureMode == PHAssetMediaTypeVideo);
+    self.audioSettingsView.alpha = (captureMode == PHAssetMediaTypeAudio);
 }
 
 @end

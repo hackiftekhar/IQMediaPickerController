@@ -22,7 +22,9 @@
 //  THE SOFTWARE.
 
 
-@import AVFoundation;
+#import <AVFoundation/AVAssetExportSession.h>
+#import <AVFoundation/AVComposition.h>
+#import <AVFoundation/AVAsset.h>
 
 #import "IQFileManager.h"
 
@@ -38,10 +40,10 @@
     return NSTemporaryDirectory();
 }
 
-+ (NSArray*)filesAtPath:(NSString*)path
++ (NSArray<NSString *>*)filesAtPath:(NSString*)path
 {
-    NSArray *items = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
-    NSMutableArray *retVal = [NSMutableArray new];
+    NSArray<NSString *> *items = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
+    NSMutableArray<NSString *> *retVal = [NSMutableArray new];
     for (NSString *str in items)
     {
         [retVal addObject:[NSString stringWithFormat:@"%@/%@", path, str]];
@@ -57,11 +59,11 @@
     return time;
 }
 
-+ (NSArray*)durationsOfFilesAtPath:(NSString*)path;
++ (NSArray<NSNumber*>*)durationsOfFilesAtPath:(NSString*)path;
 {
-    NSArray *items = [self filesAtPath:path];
+    NSArray<NSString *> *items = [self filesAtPath:path];
     
-    NSMutableArray *durations = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber*> *durations = [[NSMutableArray alloc] init];
     
     for (NSString *path in items)
     {
@@ -71,9 +73,9 @@
     return durations;
 }
 
-+ (NSArray*)durationsOfMediaURLs:(NSArray*)URLs
++ (NSArray<NSNumber*>*)durationsOfMediaURLs:(NSArray<NSURL*>*)URLs
 {
-    NSMutableArray *durations = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber*> *durations = [[NSMutableArray alloc] init];
     
     for (NSURL *url in URLs)
     {
@@ -88,7 +90,7 @@
 {
     [self removeItemAtPath:toPath];
     
-    NSArray *itemsToMerge = [self filesAtPath:fromPath];
+    NSArray<NSString*> *itemsToMerge = [self filesAtPath:fromPath];
     
     if (itemsToMerge.count == 0)
     {
@@ -174,7 +176,7 @@
 
 + (void)removeItemsAtPath:(NSString*)path;
 {
-    NSArray *items = [self filesAtPath:path];
+    NSArray<NSString*> *items = [self filesAtPath:path];
     for (NSString *str in items)
     {
         [self removeItemAtPath:str];

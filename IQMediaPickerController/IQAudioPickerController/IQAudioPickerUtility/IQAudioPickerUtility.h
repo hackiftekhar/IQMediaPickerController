@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-@import Foundation;
+#import <Foundation/NSObject.h>
 
 @class MPMediaItemCollection;
 

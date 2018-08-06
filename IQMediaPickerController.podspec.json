@@ -17,7 +17,7 @@
   "source_files": "IQMediaPickerController/**/*.{h,m}",
   "public_header_files": [
     "IQMediaPickerController/IQMediaPickerController.h",
-    "IQMediaPickerController/IQMediaPickerControllerConstants.h"
+    "IQMediaPickerController/IQMediaPickerSelection.h"
   ],
   "resources": "IQMediaPickerController/**/*.{xcassets}",
   "dependencies": {
@@ -25,12 +25,14 @@
     "SCSiriWaveformView": []
   },
   "frameworks": [
-      "AssetsLibrary",
       "AVFoundation",
+      "AVKit",
+      "CoreMedia",
       "CoreGraphics",
       "Foundation",
       "MediaPlayer",
       "MobileCoreServices",
+      "Photos",
       "QuartzCore",
       "UIKit"
   ],

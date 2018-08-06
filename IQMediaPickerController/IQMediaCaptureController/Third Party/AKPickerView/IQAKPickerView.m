@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 Akio Yasui. All rights reserved.
 //
 
-#import "IQAKPickerView.h"
-
+#import <UIKit/UICollectionViewFlowLayout.h>
+#import <UIKit/UICollectionViewCell.h>
+#import <UIKit/NSAttributedString.h>
+#import <UIKit/NSStringDrawing.h>
 #import <Availability.h>
+
+#import "IQAKPickerView.h"
 
 @class IQAKCollectionViewLayout;
 
@@ -167,11 +171,11 @@
 	CGSize size;
 	CGSize highlightedSize;
 #ifdef __IPHONE_7_0
-	size = [string sizeWithAttributes:@{NSFontAttributeName: self.font}];
-	highlightedSize = [string sizeWithAttributes:@{NSFontAttributeName: self.highlightedFont}];
+    size = [string sizeWithAttributes:@{NSFontAttributeName: self.font}];
+    highlightedSize = [string sizeWithAttributes:@{NSFontAttributeName: self.highlightedFont}];
 #else
-	size = [string sizeWithFont:self.font];
-	highlightedSize = [string sizeWithFont:self.highlightedFont];
+    size = [string sizeWithFont:self.font];
+    highlightedSize = [string sizeWithFont:self.highlightedFont];
 #endif
 	return CGSizeMake(ceilf(MAX(size.width, highlightedSize.width)), ceilf(MAX(size.height, highlightedSize.height)));
 }
@@ -508,7 +512,7 @@
 			break;
 		}
 		case IQAKPickerViewStyle3D: {
-			NSMutableArray *attributes = [NSMutableArray array];
+			NSMutableArray<UICollectionViewLayoutAttributes*> *attributes = [NSMutableArray array];
 			if ([self.collectionView numberOfSections]) {
 				for (NSInteger i = 0; i < [self.collectionView numberOfItemsInSection:0]; i++) {
 					NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];

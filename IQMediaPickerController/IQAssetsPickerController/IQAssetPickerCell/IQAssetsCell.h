@@ -22,13 +22,16 @@
 //  THE SOFTWARE.
 
 
-@import UIKit;
+#import <UIKit/UICollectionViewCell.h>
+
 #import "IQCheckmarkView.h"
+
+@class PHAsset;
 
 @interface IQAssetsCell : UICollectionViewCell
 
-@property (nonatomic) UIImageView *imageViewAsset;
-@property (nonatomic) UILabel *labelDuration;
 @property (nonatomic) IQCheckmarkView *checkmarkView;
+
+@property (nonatomic, strong) PHAsset *asset;
 
 @end

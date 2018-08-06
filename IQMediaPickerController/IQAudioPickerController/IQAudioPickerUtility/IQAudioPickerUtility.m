@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-@import MediaPlayer;
+#import <MediaPlayer/MPMediaItemCollection.h>
 
 #import "IQAudioPickerUtility.h"
 

@@ -8,6 +8,7 @@
 @import AVFoundation;
 @import AVKit;
 @import MediaPlayer;
+@import Photos;
 
 #import "ViewController.h"
 #import "IQMediaPickerController.h"
@@ -31,7 +32,7 @@
 
 @implementation ViewController
 {
-    NSDictionary *mediaInfo;
+    IQMediaPickerSelection *selectedMedias;
 }
 
 - (void)viewDidLoad
@@ -72,35 +73,35 @@
     
     if (self.audioPickerSwitch)
     {
-        [mediaTypes addObject:@(IQMediaPickerControllerMediaTypeAudio)];
+        [mediaTypes addObject:@(PHAssetMediaTypeAudio)];
     }
     
     if (self.videoPickerSwitch)
     {
-        [mediaTypes addObject:@(IQMediaPickerControllerMediaTypeVideo)];
+        [mediaTypes addObject:@(PHAssetMediaTypeVideo)];
     }
     
     if (self.photoPickerSwitch)
     {
-        [mediaTypes addObject:@(IQMediaPickerControllerMediaTypePhoto)];
+        [mediaTypes addObject:@(PHAssetMediaTypeImage)];
     }
     
     [controller setMediaTypes:mediaTypes];
-    controller.captureDevice = self.rearCaptureSwitch ? IQMediaPickerControllerCameraDeviceRear : IQMediaPickerControllerCameraDeviceFront;
-//    controller.flashMode = self.flashOffSwitch.on ? IQMediaPickerControllerCameraFlashModeOff : IQMediaPickerControllerCameraFlashModeOn;
+    controller.captureDevice = self.rearCaptureSwitch ? AVCaptureDevicePositionBack : AVCaptureDevicePositionFront;
+//    controller.flashMode = self.flashOffSwitch.on ? AVCaptureFlashModeOff : AVCaptureFlashModeOn;
 //    controller.audioMaximumDuration = 10;
 //    controller.videoMaximumDuration = 10;
     controller.allowsPickingMultipleItems = self.multiPickerSwitch;
 //    controller.maximumItemCount = 5;
-    controller.allowedVideoQualities = @[@(IQMediaPickerControllerQualityType1920x1080),@(IQMediaPickerControllerQualityTypeHigh)];
+    controller.allowedVideoQualities = @[AVCaptureSessionPreset1920x1080,AVCaptureSessionPresetHigh];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
-- (void)mediaPickerController:(IQMediaPickerController*)controller didFinishMediaWithInfo:(NSDictionary *)info;
+-(void)mediaPickerController:(IQMediaPickerController *)controller didFinishMedias:(IQMediaPickerSelection *)selection
 {
-    NSLog(@"Info: %@",info);
+    NSLog(@"Info: %@",selection);
 
-    mediaInfo = [info copy];
+    selectedMedias = selection;
     [self.tableView reloadData];
 }
 
@@ -146,73 +147,159 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [mediaInfo count] + 1;
+    return 4 + 1;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return @"Picker Settings";
-    }
-    else
-    {
-        return [[mediaInfo allKeys] objectAtIndex:section-1];
+    switch (section) {
+        case 0:
+            return @"Picker Settings";
+            break;
+        case 1:
+            return @"Images";
+            break;
+        case 2:
+            return @"Assets";
+            break;
+        case 3:
+            return @"URL Assets";
+            break;
+        case 4:
+            return @"Audios";
+            break;
+            
+        default:
+            return nil;
+            break;
     }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 7;
-    }
-    else
-    {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:section-1];
-        return [[mediaInfo objectForKey:key] count];
+    switch (section) {
+        case 0:
+            return 7;
+            break;
+        case 1:
+            return selectedMedias.selectedImages.count;
+            break;
+        case 2:
+            return selectedMedias.selectedAssets.count;
+            break;
+        case 3:
+            return selectedMedias.selectedAssetsURL.count;
+            break;
+        case 4:
+            return selectedMedias.selectedAudios.count;
+            break;
+
+        default:
+            return 0;
+            break;
     }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-    {
-        return 44;
-    }
-    else
-    {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
-        
-        if ([key isEqualToString:IQMediaTypeImage])
-        {
-            return 80;
-        }
-        else
-        {
-            return tableView.rowHeight;
-        }
-    }
+    return 44;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    switch (indexPath.section)
     {
-        NSString *identifier = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-
-        return cell;
-    }
-    else
-    {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
-        
-        NSDictionary *dict = [[mediaInfo objectForKey:key] objectAtIndex:indexPath.row];
-        
-        if ([dict objectForKey:IQMediaItem])
+        case 0:
         {
-            MPMediaItem *item = [dict objectForKey:IQMediaItem];
+            NSString *identifier = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+            
+            return cell;
+        }
+            break;
+        case 1:
+        {
+            UIImage *image = selectedMedias.selectedImages[indexPath.row];
+            
+            PhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PhotoTableViewCell class]) forIndexPath:indexPath];
+            
+            cell.imageViewPhoto.image = image;
+            
+            return cell;
+        }
+            break;
+        case 2:
+        {
+            PHAsset *result = selectedMedias.selectedAssets[indexPath.row];
+            
+            if (result.mediaType == PHAssetMediaTypeImage)
+            {
+                PhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PhotoTableViewCell class]) forIndexPath:indexPath];
+                
+                PHImageRequestOptions * options = [PHImageRequestOptions new];
+                options.resizeMode = PHImageRequestOptionsResizeModeFast;
+                options.synchronous = NO;
+                
+                [[PHImageManager defaultManager] requestImageForAsset:result targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                    
+                    if (result)
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            cell.imageViewPhoto.image = result;
+                        }];
+                    }
+                }];
+                
+                return cell;
+            }
+            else if (result.mediaType == PHAssetMediaTypeVideo)
+            {
+                VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([VideoTableViewCell class]) forIndexPath:indexPath];
+                cell.imageViewVideo.image = nil;
+                cell.labelSubtitle.text = nil;
+                
+                PHVideoRequestOptions * options = [PHVideoRequestOptions new];
+                options.deliveryMode = PHVideoRequestOptionsDeliveryModeHighQualityFormat;
+                
+                [[PHImageManager defaultManager] requestAVAssetForVideo:result options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                    
+                    if ([asset isKindOfClass:[AVURLAsset class]])
+                    {
+                        AVURLAsset *urlAsset = (AVURLAsset*)asset;
+                        NSURL *url = urlAsset.URL;
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            cell.labelTitle.text = [url relativePath];
+                        }];
+                    }
+                }];
+                
+                return cell;
+            }
+            else
+            {
+                return nil;
+            }
+        }
+            break;
+        case 3:
+        {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
+            
+            if (cell == nil)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NSStringFromClass([UITableViewCell class])];
+            }
+            
+            NSURL* url = selectedMedias.selectedAssetsURL[indexPath.row];
+            
+            cell.textLabel.text = [[NSFileManager defaultManager] displayNameAtPath:url.relativePath];
+            
+            return cell;
+        }
+            break;
+        case 4:
+        {
+            MPMediaItem *item = selectedMedias.selectedAudios[indexPath.row];
             
             MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
             UIImage *image = [artwork imageWithSize:artwork.bounds.size];
@@ -225,78 +312,18 @@
             
             return cell;
         }
-        else if([dict objectForKey:IQMediaAssetURL])
-        {
-            VideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([VideoTableViewCell class]) forIndexPath:indexPath];
-            cell.imageViewVideo.image = nil;
-            NSURL *url = [dict objectForKey:IQMediaAssetURL];
-            cell.labelTitle.text = [url relativePath];
-            cell.labelSubtitle.text = nil;
-            return cell;
-        }
-        else if ([dict objectForKey:IQMediaImage])
-        {
-            UIImage *image = [dict objectForKey:IQMediaImage];
+            break;
             
-            PhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PhotoTableViewCell class]) forIndexPath:indexPath];
-            
-            cell.imageViewPhoto.image = image;
-            
-            return cell;
-        }
-        else if ([dict objectForKey:IQMediaURL])
-        {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
-            
-            if (cell == nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NSStringFromClass([UITableViewCell class])];
-            }
-            
-            NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
-            
-            NSURL *url = [[[mediaInfo objectForKey:key] objectAtIndex:indexPath.row] objectForKey:IQMediaURL];
-            cell.textLabel.text = [[NSFileManager defaultManager] displayNameAtPath:url.relativePath];
-            
-            return cell;
-        }
-        else
-        {
+        default:
             return nil;
-        }
+            break;
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-    {
-    }
-    else
-    {
-        NSString *key = [[mediaInfo allKeys] objectAtIndex:indexPath.section-1];
-        
-        NSDictionary *dict = [[mediaInfo objectForKey:key] objectAtIndex:indexPath.row];
-        
-        if ([dict objectForKey:IQMediaItem])
-        {
-            MPMediaItem *item = [dict objectForKey:IQMediaItem];
-            
-            NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
-            
-            AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
-            controller.player = [AVPlayer playerWithURL:url];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-        else if([dict objectForKey:IQMediaAssetURL])
-        {
-            NSURL *url = [dict objectForKey:IQMediaAssetURL];
-            
-            AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
-            controller.player = [AVPlayer playerWithURL:url];
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-        else if ([dict objectForKey:IQMediaImage])
+    switch (indexPath.section) {
+        case 1:
         {
 //            PhotoTableViewCell *cell = (PhotoTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
 //
@@ -304,14 +331,68 @@
 //            previewController.liftedImageView = cell.imageViewPhoto;
 //            [previewController showOverController:self.navigationController];
         }
-        else if ([dict objectForKey:IQMediaURL])
+            break;
+        case 2:
         {
-            NSURL *url = [[[mediaInfo objectForKey:key] objectAtIndex:indexPath.row] objectForKey:IQMediaURL];
+            PHAsset *result = selectedMedias.selectedAssets[indexPath.row];
+            
+            if (result.mediaType == PHAssetMediaTypeImage)
+            {
+                PHImageRequestOptions * options = [PHImageRequestOptions new];
+                options.resizeMode = PHImageRequestOptionsResizeModeFast;
+                options.synchronous = NO;
+                
+                [[PHImageManager defaultManager] requestImageForAsset:result targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFill options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                    
+                    if (result)
+                    {
+                        //                        cell.imageViewPhoto.image = result;
+                    }
+                }];
+            }
+            else if (result.mediaType == PHAssetMediaTypeVideo)
+            {
+                PHVideoRequestOptions * options = [PHVideoRequestOptions new];
+                options.deliveryMode = PHVideoRequestOptionsDeliveryModeHighQualityFormat;
+                
+                [[PHImageManager defaultManager] requestAVAssetForVideo:result options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                    
+                    if ([asset isKindOfClass:[AVURLAsset class]])
+                    {
+                        AVURLAsset *urlAsset = (AVURLAsset*)asset;
+                        NSURL *url = urlAsset.URL;
+                        AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+                        controller.player = [AVPlayer playerWithURL:url];
+                        [self presentViewController:controller animated:YES completion:nil];
+                    }
+                }];
+            }
+        }
+            break;
+        case 3:
+        {
+            NSURL* url = selectedMedias.selectedAssetsURL[indexPath.row];
             
             AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
             controller.player = [AVPlayer playerWithURL:url];
             [self presentViewController:controller animated:YES completion:nil];
         }
+            break;
+        case 4:
+        {
+            MPMediaItem *item = selectedMedias.selectedAudios[indexPath.row];
+            
+            NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
+            
+            AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+            controller.player = [AVPlayer playerWithURL:url];
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+            break;
+            
+        default:
+            return;
+            break;
     }
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
