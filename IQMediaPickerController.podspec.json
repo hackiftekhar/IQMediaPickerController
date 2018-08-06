@@ -1,9 +1,9 @@
 {
   "name": "IQMediaPickerController",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "source": {
     "git": "https://github.com/hackiftekhar/IQMediaPickerController.git",
-    "tag": "v1.0.2"
+    "tag": "v2.0.0"
   },
   "summary": "Audio Video and Image Picker Controller",
   "homepage": "https://github.com/hackiftekhar/IQMediaPickerController",
@@ -17,7 +17,7 @@
   "source_files": "IQMediaPickerController/**/*.{h,m}",
   "public_header_files": [
     "IQMediaPickerController/IQMediaPickerController.h",
-    "IQMediaPickerController/IQMediaPickerSelection.h"
+    "IQMediaPickerController/IQMediaPickerControllerConstants.h"
   ],
   "resources": "IQMediaPickerController/**/*.{xcassets}",
   "dependencies": {
