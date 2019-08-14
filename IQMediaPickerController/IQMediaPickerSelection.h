@@ -11,17 +11,17 @@
 
 @interface IQMediaPickerSelection : NSObject
 
-@property(readonly) NSArray<UIImage*> *selectedImages;
+@property(nonnull, readonly) NSArray<UIImage*> *selectedImages;
 
-@property(readonly) NSArray<PHAsset*> *selectedAssets;
+@property(nonnull, readonly) NSArray<PHAsset*> *selectedAssets;
 
-@property(readonly) NSArray<NSURL*> *selectedAssetsURL;
+@property(nonnull, readonly) NSArray<NSURL*> *selectedAssetsURL;
 
-@property(readonly) NSArray<MPMediaItem*> *selectedAudios;
+@property(nonnull, readonly) NSArray<MPMediaItem*> *selectedAudios;
 
--(void)addImages:(NSArray<UIImage*>*)images;
--(void)addAssets:(NSArray<PHAsset*>*)assets;
--(void)addAssetsURL:(NSArray<NSURL*>*)urls;
--(void)addAudios:(NSArray<MPMediaItem*>*)audios;
+-(void)addImages:(NSArray<UIImage*>* _Nonnull)images;
+-(void)addAssets:(NSArray<PHAsset*> * _Nonnull)assets;
+-(void)addAssetsURL:(NSArray<NSURL*>* _Nonnull)urls;
+-(void)addAudios:(NSArray<MPMediaItem*>* _Nonnull)audios;
 
 @end
